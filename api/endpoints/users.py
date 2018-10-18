@@ -5,6 +5,9 @@ from database.db import getSession
 from database.models import *
 from argon2 import PasswordHasher
 from argon2 import exceptions
+import string
+import datetime
+import random
 
 
 class UserRegisterEndpoint(Resource):
@@ -58,11 +61,22 @@ class LoginEndpoint(Resource):
                             "error": "User does not exist"})
 
         try:
+            # verify hash
             hash = user.password
             ph = PasswordHasher()
             ph.verify(hash, json_data["password"])
-            return jsonify({"success": 1})
-            # TODO: Create a session in the DB tied to this login
+
+            # create session
+            sessID = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
+            new_session = Session(user_id=user.id,
+                                  session_id=sessID,
+                                  api_key="",
+                                  session_time=datetime.datetime.now(),
+                                  is_api=False)
+            session.add(new_session)
+            session.commit()
+            return jsonify({"success": 1,
+                            "sessionID": sessID})
         except exceptions.VerifyMismatchError:
             return jsonify({"success": -1,
                             "error": "Incorrect password provided"})
