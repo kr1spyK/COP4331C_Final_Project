@@ -10,7 +10,7 @@ api = Api(app)
 
 api.add_resource(TestEndpoint, '/test')
 api.add_resource(DbTestEndpoint, '/dbTest')
-api.add_resource(UserRegisterEndpoint, '/registerUser')
+api.add_resource(UserRegisterEndpoint, '/register')
 
 if __name__ == '__main__':
     app.run(debug=False, port=8080)
