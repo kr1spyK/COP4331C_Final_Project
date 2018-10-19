@@ -1,4 +1,4 @@
-package cf.poosgroup5_u.bugbuddy;
+package cf.poosgroup5_u.bugipedia;
 
 import org.junit.Test;
 
