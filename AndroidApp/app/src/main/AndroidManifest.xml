@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cf.poosgroup5_u.bugbuddy">
+    package="cf.poosgroup5_u.bugipedia">
 
     <application
         android:allowBackup="true"

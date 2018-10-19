@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "cf.poosgroup5_u.bugbuddy"
+        applicationId "cf.poosgroup5_u.bugipedia"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
