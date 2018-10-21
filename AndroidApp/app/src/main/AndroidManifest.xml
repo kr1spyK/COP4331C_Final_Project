@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-      
+
         <!--required to be compatible with Oreo (9.0)-->
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
@@ -34,7 +34,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-      
+
         <activity android:name=".FirstTimeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -46,6 +46,12 @@
             android:name=".AddSighting"
             android:label="@string/title_activity_add_sighting">
         </activity>
+    </application>
+
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>
