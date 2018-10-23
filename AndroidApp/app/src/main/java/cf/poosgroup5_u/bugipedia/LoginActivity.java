@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordView.setError("Password must be greater than 8 characters and contain 1 number");
             focusView = mPasswordView;
             cancel = true;
         }
@@ -197,7 +197,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
+<<<<<<< HEAD
         return password.length() > 4;
+=======
+        return password.length() > 8;
+>>>>>>> Add main activity
     }
 
     /**
