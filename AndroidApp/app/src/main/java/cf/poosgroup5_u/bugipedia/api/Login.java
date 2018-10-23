@@ -3,6 +3,11 @@ package cf.poosgroup5_u.bugipedia.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A POJO (Plain Old Java Object) representing the all fields that be contained within a JSON Login call
+ * @author Klayton Killough
+ * @see APIEndpoints#login(Login)
+ */
 public class Login {
 
     @SerializedName("username")
