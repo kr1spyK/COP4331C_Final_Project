@@ -14,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import cf.poosgroup5_u.bugipedia.R;
+
+>>>>>>> fixed manifest
 import cf.poosgroup5_u.bugipedia.dummy.DummyContent;
 
 import java.util.List;
@@ -72,7 +77,11 @@ public class BugListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
+<<<<<<< HEAD
         private final ItemListActivity mParentActivity;
+=======
+        private final BugListActivity mParentActivity;
+>>>>>>> fixed manifest
         private final List<DummyContent.DummyItem> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {

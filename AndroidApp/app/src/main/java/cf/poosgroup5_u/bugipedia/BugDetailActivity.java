@@ -10,6 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+<<<<<<< HEAD
+=======
+import cf.poosgroup5_u.bugipedia.R;
+
+>>>>>>> fixed manifest
 /**
  * An activity representing a single Bug detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,

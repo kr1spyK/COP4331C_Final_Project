@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import cf.poosgroup5_u.bugipedia.R;
+>>>>>>> fixed manifest
 import cf.poosgroup5_u.bugipedia.dummy.DummyContent;
 
 /**
