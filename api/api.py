@@ -9,6 +9,7 @@ app.config.from_pyfile('api.cfg')
 api = Api(app)
 
 api.add_resource(TestEndpoint, '/test')
+api.add_resource(TestAuthEndpoint, '/testAuth')
 api.add_resource(DbTestEndpoint, '/dbTest')
 api.add_resource(UserRegisterEndpoint, '/register')
 api.add_resource(LoginEndpoint, '/login')
