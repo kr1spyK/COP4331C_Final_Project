@@ -3,7 +3,7 @@ from flask import current_app as app
 from flask_restful import reqparse, abort, Api, Resource
 from database.db import getSession
 from database.models import *
-from auth import AuthedResource
+from auth import AuthedResource, AdminAuthedResource
 import json
 
 class TestEndpoint(Resource):
