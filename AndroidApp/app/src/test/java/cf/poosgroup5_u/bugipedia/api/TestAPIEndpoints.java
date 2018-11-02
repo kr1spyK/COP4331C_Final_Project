@@ -18,6 +18,7 @@ public class TestAPIEndpoints {
     public static final String TEST_USERNAME = "testUser";
     public static final String TEST_PASSWORD = "testPassword";
 
+
     @Before
     public void setup(){
         APICaller.enableDebugLogging(true);
@@ -49,7 +50,7 @@ public class TestAPIEndpoints {
 
     @Test
     public void testLogin() throws Exception {
-        final CompletableFuture<Result> future = new CompletableFuture<>();
+        final CompletableFuture<LoginResult> future = new CompletableFuture<>();
         APICaller.call().login(new Login(TEST_USERNAME, TEST_PASSWORD)).enqueue(new Callback<LoginResult>() {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
@@ -64,6 +65,7 @@ public class TestAPIEndpoints {
 
 
         Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+        APICaller.updateAuthToken(future.get().getSessionID());
 
     }
 

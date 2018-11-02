@@ -1,6 +1,12 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,6 +22,7 @@ public class APICaller {
     protected static Retrofit retrofit;
     private static boolean debugLoggingEnabled = false;
     private static APIEndpoints api;
+    private static String authToken;
 
     public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
 
@@ -24,32 +31,45 @@ public class APICaller {
      * @param enableDebugLogging
      */
     private static void setCaller(boolean enableDebugLogging){
+
+        //todo get authToken from sharedPreferences
+        // https://stackoverflow.com/questions/40043166/shared-prefrences-to-save-a-authentication-token-in-android
+        authToken = "INVALID_AUTH_TOKEN";
+
         if (enableDebugLogging){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor httpBodyInterceptor = new HttpLoggingInterceptor();
+            httpBodyInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // Can be Level.BASIC, Level.HEADERS, or Level.BODY
-            // See http://square.github.io/okhttp/3.x/logging-interceptor/ to see the options.
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            builder.networkInterceptors().add(httpLoggingInterceptor);
+            builder.networkInterceptors().add(httpBodyInterceptor);
             builder.build();
 
-            OkHttpClient okHttpClient = new OkHttpClient.Builder().
-                    addInterceptor(httpLoggingInterceptor)
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(new AuthTokenInterceptor(authToken))
+                    .addInterceptor(httpBodyInterceptor)
+                    .readTimeout(5, TimeUnit.SECONDS)
                     .build();
+
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
+
                     .addConverterFactory(GsonConverterFactory.create())
-//                    .client(okHttpClient)
+                    .client(okHttpClient)
                     .build();
 
         } else {
+
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new AuthTokenInterceptor(authToken))
+                    .build();
+
             //create a basic Retrofit with the minimal needed functionality
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
                     .build();
 
         }
@@ -87,4 +107,29 @@ public class APICaller {
         }
 
     }
+
+    public static void updateAuthToken(String newAuthToken){
+        authToken = newAuthToken;
+    }
+
+    /**
+     * Private class meant to add the Auth token to all requests to the API
+     */
+    private static class AuthTokenInterceptor implements Interceptor{
+
+        String authToken;
+        AuthTokenInterceptor(String authToken){
+            this.authToken = authToken;
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            //todo replace with actual value for interceptor
+            Request request = chain.request().newBuilder().addHeader("X-Auth-Token", authToken).build();
+            return chain.proceed(request);
+        }
+    }
+
+
+
 }
