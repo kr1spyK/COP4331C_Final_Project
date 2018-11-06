@@ -35,9 +35,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".BuggyMain">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             android:name=".AddSighting"
             android:label="@string/title_activity_add_sighting">
         </activity>
     </application>
-
 </manifest>
