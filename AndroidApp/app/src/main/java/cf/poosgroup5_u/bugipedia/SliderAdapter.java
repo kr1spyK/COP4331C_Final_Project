@@ -28,17 +28,34 @@ public class SliderAdapter extends PagerAdapter {
     //Arrays
     public int[] slide_images = {
 
-            R.drawable.eat_icon,
+           // R.drawable.eat_icon,
+            R.drawable.search_icon,
+
+
             R.drawable.sleep_icon,
-            R.drawable.code_icon
+            R.drawable.code_icon,
+            R.drawable.sleep_icon
+
+
 
     };
 
     public String[] slide_headings = {
 
-            "EAT",
+            //"EAT",
+
+            //NEW:
+            "SEARCH A BUG",
+
+
             "SLEEP",
-            "CODE"
+            "CODE",
+            "SLEEP"
+
+
+            // 2)-View,
+            // 3)-Add photos/Location,
+            // 4)-Login or Begin Searching.
 
     };
 
@@ -46,6 +63,8 @@ public class SliderAdapter extends PagerAdapter {
 
             "enter " + "text here",
             "enter " + "text here",
+            "enter " + "text here",
+
             "enter " + "text here"
     };
 

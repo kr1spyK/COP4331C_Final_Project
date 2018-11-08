@@ -42,27 +42,29 @@ public class FirstTimeActivity extends AppCompatActivity {
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
-        //OnClick Listeners
-        mNextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
-            }
-        });
-
-        mBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSlideViewPager.setCurrentItem(mCurrentPage - 1);
-            }
-        });
+//COMMENTED THIS SECTION SO THAT MY BUTTONS DONT DO ANYTHING(DON'T GO BACK AND NEXT.)
+//        //OnClick Listeners
+//        mNextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+//            }
+//        });
+//
+//        mBackBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mSlideViewPager.setCurrentItem(mCurrentPage - 1);
+//            }
+//        });
 
     }
 
     //Enable slide dots
     public void addDotsIndicator(int position) {
 
-        mDots = new TextView[3];
+        //mDots = new TextView[3];
+        mDots = new TextView[4];
 
         mDotLayout.removeAllViews();
 
@@ -96,35 +98,48 @@ public class FirstTimeActivity extends AppCompatActivity {
 
             mCurrentPage = i;
 
-            if(i == 0){
+//COMMENTED THIS SECTION BECAUSE i ONLY NEED LOGIN/SEARCH DB INSTEAD OF BACK AND NEXT.
+//            if(i == 0){
+//
+//                mNextBtn.setEnabled(true);
+//                mBackBtn.setEnabled(false);
+//                mBackBtn.setVisibility(View.INVISIBLE);
+//
+//                mNextBtn.setText("Next");
+//                mBackBtn.setText("");
+//
+//            } else if ( i == mDots.length - 1){
+//
+//                mNextBtn.setEnabled(true);
+//                mBackBtn.setEnabled(true);
+//                mBackBtn.setVisibility(View.VISIBLE);
+//
+//                mNextBtn.setText("Finish");
+//                mBackBtn.setText("Back");
+//
+//            } else {
+//
+//                mNextBtn.setEnabled(true);
+//                mBackBtn.setEnabled(true);
+//                mBackBtn.setVisibility(View.VISIBLE);
+//
+//                mNextBtn.setText("Next");
+//                mBackBtn.setText("Back");
+//
+//            }
 
-                mNextBtn.setEnabled(true);
-                mBackBtn.setEnabled(false);
-                mBackBtn.setVisibility(View.INVISIBLE);
-
-                mNextBtn.setText("Next");
-                mBackBtn.setText("");
-
-            } else if ( i == mDots.length - 1){
-
+            for(i=0; i<mDots.length; i++) {
                 mNextBtn.setEnabled(true);
                 mBackBtn.setEnabled(true);
                 mBackBtn.setVisibility(View.VISIBLE);
 
-                mNextBtn.setText("Finish");
-                mBackBtn.setText("Back");
+//                mNextBtn.setText("Next");
+//                mBackBtn.setText("Back");
 
-            } else {
-
-                mNextBtn.setEnabled(true);
-                mBackBtn.setEnabled(true);
-                mBackBtn.setVisibility(View.VISIBLE);
-
-                mNextBtn.setText("Next");
-                mBackBtn.setText("Back");
-
+                mNextBtn.setText("Search DB");
+                mBackBtn.setText("Login"); //I NEED TO SPECIFY THIS IN THE ENTER TEXT HERE.. THAT YOU CAN SEARCH DATABASE(CLARIFY ACRONYM)... OR LOGIN
+                                                     //lOOK AT ALL THE 4 FEATURES YOU CAN DO :)
             }
-
 
         }
 

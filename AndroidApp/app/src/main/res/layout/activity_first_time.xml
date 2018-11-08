@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
+    android:background="@drawable/background"
     tools:context=".FirstTimeActivity">
+    <!--android:background="@drawable/main_background"-->
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/slideViewPager"
@@ -22,13 +25,13 @@
 
     <LinearLayout
         android:id="@+id/dotsLayout"
-        android:layout_width="73dp"
+        android:layout_width="101dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="146dp"
-        android:layout_marginRight="146dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="125dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:padding="20dp"></LinearLayout>
@@ -42,7 +45,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginBottom="0dp"
         android:background="@android:color/transparent"
-        android:text="Back"
+        android:text="Login"
         android:textColor="@color/colorWhite" />
 
     <Button
@@ -52,7 +55,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@android:color/transparent"
-        android:text="Next"
+        android:text="Search DB"
         android:textColor="@color/colorWhite" />
 
 </RelativeLayout>
