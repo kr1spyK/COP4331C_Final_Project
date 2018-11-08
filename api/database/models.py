@@ -41,8 +41,11 @@ class Bug(Base):
     # family field is created as a backref, accessing Bug.family will give you access to the family tied to the bug
     genus_id = Column(Integer, ForeignKey("genus.id"))
     # genus field is created as a backref, accessing Bug.genus will give you access to the genus tied to the bug
-    color_id = Column(Integer, ForeignKey("color.id"))
-    # color field is created as a backref, accessing Bug.color will give you access to the color tied to the bug
+    color_id_1 = Column(Integer, ForeignKey("color.id"))
+    color_id_2 = Column(Integer, ForeignKey("color.id"))
+    color1 = relationship("Color", foreign_keys=[color_id_1])
+    color2 = relationship("Color", foreign_keys=[color_id_2])
+    # colors field is created as a backref, accessing Bug.color will give you access to the color tied to the bug
     general_type_id = Column(Integer, ForeignKey("general_type.id"))
     # general_type field is created as a backref, accessing Bug.general_type will give you access to the general_type tied to the bug
     mouth_parts_id = Column(Integer, ForeignKey("mouth_parts.id"))
@@ -86,7 +89,6 @@ class Color(Base):
     __tablename__ = "color"
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    bugs = relationship("Bug", backref = "color")
 
 class General_Type(Base):
     __tablename__ = "general_type"
