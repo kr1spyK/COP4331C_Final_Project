@@ -88,7 +88,7 @@ class Genus(Base):
 class Color(Base):
     __tablename__ = "color"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    color = Column(String)
 
 class General_Type(Base):
     __tablename__ = "general_type"
