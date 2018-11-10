@@ -56,7 +56,7 @@ class Bug(Base):
     hairy_furry = Column(Boolean)
     thin_body = Column(Boolean)
     description = Column(String)
-    aditional_advice = Column(String)
+    additional_advice = Column(String)
     approved = Column(Boolean)
     pictures = relationship("Picture", backref="bug")
     sightings = relationship("Sighting", backref="bug")
