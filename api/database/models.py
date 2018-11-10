@@ -30,11 +30,15 @@ class Session(Base):
 
 class Bug(Base):
     __tablename__ = "bugs"
+
+    def as_dict(self):
+        return {c: getattr(self, c) for c in ["common_name", "scientific_name", "id"]}
+
     id = Column(Integer, primary_key=True)
     common_name = Column(String)
     scientific_name = Column(String)
     class_id = Column(Integer, ForeignKey("class.id"))
-    # class field is created as a backref, accessing Bug.class will give you access to the class tied to the bug
+    # _class field is created as a backref, accessing Bug.class will give you access to the class tied to the bug
     order_id = Column(Integer, ForeignKey("order.id"))
     # order field is created as a backref, accessing Bug.order will give you access to the order tied to the bug
     family_id = Column(Integer, ForeignKey("family.id"))
@@ -56,7 +60,7 @@ class Bug(Base):
     hairy_furry = Column(Boolean)
     thin_body = Column(Boolean)
     description = Column(String)
-    aditional_advice = Column(String)
+    additional_advice = Column(String)
     approved = Column(Boolean)
     pictures = relationship("Picture", backref="bug")
     sightings = relationship("Sighting", backref="bug")
@@ -65,7 +69,7 @@ class Class(Base):
     __tablename__ = "class"
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    bugs = relationship("Bug", backref = "class")
+    bugs = relationship("Bug", backref = "_class")
 
 class Order(Base):
     __tablename__ = "order"
