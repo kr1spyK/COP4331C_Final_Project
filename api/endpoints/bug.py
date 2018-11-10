@@ -7,11 +7,15 @@ import json
 
 class BugRegisterEndpoint(Resource):
     def post(self):
+        
+        # Define required fields
         required_fields = ["common_name", "scientific_name", "class_id",
         "order_id", "family_id", "genus_id", "color_id_1", "color_id_2", "general_type_id", 
         "mouth_parts_id", "wings", "antenna", "hind_legs_jump", "hairy_furry",
         "thin_body", "description", "additional_advice"]
+        
         # Get JSON data from request
+        # If any required field is missing, the missing field will be sent back in a JSON response
         json_data = request.get_json(force=True)
         for field in required_fields:
             if field not in json_data.keys():
@@ -26,6 +30,8 @@ class BugRegisterEndpoint(Resource):
             return jsonify({"success": -1,
                             "error": "Bug already registered"})
 
+        # If there isn't a bug entry, make a new bug from the JSON data
+        # and attempt to make a request to the database to add it
         try:
             new_bug = Bug(common_name=json_data["common_name"],
                           scientific_name=json_data["scientific_name"],
@@ -47,6 +53,8 @@ class BugRegisterEndpoint(Resource):
                           approved=False)
             session.add(new_bug)
             session.commit()
+
+            # If successful, return 1, if not return -1 and error status
             return jsonify({"success": 1})
         except Exception as e:
             return jsonify({"success": -1, 
