@@ -8,9 +8,9 @@ import json
 class BugRegisterEndpoint(Resource):
     def post(self):
         required_fields = ["common_name", "scientific_name", "class_id",
-        "order_id", "family_id", "genus_id", "color_id", "general_type_id", 
+        "order_id", "family_id", "genus_id", "color_id_1", "color_id_2", "general_type_id", 
         "mouth_parts_id", "wings", "antenna", "hind_legs_jump", "hairy_furry",
-        "thin_body", "description", "location", "additional_advice"]
+        "thin_body", "description", "additional_advice"]
         # Get JSON data from request
         json_data = request.get_json(force=True)
         for field in required_fields:
@@ -33,7 +33,8 @@ class BugRegisterEndpoint(Resource):
                           order_id=json_data["order_id"],
                           family_id=json_data["family_id"],
                           genus_id=json_data["genus_id"],
-                          color_id=json_data["color_id"],
+                          color_id_1=json_data["color_id_1"],
+                          color_id_2=json_data["color_id_2"],
                           general_type_id=json_data["general_type_id"],
                           mouth_parts_id=json_data["mouth_parts_id"],
                           wings=json_data["wings"],
@@ -42,12 +43,11 @@ class BugRegisterEndpoint(Resource):
                           hairy_furry=json_data["hairy_furry"],
                           thin_body=json_data["thin_body"],
                           description=json_data["description"],
-                          location=json_data["location"],
-                          additional_advice=json_data["additional_advice"])
-
+                          additional_advice=json_data["additional_advice"],
+                          approved=False)
             session.add(new_bug)
             session.commit()
             return jsonify({"success": 1})
-        except:
+        except Exception as e:
             return jsonify({"success": -1, 
-                            "error": "Error adding bug to db"})
+                            "error": "Error adding bug to db" + str(e)})
