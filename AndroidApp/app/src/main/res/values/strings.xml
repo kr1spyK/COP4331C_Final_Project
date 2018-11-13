@@ -2,4 +2,13 @@
     <string name="app_name">Bugipedia</string>
     <string name="title_activity_add_sighting">Add Sighting</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="add_location">Add Location</string>
+    <string name="AddSightingWarning">Please select a location inside Florida</string>
+    <string name="BugLocation">Bug Location</string>
+    <string name="sightingNotChosen">Please select the location you saw the bug.</string>
+    <string name="confirmBugSightingMessage">Is this the correct location that you saw the bug?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sightingAdded">Sighting added Successfully!</string>
+    <string name="uploadErrorMessage">An error occurred during upload. Please Try again.</string>
 </resources>
