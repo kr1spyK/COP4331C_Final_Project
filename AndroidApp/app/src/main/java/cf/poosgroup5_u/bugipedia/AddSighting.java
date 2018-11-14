@@ -1,5 +1,7 @@
 package cf.poosgroup5_u.bugipedia;
 
+import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -39,6 +41,8 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
     private final LatLng centerFloridaCoords = new LatLng(29.282079,-83.281953);
     private LatLngBounds floridaBounds = new LatLngBounds(new LatLng(24.527164,-79.267069),new LatLng(30.995235,-87.698731));
 
+    ObjectAnimator progressBarAnimation;
+    ProgressDialog progressDialog;
     Button addLocationButton;
     private AlertDialog confirmLocationDialog;
     private Callback<Result> addSightingCallback;
@@ -58,7 +62,10 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
         addLocationButton.setOnClickListener(onAddLocationClick);
 
         createConfirmationDialog();
+
+        progressDialog = createProgressSpinner();
     }
+
 
 
     /**
@@ -93,7 +100,6 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(centerFloridaCoords));
 //        zoom levels: 1 = world 5 = contient 10 = city
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(floridaBounds, findViewById(R.id.mapView).getWidth(), findViewById(R.id.mapView).getHeight(), -200));
         createAddSightingCallback();
 
     }
@@ -135,11 +141,14 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //todo send out the add sighting request
+//                        progressBarAnimation.start();
+                        progressDialog.show();
 //                APICaller.call().addSighting().enqueue(addSightingCallback);
                         //todo start a progress bar or spinner
 
+
                         //todo DEBUG, REMOVE ME
-                        finish();
+//                        finish();
                         //todo DEBUG, REMOVE ME
 
                     }
@@ -149,6 +158,17 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
 
                     }
                 }).create();
+    }
+
+    private ProgressDialog createProgressSpinner() {
+        //https://stackoverflow.com/questions/18579030/prevent-progressdialog-from-getting-dismissed-by-onclick
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading Sighting");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
     }
 
 
@@ -186,7 +206,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                 if (response.body().wasSuccessful()) {
                     //close the view and report success
                     Toast.makeText(AddSighting.this, getString(R.string.sightingAdded), Toast.LENGTH_LONG).show();
-
+                    progressDialog.dismiss();
                     finish();
                 } else {
                     errorUploadingSnackBar.show();
@@ -199,6 +219,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
             public void onFailure(Call<Result> call, Throwable t) {
                 Log.e(AddSighting.class.getName(), t.getMessage(), t);
                 errorUploadingSnackBar.show();
+                progressDialog.dismiss();
             }
         };
     }
