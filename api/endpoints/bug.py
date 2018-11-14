@@ -58,4 +58,4 @@ class BugRegisterEndpoint(Resource):
             return jsonify({"success": 1})
         except Exception as e:
             return jsonify({"success": -1, 
-                            "error": "Error adding bug to db" + str(e)})
+                            "error": str(e)})
