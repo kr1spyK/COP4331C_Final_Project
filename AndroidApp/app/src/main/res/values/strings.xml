@@ -12,6 +12,7 @@
     <string name="sightingAdded">Sighting added successfully!</string>
     <string name="uploadErrorMessage">An error occurred during upload. Please Try again.</string>
     <string name="fatalError">fatal error occurred, please try again.</string>
+    <string name="title_activity_add_picture_acivity">AddPictureAcivity</string>
     <string name="search_database">Search DB</string>
     <string name="login">Login</string>
 </resources>
