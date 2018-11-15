@@ -32,7 +32,12 @@ class Bug(Base):
     __tablename__ = "bugs"
 
     def as_dict(self):
-        return {c: getattr(self, c) for c in ["common_name", "scientific_name", "id"]}
+        d = {c: getattr(self, c) for c in ["common_name", "scientific_name", "id"]}
+        if self.pictures:
+            d["thumbnail"] = self.pictures[0].picture_link
+        else:
+            d["thumbnail"] = "https://i.imgur.com/DhEi3hk.png"
+        return d
 
     id = Column(Integer, primary_key=True)
     common_name = Column(String)
