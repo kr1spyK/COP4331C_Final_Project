@@ -4,6 +4,7 @@ from endpoints.test import *
 from endpoints.users import *
 from endpoints.search import *
 from endpoints.bug import *
+from endpoints.sightings import *
 from database.db import  getSession
 
 app = Flask(__name__)
@@ -17,6 +18,8 @@ api.add_resource(UserRegisterEndpoint, '/register')
 api.add_resource(LoginEndpoint, '/login')
 api.add_resource(SearchEndpoint, '/search')
 api.add_resource(BugRegisterEndpoint, '/registerBug')
+api.add_resource(GetSightingsEndpoint, '/getSightings')
+api.add_resource(AddSightingsEndpoint, '/addSighting')
 
 if __name__ == '__main__':
     app.run(debug=False, port=8080)

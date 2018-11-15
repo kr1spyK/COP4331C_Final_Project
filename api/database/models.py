@@ -120,5 +120,5 @@ class Sighting(Base):
     id = Column(Integer, primary_key=True)
     bugid = Column(Integer, ForeignKey("bugs.id"))
     # bug field is created as a backref, accessing Sighting.bug will give you access to the bug tied to the sighting
-    lattitude = Column(Float)
-    Longitude = Column(Float)
+    latitude = Column(Float)
+    longitude = Column(Float)
