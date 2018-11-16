@@ -45,8 +45,11 @@ public class TestAPIEndpoints {
             }
         });
 
-        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
-
+        if (future.get().getErrorMessage() != null && future.get().getErrorMessage().equals("User already registered")){
+            System.err.println(future.get().getErrorMessage());
+        } else {
+            Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+        }
     }
 
     @Test
@@ -128,5 +131,52 @@ public class TestAPIEndpoints {
                 "Eight-Spotted Forester Moth");
 
     }
+
+    @Test
+    public void testAddSighting() throws Exception {
+        testLogin();
+
+        final CompletableFuture<Result> future = new CompletableFuture<>();
+
+        Sighting sighting = new Sighting(1, 28.419515,-81.581203);
+
+        APICaller.call().addSighting(sighting).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+
+    }
+
+    @Test
+    public void testGetSightings() throws Exception {
+        final CompletableFuture<SightingResult> future = new CompletableFuture<>();
+        APICaller.call().getSightings(new BugInfo(1)).enqueue(new Callback<SightingResult>() {
+            @Override
+            public void onResponse(Call<SightingResult> call, Response<SightingResult> response) {
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SightingResult> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+        for (Sighting sighting : future.get().getSightings())
+            System.out.println(sighting);
+    }
+
 
 }

@@ -31,6 +31,11 @@ public interface APIEndpoints {
     @POST("search")
     Call<SearchResult> search(@Body List<SearchField> searchQuery);
 
+    @POST("getSightings")
+    Call<SightingResult> getSightings(@Body BugInfo bug);
+
+    @POST("addSighting")
+    Call<Result> addSighting(@Body Sighting sighting);
 
 
 

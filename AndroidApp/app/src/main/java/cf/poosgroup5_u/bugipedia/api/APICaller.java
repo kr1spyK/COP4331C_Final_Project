@@ -33,7 +33,7 @@ public class APICaller {
     protected static Retrofit retrofit;
     private static boolean debugLoggingEnabled = false;
     private static APIEndpoints api;
-    private static String authToken;
+    private static String authToken = "INVALID_AUTH_TOKEN";
 
     public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
 
@@ -45,7 +45,6 @@ public class APICaller {
 
         //todo get authToken from sharedPreferences
         // https://stackoverflow.com/questions/40043166/shared-prefrences-to-save-a-authentication-token-in-android
-        authToken = "INVALID_AUTH_TOKEN";
 
         if (enableDebugLogging){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -120,6 +119,8 @@ public class APICaller {
 
     public static void updateAuthToken(String newAuthToken){
         authToken = newAuthToken;
+        api = null;
+        setCaller(debugLoggingEnabled);
     }
 
     /**
