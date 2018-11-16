@@ -28,7 +28,7 @@ body {
 
 body.fixed-nav #content-wrapper {
   margin-top: 56px;
-  padding-left: 90px;
+  padding-left: 0px;
 }
 
 body.fixed-nav.sidebar-toggled #content-wrapper {
@@ -40,7 +40,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     padding-left: 225px;
   }
   body.fixed-nav.sidebar-toggled #content-wrapper {
-    padding-left: 90px;
+    padding-left: 0px;
   }
 }
 
@@ -131,7 +131,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 }
 
 .sidebar {
-  width: 90px !important;
+  width: 0px !important;
   background-color: #212529;
   min-height: calc(100vh - 56px);
 }
@@ -143,7 +143,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 .sidebar .nav-item .nav-link {
   text-align: center;
   padding: 0.75rem 1rem;
-  width: 90px;
+  width: 0px;
 }
 
 .sidebar .nav-item .nav-link span {
@@ -155,7 +155,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   position: absolute !important;
   -webkit-transform: none !important;
   transform: none !important;
-  left: calc(90px + 0.5rem) !important;
+  left: calc(0px + 0.5rem) !important;
   margin: 0;
 }
 
@@ -206,7 +206,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   }
   .sidebar.toggled {
     overflow: visible;
-    width: 90px !important;
+    width: 0px !important;
   }
   .sidebar.toggled .nav-item:last-child {
     margin-bottom: 1rem;
@@ -214,7 +214,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   .sidebar.toggled .nav-item .nav-link {
     text-align: center;
     padding: 0.75rem 1rem;
-    width: 90px;
+    width: 0px;
   }
   .sidebar.toggled .nav-item .nav-link span {
     font-size: 0.65rem;
@@ -224,7 +224,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     position: absolute !important;
     -webkit-transform: none !important;
     transform: none !important;
-    left: calc(90px + 0.5rem) !important;
+    left: calc(0px + 0.5rem) !important;
     margin: 0;
   }
   .sidebar.toggled .nav-item .dropdown-menu.dropup {
@@ -348,7 +348,7 @@ footer.sticky-footer {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: calc(100% - 90px);
+  width: calc(100% - 0px);
   height: 80px;
   background-color: #e9ecef;
 }
@@ -370,6 +370,6 @@ body.sidebar-toggled footer.sticky-footer {
 
 @media (min-width: 768px) {
   body.sidebar-toggled footer.sticky-footer {
-    width: calc(100% - 90px);
+    width: calc(100% - 0px);
   }
 }
