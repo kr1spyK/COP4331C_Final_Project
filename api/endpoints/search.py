@@ -112,9 +112,9 @@ class SearchEndpoint(Resource):
 
             # Filter on common name  
             if "Common Name" in json_data.keys():
-                q = q.filter_by(common_name=json_data["Common Name"])
+                q = q.filter(Bug.common_name.like('%'+json_data["Common Name"]+'%'))
             if "Scientific Name" in json_data.keys():
-                q = q.filter_by(scientific_name=json_data["Scientific Name"])
+                q = q.filter(Bug.scientific_name.like('%'+json_data["Scientific Name"]+'%'))
             if "Class" in json_data.keys():
                 q = q.filter(Bug._class.has(name=json_data["Class"]))
             if "Order" in json_data.keys():
