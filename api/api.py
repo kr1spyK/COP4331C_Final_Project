@@ -5,10 +5,12 @@ from endpoints.users import *
 from endpoints.search import *
 from endpoints.bug import *
 from database.db import  getSession
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_pyfile('api.cfg')
 api = Api(app)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 api.add_resource(TestEndpoint, '/test')
 api.add_resource(TestAuthEndpoint, '/testAuth')
