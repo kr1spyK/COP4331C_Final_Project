@@ -1,11 +1,15 @@
 package cf.poosgroup5_u.bugipedia;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +38,7 @@ import retrofit2.Response;
 
 public class AddSighting extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final int FINE_LOCATION_REQUEST = 1;
     private GoogleMap mMap;
     private Marker chosenLocation;
     private List<List<LatLng>> floridaGeoFence;
@@ -96,13 +101,21 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        // move the camera to florida
+        // move the camera to florida (or the users current location
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST);
+
+
+        //move map to center of florida if we dont have permission
         mMap.moveCamera(CameraUpdateFactory.newLatLng(centerFloridaCoords));
 //        zoom levels: 1 = world 5 = contient 10 = city
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6));
+
+
         createAddSightingCallback();
 
     }
+
 
     View.OnClickListener onAddLocationClick = new View.OnClickListener() {
         @Override
@@ -223,5 +236,29 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
             }
         };
     }
+
+    private boolean enableMyLocationLayer() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == FINE_LOCATION_REQUEST) {
+            if (permissions.length == 1 &&
+                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableMyLocationLayer();
+            }
+            } else {
+                // Permission was denied. Display an error message.
+            }
+        }
 
 }
