@@ -1,7 +1,10 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -21,6 +24,12 @@ public interface APIEndpoints {
 
     @POST("login")
     Call<LoginResult> login(@Body Login login);
+
+    @GET("search")
+    Call<SearchFieldResult> getSearchFields();
+
+    @POST("search")
+    Call<SearchResult> search(@Body List<SearchField> searchQuery);
 
 
 

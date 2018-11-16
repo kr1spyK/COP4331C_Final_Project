@@ -1,6 +1,17 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -54,8 +65,7 @@ public class APICaller {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(createGson()))
                     .client(okHttpClient)
                     .build();
 
@@ -68,7 +78,7 @@ public class APICaller {
             //create a basic Retrofit with the minimal needed functionality
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(createGson()))
                     .client(client)
                     .build();
 
@@ -111,6 +121,53 @@ public class APICaller {
     public static void updateAuthToken(String newAuthToken){
         authToken = newAuthToken;
     }
+
+    /**
+     * Handles all custom implementatins for serializing and deserializing JSON objects.
+     * Applies all the changes to a gsonObject
+     * @return A Gson object ready to interact with the API's JSON objects
+     */
+    protected static Gson createGson(){
+
+        //create the type of List<SearchField> so we can properly recognize the object
+        Type searchQueryType = new TypeToken<List<SearchField>>(){}.getType();
+
+        //create the custom Serializer for SearchFields
+        JsonSerializer<List<SearchField>> searchQuerySerializer = new JsonSerializer<List<SearchField>>() {
+            @Override
+            public JsonElement serialize(List<SearchField> src, Type typeOfSrc, JsonSerializationContext context) {
+                JsonObject retElement = new JsonObject();
+                for (SearchField searchField : src) {
+                    List<String> options = searchField.getOptions();
+                    String label = searchField.getLabel();
+
+                    if (options.size() > 1) {
+                        JsonArray ja = new JsonArray(options.size());
+                        for (String option : options) {
+                            ja.add(option);
+                        }
+                        retElement.add(label, ja);
+                    } else if (options.size() == 1) {
+                        retElement.addProperty(label, options.get(0));
+                    } else { //0 or less than zero
+                        retElement.addProperty(label, "");
+                    }
+                }
+                return retElement;
+            }
+        };
+
+
+        //GSon for custom serialization and deserialzation for Java objects
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(searchQueryType, searchQuerySerializer)
+                .create();
+
+        return gson;
+
+    }
+
 
     /**
      * Private class meant to add the Auth token to all requests to the API

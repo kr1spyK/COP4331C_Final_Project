@@ -4,7 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -66,6 +67,65 @@ public class TestAPIEndpoints {
 
         Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
         APICaller.updateAuthToken(future.get().getSessionID());
+
+    }
+
+    @Test
+    public void testGetFilters() throws Exception {
+        final CompletableFuture<SearchFieldResult> future = new CompletableFuture<>();
+        APICaller.call().getSearchFields().enqueue(new Callback<SearchFieldResult>() {
+            @Override
+            public void onResponse(Call<SearchFieldResult> call, Response<SearchFieldResult> response) {
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SearchFieldResult> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+        for (SearchField searchField : future.get().getFields())
+            System.out.println(searchField);
+
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+
+        /* Raw JSON of Test Search:
+            {"Common Name" : "forest", "Colors" : ["black", "red"], "Has Antenna" : "Yes"}
+
+           Should Return 1 entry fo the Eight-Spotted Forester Moth
+         */
+        ArrayList<SearchField> searchQuery = new ArrayList<>(4);
+        searchQuery.add(new SearchField("Common Name", "forest"));
+        searchQuery.add(new SearchField("Colors", Arrays.asList("Black", "Red")));
+        searchQuery.add(new SearchField("Has Antenna", "Yes"));
+
+
+
+        final CompletableFuture<SearchResult> future = new CompletableFuture<>();
+        APICaller.call().search(searchQuery).enqueue(new Callback<SearchResult>() {
+            @Override
+            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SearchResult> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+        //check to make sure we got the right type of Moth
+        Assert.assertEquals("Wrong Object returned",
+                future.get().getSearchResults().get(0).getCommonName(),
+                "Eight-Spotted Forester Moth");
 
     }
 
