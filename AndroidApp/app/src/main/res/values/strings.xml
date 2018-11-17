@@ -9,6 +9,7 @@
     <string name="confirmBugSightingMessage">Is this the correct location that you saw the bug?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="sightingAdded">Sighting added Successfully!</string>
+    <string name="sightingAdded">Sighting added successfully!</string>
     <string name="uploadErrorMessage">An error occurred during upload. Please Try again.</string>
+    <string name="fatalError">fatal error occurred, please try again.</string>
 </resources>

@@ -5,6 +5,9 @@ import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -31,7 +34,10 @@ import com.google.maps.android.data.geojson.GeoJsonPolygon;
 import java.util.ArrayList;
 import java.util.List;
 
+import cf.poosgroup5_u.bugipedia.api.APICaller;
+import cf.poosgroup5_u.bugipedia.api.BugInfo;
 import cf.poosgroup5_u.bugipedia.api.Result;
+import cf.poosgroup5_u.bugipedia.api.Sighting;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +45,7 @@ import retrofit2.Response;
 public class AddSighting extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int FINE_LOCATION_REQUEST = 1;
+    private static String TAG;
     private GoogleMap mMap;
     private Marker chosenLocation;
     private List<List<LatLng>> floridaGeoFence;
@@ -56,6 +63,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sighting);
+        TAG = getLocalClassName();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -85,7 +93,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
             GeoJsonLayer gsl = new  GeoJsonLayer(mMap, R.raw.florida_geo_fence, this);
             floridaGeoFence = getGeoFences(gsl);
         } catch (Exception e) {
-            Log.wtf(this.getLocalClassName(), e);
+            Log.wtf(TAG, e);
         }
 
         //Add a marker each time the user clicks a spot on the ma
@@ -112,6 +120,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6));
 
 
+        //handle creating callbacks that will be used later within this activity's lifecycle.
         createAddSightingCallback();
 
     }
@@ -153,17 +162,29 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                 .setMessage(R.string.confirmBugSightingMessage)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //todo send out the add sighting request
-//                        progressBarAnimation.start();
+                        //start animation for uploading
                         progressDialog.show();
-//                APICaller.call().addSighting().enqueue(addSightingCallback);
-                        //todo start a progress bar or spinner
 
+                        BugInfo bug;
+                        //get the info of the bug from the ViewDB Activity that called us.
+                        try {
+                            bug = (BugInfo) getIntent().getExtras().get("BugInfo");
+                        } catch (NullPointerException ex) {
+                            //we werent passed a valid Bug, this should only happen in testing
+                                Log.wtf(TAG, "Add Sighting wasn't passed a Bug when the activity was created", ex);
+                                Toast.makeText(getApplicationContext(), getString(R.string.fatalError), Toast.LENGTH_LONG)
+                                        .show();
+                                //exit out of the activity, as we cant proceed any further.
+                                finish();
+                                return;
+                        }
 
-                        //todo DEBUG, REMOVE ME
-//                        finish();
-                        //todo DEBUG, REMOVE ME
+                        Sighting sighting = new Sighting(bug.getId(),
+                                chosenLocation.getPosition().latitude,
+                                chosenLocation.getPosition().longitude);
 
+                        //send request to upload
+                        APICaller.call().addSighting(sighting).enqueue(addSightingCallback);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -216,7 +237,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
 
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                if (response.body().wasSuccessful()) {
+                if (response.isSuccessful()) {
                     //close the view and report success
                     Toast.makeText(AddSighting.this, getString(R.string.sightingAdded), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
@@ -224,7 +245,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                 } else {
                     errorUploadingSnackBar.show();
                     Log.e(AddSighting.class.getName(), response.message());
-
+                    progressDialog.dismiss();
                 }
             }
 
@@ -241,6 +262,32 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+
+            //this giant code block is to force an update to display to blue dot, a workaround for first time usage.
+            //doubles as getting the most recent location instead of android using a cached last location.
+            LocationManager lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+            lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            }, null);
+
             return true;
         } else {
             return false;
@@ -256,9 +303,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableMyLocationLayer();
             }
-            } else {
-                // Permission was denied. Display an error message.
-            }
         }
+    }
 
 }

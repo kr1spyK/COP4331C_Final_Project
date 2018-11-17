@@ -72,6 +72,7 @@ public class APICaller {
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new AuthTokenInterceptor(authToken))
+                    .connectTimeout(60, TimeUnit.SECONDS) //suport super slow internet connections
                     .build();
 
             //create a basic Retrofit with the minimal needed functionality
