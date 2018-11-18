@@ -1,4 +1,5 @@
 var urlBase = 'https://poosgroup5-u.cf/';
+// var urlBase = 'http://localhost:3000/';
 var extension = 'py';
 
 function doLogin()
@@ -29,8 +30,8 @@ function doLogin()
             var sessionID = jsonObject.sessionID;
 
             // go to next page
-            window.location.replace(urlBase + "index.html");
-           
+            window.location.replace(urlBase + "main.html");
+
         }
     }
     catch (err) {
@@ -68,7 +69,7 @@ function doRegister()
             $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible" id="badRegister">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Error!</strong> Something went wrong! Please try again later. </div>');
 
         }
-                
+
     }
     catch (err) {
         alert(err.message)
