@@ -37,11 +37,10 @@ public class AddPictureActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //NEW
         // get access to the image view.
         ivImage = (ImageView) findViewById(R.id.ivImage);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +51,7 @@ public class AddPictureActivity extends AppCompatActivity {
         });
     }
 
+    //Select from Menu.
     private void SelectImage() {
         //final ActionBar.DisplayOptions[] items = {"Camera", "Gallery", "Cancel"};
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
@@ -65,7 +65,7 @@ public class AddPictureActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, REQUEST_CAMERA);
-//THIS STUFF HAPPENS WHEN THE USER CLICKS ON STUFF FROM THE MENU.
+
                 } else if (items[i].equals("Gallery")) {
 
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -79,35 +79,29 @@ public class AddPictureActivity extends AppCompatActivity {
             }
         });
 
-        //builder.show();
+        builder.show();
     }
 
 
-    //This part is to handle the what the user chooses and process the stuff form SelectImages() method above.
+    //This part is to handle the what the user chooses and process data form SelectImages() method above.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {  //RESULT
-            //WAY1        //CAMERA CAPTURE
-            if (requestCode == REQUEST_CAMERA) { //REQUEST
+        if (resultCode == Activity.RESULT_OK) {  //result
+            //CAMERA CAPTURE
+            if (requestCode == REQUEST_CAMERA) { //request
 
                 Bundle bundle = data.getExtras();
-                //import android.graphics.Bitmap;
-                final Bitmap bmp = (Bitmap) bundle.get("data");
-                //BOTH PREVIOUS LINES CAN BE COMBINED INTO ONE BELOW (COMMENTED)
 
-                //  Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                final Bitmap bmp = (Bitmap) bundle.get("data");
 
                 ivImage.setImageBitmap(bmp);
 
-                //WAY2        //GALLERY
+             //GALLERY
             } else if (requestCode == SELECT_FILE) {
 
                 Uri selectedImageUri = data.getData();
-                //    ivImage.setImageURI(selectedImageUri);
-                //26:32
-                //Continue from Brandon Jones video for GALLERY STUFF ONLY.
                 //declare stream to read image from SD card
                 InputStream inputStream;
                 //get input stream based on URI of an image
@@ -116,7 +110,6 @@ public class AddPictureActivity extends AppCompatActivity {
                     // get a bitmap from the stream.
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     // show image to the user
-                    //blah blah -see below-
                     ivImage.setImageBitmap(image);
 
 
@@ -130,33 +123,24 @@ public class AddPictureActivity extends AppCompatActivity {
         }//end of outer if.
     }
 
-//    @Override
-//    //ALT
-//    public boolean onCreateOptionMenu(Menu menu) {
-//   //ALT public void onCreateOptionMenu(Menu menu) {
-//        //Add items to the action bar if it is present
-//     //MY FILE IS CALLED MENU.XML(SO USE "MENU")   getMenuInflater().inflate(R.menu.menu_add_image, menu);
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        //getMenuInflater().inflate(R.menu.menu_main, menu);
-//    //ALT    return true;
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-//    @Override
-//     public boolean onOptionsItemSelected (MenuItem item){
-//    //public void onOptionsItemSelected(MenuItem item) {
-//        //
-//        int id = item.getItemId();
-//
-//        //
-//     //   if(id == R.id.action_settings) {       //the action settings is something that should be PART OF MENU.XML :D
-//        if(id == R.id.action_camera) {
-//            //ALT      return true;
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    //ALT    return super.onOptionsItemSelected(item);
-//    }
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+     public boolean onOptionsItemSelected (MenuItem item){
+
+        int id = item.getItemId();
+
+        if(id == R.id.action_camera) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }//end of class.
 
