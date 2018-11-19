@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorTransparentWhite">#808080</color> <!--Grey-->
+    <color name="black_overlay">#66000000</color>
 </resources>
