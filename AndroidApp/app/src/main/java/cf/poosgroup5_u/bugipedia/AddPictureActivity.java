@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class AddPictureActivity extends AppCompatActivity {
 
     ImageView ivImage;
     Integer REQUEST_CAMERA = 1, SELECT_FILE = 0;
+    private Button uploadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,13 @@ public class AddPictureActivity extends AppCompatActivity {
         // get access to the image view.
         ivImage = (ImageView) findViewById(R.id.ivImage);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // get access to upload button
+        uploadButton = findViewById(R.id.button_upload);
+
+
+   //     FloatingActionButton fab = findViewById(R.id.fab);
+   //       fab.setOnClickListener(new View.OnClickListener() {
+        ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -69,7 +76,7 @@ public class AddPictureActivity extends AppCompatActivity {
                 } else if (items[i].equals("Gallery")) {
 
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("images/*");
+                    intent.setType("image/*");
                     startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
 
                 } else if (items[i].equals("Cancel")) {
@@ -98,6 +105,15 @@ public class AddPictureActivity extends AppCompatActivity {
 
                 ivImage.setImageBitmap(bmp);
 
+                uploadButton.setEnabled(true);
+
+                uploadButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        uploadButton.setEnabled(false);
+                    }
+                });
+
              //GALLERY
             } else if (requestCode == SELECT_FILE) {
 
@@ -111,6 +127,15 @@ public class AddPictureActivity extends AppCompatActivity {
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     // show image to the user
                     ivImage.setImageBitmap(image);
+
+                    uploadButton.setEnabled(true);
+
+                    uploadButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            uploadButton.setEnabled(false);
+                        }
+                    });
 
 
                 } catch (FileNotFoundException e) {

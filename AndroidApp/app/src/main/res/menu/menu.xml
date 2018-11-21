@@ -5,7 +5,7 @@
 
           xmlns:tools="http://schemas.android.com/tools" tools:context=".AddPictureActivity">
 
-        <item android:id="@+id/action_camera" android:title="Camera"
+        <item android:id="@+id/action_camera" android:title=""
             app:showAsAction="always"/>
             <!--android:orderInCategory="100"-->
 
