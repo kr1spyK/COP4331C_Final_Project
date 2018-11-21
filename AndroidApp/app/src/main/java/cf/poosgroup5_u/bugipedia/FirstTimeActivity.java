@@ -1,13 +1,16 @@
 package cf.poosgroup5_u.bugipedia;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 
 public class FirstTimeActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class FirstTimeActivity extends AppCompatActivity {
     private Button mNextBtn;
     private Button mBackBtn;
     private int mCurrentPage;
+    private Context context = this;
 
 
     @Override
@@ -43,20 +47,27 @@ public class FirstTimeActivity extends AppCompatActivity {
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
 //COMMENTED THIS SECTION SO THAT MY BUTTONS DONT DO ANYTHING(DON'T GO BACK AND NEXT.)
-//        //OnClick Listeners
-//        mNextBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        //OnClick Listeners
+        mNextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
-//            }
-//        });
-//
-//        mBackBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+
+                //tell everyone that the user has passed the slideshow
+                AppUtils.setFirstTimeUse(false, context);
+            }
+        });
+
+        mBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                mSlideViewPager.setCurrentItem(mCurrentPage - 1);
-//            }
-//        });
+
+                //tell everyone that the user has passed the slideshow
+                AppUtils.setFirstTimeUse(false, context);
+
+            }
+        });
 
     }
 
@@ -136,8 +147,8 @@ public class FirstTimeActivity extends AppCompatActivity {
 //                mNextBtn.setText("Next");
 //                mBackBtn.setText("Back");
 
-                mNextBtn.setText("Search DB");
-                mBackBtn.setText("Login"); //I NEED TO SPECIFY THIS IN THE ENTER TEXT HERE.. THAT YOU CAN SEARCH DATABASE(CLARIFY ACRONYM)... OR LOGIN
+                mNextBtn.setText(getString(R.string.search_database));
+                mBackBtn.setText(getString(R.string.login)); //I NEED TO SPECIFY THIS IN THE ENTER TEXT HERE.. THAT YOU CAN SEARCH DATABASE(CLARIFY ACRONYM)... OR LOGIN
                                                      //lOOK AT ALL THE 4 FEATURES YOU CAN DO :)
             }
 

@@ -1,5 +1,7 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -14,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,7 +36,7 @@ public class APICaller {
     protected static Retrofit retrofit;
     private static boolean debugLoggingEnabled = false;
     private static APIEndpoints api;
-    private static String authToken = "INVALID_AUTH_TOKEN";
+    private static String authToken = AppUtils.DEFAULT_AUTH_TOKEN;
 
     public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
 
@@ -41,10 +44,7 @@ public class APICaller {
      * creates
      * @param enableDebugLogging
      */
-    private static void setCaller(boolean enableDebugLogging){
-
-        //todo get authToken from sharedPreferences
-        // https://stackoverflow.com/questions/40043166/shared-prefrences-to-save-a-authentication-token-in-android
+    private static void setCaller(boolean enableDebugLogging) {
 
         if (enableDebugLogging){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -118,10 +118,25 @@ public class APICaller {
 
     }
 
-    public static void updateAuthToken(String newAuthToken){
+    //only accessable by test methods and subclasses
+    static void updateAuthToken(String newAuthToken){
         authToken = newAuthToken;
         api = null;
         setCaller(debugLoggingEnabled);
+    }
+
+    /**
+     * Updates the API caller with the SessionID which can be found in the
+     * {@link AppUtils#globalAppPref} Global shared Preferences
+     *
+     * @param context The calling context, If calling from an activity simply put: <code>this</code>
+     */
+    public static void updateAuthToken(String newAuthToken, Context context){
+        //set the value in the global storage
+        AppUtils.getGlobalPreferences(context).edit()
+                .putString(AppUtils.globalAppPref, newAuthToken).apply();
+
+        updateAuthToken(newAuthToken);
     }
 
     /**
