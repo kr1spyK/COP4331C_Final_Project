@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.ByteArrayOutputStream;
 
-class BugImage {
+public class BugImage {
 
     /**
      * A value from 0-100 on how much to compress the JPEG images we send to the server

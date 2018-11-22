@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class BugImagesResult extends Result {
+public class BugImagesResult extends Result {
 
     @SerializedName("images")
     @Expose
