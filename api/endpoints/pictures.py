@@ -52,7 +52,7 @@ class AddImageEndpoint(AuthedResource):
             image_data = base64.b64decode(json_data["image"]).decode()
             if "php" in image_data or "<?" in image_data:
                 raise Exception("Invalid upload")
-            with open("/var/www/html/images/{}.jpg".format(new.id), "w") as f:
+            with open("/var/www/html/images/{}.jpg".format(new.id), "wb") as f:
                 f.write(image_data)
             new.picture_link = "https://poosgroup5-u.cf/images/{}.jpg".format(new.id)
             session.commit()
