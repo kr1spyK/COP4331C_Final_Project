@@ -118,7 +118,6 @@ class Picture(Base):
     # bug field is created as a backref, accessing Picture.bug will give you access to the bug tied to the picture
     num_flags = Column(Integer)
     picture_link = Column(String)
-    location_id = Column(Integer, ForeignKey("sightings.id"))
 
 class Sighting(Base):
     __tablename__ = "sightings"
