@@ -37,7 +37,12 @@ public interface APIEndpoints {
     @POST("addSighting")
     Call<Result> addSighting(@Body Sighting sighting);
 
+    @POST("addImage")
+    Call<Result> addImage(@Body BugImage bugImage);
 
+    @POST("getImages")
+    Call<BugImagesResult> getImages(@Body BugInfo bug);
 
-
+    @POST("flagImage")
+    Call<Result> flagImage(@Body BugImage bugImage);
 }
