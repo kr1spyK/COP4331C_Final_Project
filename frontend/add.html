@@ -54,12 +54,6 @@
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="main.html">
-            <i class="fas fa-fw fa-home"></i>
-            <span>Main</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="edit.html">
             <i class="fas fa-fw fa-edit"></i>
             <span>Edit</span>
@@ -177,20 +171,22 @@
             </div>
 
 
-            <!-- Wings -->
+            <!-- wings -->
             <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" id="wings" class="form-control" placeholder="Wings" required="required">
-                <label for="wings">Wings</label>
-              </div>
+              <label for="wings">Wings</label>
+              <select class="form-control" id="wings">
+                <option>False</option>
+                <option>True</option>
+              </select>
             </div>
 
             <!-- antenna -->
             <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" id="antenna" class="form-control" placeholder="Antenna" required="required">
-                <label for="antenna">Antenna</label>
-              </div>
+              <label for="antenna">Antenna</label>
+              <select class="form-control" id="antenna">
+                <option>True</option>
+                <option>False</option>
+              </select>
             </div>
 
             <!-- hind legs -->
@@ -202,6 +198,7 @@
               </select>
             </div>
 
+            <!-- hairy / furry -->
             <div class="form-group">
               <label for="hairy_furry">Hairy / Furry</label>
               <select class="form-control" id="hairy_furry">
@@ -212,10 +209,11 @@
 
             <!-- thin body -->
             <div class="form-group">
-              <div class="form-label-group">
-                <input type="thin_body" id="antenna" class="form-control" placeholder="Thin Body" required="required">
-                <label for="body">Thin Body</label>
-              </div>
+              <label for="thin_body">Thin Body</label>
+              <select class="form-control" id="thin_body">
+                <option>False</option>
+                <option>True</option>
+              </select>
             </div>
 
             <!-- description -->
