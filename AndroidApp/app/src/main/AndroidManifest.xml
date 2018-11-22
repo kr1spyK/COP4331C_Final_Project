@@ -36,20 +36,20 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".FirstTimeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
         <activity
             android:name=".AddSighting"
             android:label="@string/title_activity_add_sighting"></activity>
         <activity
-            android:name=".Gallery"
+            android:name=".gallery.Gallery"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_gallery"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
