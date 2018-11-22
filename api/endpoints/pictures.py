@@ -20,14 +20,37 @@ class GetImagesEndpoint(Resource):
         # create database session
         session = getSession(app.config["DB_USER"], app.config["DB_PASS"])
 
-        # check to see if username is taken
         try:
             q = session.query(Picture).filter_by(bugid=json_data["id"]).all()
-            pictures = [s.picture_link for s in q if s.picture_link]
+            pictures = [{"url": s.picture_link, "id": s.id} for s in q if s.picture_link]
             return jsonify({"success": 1, "images": pictures})
         except Exception as e:
             return jsonify({"success": -1,
                             "error": "Error getting images: " + str(e)})
+
+class FlagImagesEndpoint(AuthedResource):
+    def post(self):
+        required_fields = ["id"]
+        # Get JSON data from request
+        json_data = request.get_json(force=True)
+        for field in required_fields:
+            if field not in json_data.keys():
+                return jsonify({"success": -1,
+                                "error": "Missing {} field".format(field)})
+        # create database session
+        session = getSession(app.config["DB_USER"], app.config["DB_PASS"])
+
+        try:
+            q = session.query(Picture).filter_by(id=json_data["id"]).first()
+            q.num_flags += 1
+            if q.num_flags >= 5:
+                session.delete(q)
+            session.commit()
+            return jsonify({"success": 1})
+        except Exception as e:
+            return jsonify({"success": -1,
+                            "error": "Error flagging image: " + str(e)})
+
 
 class AddImageEndpoint(AuthedResource):
     def post(self):
