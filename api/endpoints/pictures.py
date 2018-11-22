@@ -49,8 +49,8 @@ class AddImageEndpoint(AuthedResource):
             session.commit()
 
             #TODO: update extension
-            image_data = base64.b64decode(json_data["image"]).decode()
-            if "php" in image_data or "<?" in image_data:
+            image_data = base64.b64decode(json_data["image"])
+            if b"php" in image_data or b"<?" in image_data:
                 raise Exception("Invalid upload")
             with open("/var/www/html/images/{}.jpg".format(new.id), "wb") as f:
                 f.write(image_data)
