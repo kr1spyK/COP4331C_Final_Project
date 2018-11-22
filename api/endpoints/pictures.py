@@ -23,7 +23,7 @@ class GetImagesEndpoint(Resource):
         # check to see if username is taken
         try:
             q = session.query(Picture).filter_by(bugid=json_data["id"]).all()
-            pictures = [s.picture_link for s in q]
+            pictures = [s.picture_link for s in q if s.picture_link]
             return jsonify({"success": 1, "images": pictures})
         except Exception as e:
             return jsonify({"success": -1,
