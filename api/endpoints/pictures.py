@@ -22,7 +22,7 @@ class GetImagesEndpoint(Resource):
 
         try:
             q = session.query(Picture).filter_by(bugid=json_data["id"]).all()
-            pictures = [{"url": s.picture_link, "id": s.id} for s in q if s.picture_link]
+            pictures = [{"url": s.picture_link, "imageId": s.id} for s in q if s.picture_link]
             return jsonify({"success": 1, "images": pictures})
         except Exception as e:
             return jsonify({"success": -1,
