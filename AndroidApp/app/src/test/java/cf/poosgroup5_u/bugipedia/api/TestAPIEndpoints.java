@@ -4,8 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -176,6 +179,110 @@ public class TestAPIEndpoints {
         Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
         for (Sighting sighting : future.get().getSightings())
             System.out.println(sighting);
+    }
+
+    @Test
+    public void testAddImage() throws Exception{
+
+        //**FOR TESTING PURPOSES ONLY. Wont be included in actual app compile **/
+        File testFile = new File("src/test/res/dinodog.jpg");
+        String base64 = Base64.getEncoder().encodeToString(Files.readAllBytes(testFile.toPath()));
+        //**********************************************************************/
+        testLogin();
+
+        final CompletableFuture<Result> future = new CompletableFuture<>();
+
+        BugImage bugImage = new BugImage(1, base64);
+
+        APICaller.call().addImage(bugImage).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+
+    }
+
+    @Test
+    public void testGetImages() throws Exception{
+        final CompletableFuture<BugImagesResult> future = new CompletableFuture<>();
+
+
+        BugInfo buginfo = new BugInfo(1);
+        APICaller.call().getImages(buginfo).enqueue(new Callback<BugImagesResult>() {
+            @Override
+            public void onResponse(Call<BugImagesResult> call, Response<BugImagesResult> response) {
+
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BugImagesResult> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+
+        for (BugImage bugImage : future.get().getImages()){
+            System.out.println(bugImage + "\n");
+        }
+
+    }
+
+    @Test
+    public void testFlagImage() throws Exception{
+        testLogin();
+        testAddImage(); //create a image for us to flag
+
+        final CompletableFuture<BugImagesResult> future1 = new CompletableFuture<>();
+
+
+        //get the latest image (essentially testGetImages as well)
+        BugInfo buginfo = new BugInfo(1);
+        APICaller.call().getImages(buginfo).enqueue(new Callback<BugImagesResult>() {
+            @Override
+            public void onResponse(Call<BugImagesResult> call, Response<BugImagesResult> response) {
+
+                future1.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BugImagesResult> call, Throwable t) {
+                future1.completeExceptionally(t);
+            }
+        });
+
+
+        BugImage bugImage = future1.get().getImages().get(future1.get().getImages().size()-1);
+        final CompletableFuture<Result> future = new CompletableFuture<>();
+
+
+
+        APICaller.call().flagImage(bugImage).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+
+
     }
 
 
