@@ -25,6 +25,7 @@ api.add_resource(GetSightingsEndpoint, '/getSightings')
 api.add_resource(AddSightingsEndpoint, '/addSighting')
 api.add_resource(AddImageEndpoint, '/addImage')
 api.add_resource(GetImagesEndpoint, '/getImages')
+api.add_resource(FlagImagesEndpoint, '/flagImage')
 
 if __name__ == '__main__':
     app.run(debug=False, port=8080)
