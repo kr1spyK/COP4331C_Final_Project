@@ -61,7 +61,7 @@ class BugRegisterEndpoint(Resource):
                             "error": str(e)})
 
 class getBugEndpoint(Resource):
-    def get(self):
+    def post(self):
         
         required_fields = ["id"]
 
@@ -78,7 +78,7 @@ class getBugEndpoint(Resource):
         # Check to see if bug entry exists via id, if so, go on, if not,
         # post error
         try:
-            bug = session.query(Bug).filter_by(bugid=json_data["id"]).first()
+            bug = session.query(Bug).filter_by(id=json_data["id"]).first()
             if not bug:
                 return jsonify({"success": -1,
                                 "error": "Bug does not exist."})
@@ -89,8 +89,8 @@ class getBugEndpoint(Resource):
             order = bug.order.name
             family = bug.family.name
             genus = bug.genus.name
-            color_1 = bug.color1.name
-            color_2 = bug.color2.name
+            color_1 = bug.color1.color
+            color_2 = bug.color2.color
             general_type = bug.general_type.name
             mouth_parts = bug.mouth_parts.name
             wings = bug.wings
