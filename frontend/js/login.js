@@ -2,6 +2,10 @@ var urlBase = 'https://poosgroup5-u.cf/';
 //var urlBase = 'http://localhost:3000/';
 var extension = 'py';
 
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+
 function doLogin()
 {
     var usrbox = document.getElementById("inputUsername");
@@ -82,10 +86,37 @@ function doRegister()
 
 //}
 
-//function searchBugsAndPopulateTable()
-//{
+function searchBugsAndPopulateTable()
+{
+    var jsonPayload = '{}';
+    var url = urlBase + 'api/search';
 
-//}
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.send(jsonPayload);
+
+        var jsonObject = JSON.parse(xhr.responseText);
+
+        var success = jsonObject.success;
+        if (success < 1) {
+            // error
+            return false;
+        } else {
+            //successful login
+            var sessionID = jsonObject.sessionID;
+
+            // go to next page
+            window.location.replace(urlBase + "main.html");
+
+        }
+    }
+    catch (err) {
+        alert(err);
+    }
+}
 
 //function clickBugtoEdit()
 //{
