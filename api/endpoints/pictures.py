@@ -30,7 +30,7 @@ class GetImagesEndpoint(Resource):
 
 class FlagImagesEndpoint(AuthedResource):
     def post(self):
-        required_fields = ["id"]
+        required_fields = ["imageId"]
         # Get JSON data from request
         json_data = request.get_json(force=True)
         for field in required_fields:
@@ -41,7 +41,7 @@ class FlagImagesEndpoint(AuthedResource):
         session = getSession(app.config["DB_USER"], app.config["DB_PASS"])
 
         try:
-            q = session.query(Picture).filter_by(id=json_data["id"]).first()
+            q = session.query(Picture).filter_by(id=json_data["imageId"]).first()
             q.num_flags += 1
             if q.num_flags >= 5:
                 session.delete(q)
