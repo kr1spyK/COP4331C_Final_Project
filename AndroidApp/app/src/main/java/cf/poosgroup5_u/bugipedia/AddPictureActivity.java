@@ -30,6 +30,7 @@ import java.io.InputStream;
 import cf.poosgroup5_u.bugipedia.api.APICaller;
 import cf.poosgroup5_u.bugipedia.api.BugImage;
 import cf.poosgroup5_u.bugipedia.api.Result;
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +40,9 @@ public class AddPictureActivity extends AppCompatActivity {
     ImageView ivImage;
     Integer REQUEST_CAMERA = 1, SELECT_FILE = 0;
     private Button uploadButton;
+    private int bugID;
+    //Variable so DBEntry can call it
+    public static final String BUG_ID = "BUG_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,11 @@ public class AddPictureActivity extends AppCompatActivity {
 
    //     FloatingActionButton fab = findViewById(R.id.fab);
    //       fab.setOnClickListener(new View.OnClickListener() {
+
+   //   Grab bugID from the ViewDBEntry
+        bugID = getIntent().getExtras().getInt(BUG_ID);
+
+
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,7 +178,7 @@ public class AddPictureActivity extends AppCompatActivity {
 
         //upload api call
         //TODO: "1 was bugID"
-        BugImage bugImage = new BugImage(1, bmp); //get the bugID from the ViewDB activity which will pass it to you in an Intent.
+        BugImage bugImage = new BugImage(bugID, bmp); //get the bugID from the ViewDB activity which will pass it to you in an Intent.
 
         APICaller.call().addImage(bugImage).enqueue(new Callback<Result>() {
             @Override
