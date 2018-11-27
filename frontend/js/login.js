@@ -1,10 +1,7 @@
 var urlBase = 'https://poosgroup5-u.cf/';
 //var urlBase = 'http://localhost:3000/';
 var extension = 'py';
-
-$(document).ready(function () {
-    $('#example').DataTable();
-});
+var buttonID = 0;
 
 function doLogin()
 {
@@ -98,23 +95,41 @@ function searchBugsAndPopulateTable()
     try {
         xhr.send(jsonPayload);
 
-        var jsonObject = JSON.parse(xhr.responseText);
+        var JSONObjectsArr = JSON.parse(xhr.responseText);
 
-        var success = jsonObject.success;
-        if (success < 1) {
-            // error
-            return false;
-        } else {
-            //successful login
-            var sessionID = jsonObject.sessionID;
+        if (JSONObjectsArr.success == 1)
+        {
+            var table = document.getElementById("bugs");
+            var arr = Array.from(JSONObjectsArr.results);
+            arr.forEach(function (item, index) {
+                addRowOnTable(table, item, index)
+            });
 
-            // go to next page
-            window.location.replace(urlBase + "main.html");
-
+            $(document).ready(function () {
+                $('#bugs').DataTable();
+            });
         }
+
+
     }
     catch (err) {
         alert(err);
+    }
+}
+
+function addRowOnTable(table, item, index)
+{
+    if (item != null) {
+        var contactType = item.contactType;
+
+        $(table).find('tbody').append("<tr><td>" + item.common_name +
+            "</td><td>" + item.scientific_name + "</td><td> <button type='button' id='button" +
+            buttonID + "'>Delete!</button> </td></tr>");
+
+        var btn = document.getElementById("button" + buttonID);
+        //btn.onclick = function () { Delete(item.id) };
+
+        buttonID = buttonID + 1;
     }
 }
 

@@ -26,7 +26,7 @@
 
   </head>
 
-  <body id="page-top">
+  <body id="page-top" onload="searchBugsAndPopulateTable()">
 
       <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -77,36 +77,27 @@
 
               <div class="container-fluid">
 
-                  <table id="example" class="display" style="width:100%">
+                  <table id="bugs" class="display" style="width:100%">
                       <thead>
                           <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
+                              <th>Common Name</th>
+                              <th>Scientific Name</th>
+                              <th>Edit</th>
                           </tr>
                       </thead>
                       <tbody>
                           <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
+                              <td>Rick</td>
+                              <td>Leinecker</td>
+                              <td>Button</td>
                           </tr>
-                          
+
                       </tbody>
                       <tfoot>
                           <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
+                              <th>Common Name</th>
+                              <th>Scientific Name</th>
+                              <th>Edit</th>
                           </tr>
                       </tfoot>
                   </table>
@@ -194,7 +185,6 @@
 
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>"
-
 
       <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
       <script src="js/login.js"></script>
