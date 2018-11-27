@@ -1,3 +1,4 @@
+from auth import *
 from flask import Flask, jsonify, request
 from flask import current_app as app
 from flask_restful import reqparse, abort, Api, Resource
@@ -5,7 +6,7 @@ from database.db import getSession
 from database.models import *
 import json
 
-class BugRegisterEndpoint(Resource):
+class BugRegisterEndpoint(AdminAuthedResource):
     def post(self):
         
         # Define required fields
