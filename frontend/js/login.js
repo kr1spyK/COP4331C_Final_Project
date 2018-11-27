@@ -1,7 +1,6 @@
 var urlBase = 'https://poosgroup5-u.cf/';
 //var urlBase = 'http://localhost:3000/';
 var extension = 'py';
-var buttonID = 0;
 
 function doLogin()
 {
@@ -77,12 +76,6 @@ function doRegister()
     }
 }
 
-
-//function addBug()
-//{
-
-//}
-
 function searchBugsAndPopulateTable()
 {
     var jsonPayload = '{}';
@@ -124,19 +117,42 @@ function addRowOnTable(table, item, index)
 
         $(table).find('tbody').append("<tr><td>" + item.common_name +
             "</td><td>" + item.scientific_name + "</td><td> <button type='button' id='button" +
-            buttonID + "'>Delete!</button> </td></tr>");
+            item.id + "'>Edit!</button> </td></tr>");
 
-        var btn = document.getElementById("button" + buttonID);
-        //btn.onclick = function () { Delete(item.id) };
+        var btn = document.getElementById("button" + item.id);
+        btn.onclick = function () { editBug(item.id) };
 
-        buttonID = buttonID + 1;
     }
 }
 
-//function clickBugtoEdit()
-//{
+function editBug(bugID)
+{
+    // go to edit bug page
+    window.location.replace(urlBase + "edit2.html");
 
-//}
+    // get the bug info
+    // the get bug api is in progress
+
+
+}
+
+function addBug()
+{
+    var commonName = document.getElementById("common_name").value;
+    var scientificName = document.getElementById("scientific_name").value;
+    var clss = document.getElementById("class").value;
+    var order = document.getElementById("order").value;
+    var family = document.getElementById("family").value;
+    var genus = document.getElementById("genus").value;
+    var color1 = document.getElementById("color_1").value;
+    var color2 = document.getElementById("color_2").value;
+    var type = document.getElementById("general_type").value;
+    var mouth = document.getElementById("mouth_parts").value;
+    var descrip = document.getElementById("description").value;
+    var additional = document.getElementById("additional_advice").value;
+
+    // check if any fields are empty
+}
 
 //function submitEdit()
 //{
