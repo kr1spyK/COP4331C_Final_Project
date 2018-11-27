@@ -1,5 +1,5 @@
 var urlBase = 'https://poosgroup5-u.cf/';
-// var urlBase = 'http://localhost:3000/';
+//var urlBase = 'http://localhost:3000/';
 var extension = 'py';
 
 function doLogin()
@@ -75,3 +75,34 @@ function doRegister()
         alert(err.message)
     }
 }
+
+
+//function addBug()
+//{
+
+//}
+
+//function searchBugsAndPopulateTable()
+//{
+
+//}
+
+//function clickBugtoEdit()
+//{
+
+//}
+
+//function submitEdit()
+//{
+
+//}
+
+//function approveEdit()
+//{
+
+//}
+
+//function rejectEdit()
+//{
+
+//}
