@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,13 @@ import android.support.v7.app.ActionBar;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import cf.poosgroup5_u.bugipedia.api.APICaller;
+import cf.poosgroup5_u.bugipedia.api.BugImage;
+import cf.poosgroup5_u.bugipedia.api.Result;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AddPictureActivity extends AppCompatActivity {
 
     ImageView ivImage;
@@ -34,6 +42,8 @@ public class AddPictureActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_picture_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,7 +106,7 @@ public class AddPictureActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {  //result
-            //CAMERA CAPTURE
+        //CAMERA CAPTURE
             if (requestCode == REQUEST_CAMERA) { //request
 
                 Bundle bundle = data.getExtras();
@@ -110,11 +120,12 @@ public class AddPictureActivity extends AppCompatActivity {
                 uploadButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        uploadButton.setEnabled(false);
+   //Call upload image to server method
+                        uploadImageApiButton(bmp);
                     }
                 });
 
-             //GALLERY
+         //GALLERY
             } else if (requestCode == SELECT_FILE) {
 
                 Uri selectedImageUri = data.getData();
@@ -124,7 +135,7 @@ public class AddPictureActivity extends AppCompatActivity {
                 try {
                     inputStream = getContentResolver().openInputStream(selectedImageUri);
                     // get a bitmap from the stream.
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+                    final Bitmap image = BitmapFactory.decodeStream(inputStream);
                     // show image to the user
                     ivImage.setImageBitmap(image);
 
@@ -133,7 +144,8 @@ public class AddPictureActivity extends AppCompatActivity {
                     uploadButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            uploadButton.setEnabled(false);
+ ////Call upload image to server method
+                            uploadImageApiButton(image);
                         }
                     });
 
@@ -146,6 +158,60 @@ public class AddPictureActivity extends AppCompatActivity {
 
             }//end of elseif
         }//end of outer if.
+    }
+
+    private void uploadImageApiButton(Bitmap bmp) {
+        //Button is disabled at first.
+        uploadButton.setEnabled(false);
+
+        //let user know we're uploading
+
+
+        //upload api call
+        //TODO: "1 was bugID"
+        BugImage bugImage = new BugImage(1, bmp); //get the bugID from the ViewDB activity which will pass it to you in an Intent.
+
+        APICaller.call().addImage(bugImage).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+               //Check if request is successful //call to server
+                if(response.isSuccessful()){
+                    // Check if image is uploaded //call to api
+                    if(response.body().wasSuccessful()){
+                        //let user know image was uploaded and close activity
+                        Toast.makeText(AddPictureActivity.this, R.string.UploadSuccess, Toast.LENGTH_LONG).show();
+                        //re-enable image button
+                        uploadButton.setEnabled(true);
+
+                        finish();
+                    }else{
+                        Log.e(AddPictureActivity.this.getLocalClassName(), response.message());
+                        Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+
+                        //re-enable image button
+                        uploadButton.setEnabled(true);
+                    }
+                }else{
+                    //Check if it wasn't successfully uploaded
+                    Log.e(AddPictureActivity.this.getLocalClassName(), response.message());
+                    Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+
+                    //re-enable image button
+                    uploadButton.setEnabled(true);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                //Log the error and report it to the user that their upload failed
+
+                Log.e(AddPictureActivity.this.getLocalClassName(), t.getMessage() ,t);
+                Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+                //re-enable image button
+                uploadButton.setEnabled(true);
+            }
+        });
     }
 
     @Override
