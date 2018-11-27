@@ -36,12 +36,10 @@ public class AppUtils {
         return  getGlobalPreferences(context).getBoolean(firstTimeUseKey, true);
     }
 
-
     /////////////////////////NETWORKING UTIL METHODS///////////////////////
-
     /**
      * Returns whether or not the user is currently logged in.
-     * Simply checks the global storage to see if the Auth Token isnt a default value
+     * Simply checks the global storage to see if the Auth Token isn't a default value
      * @see AppUtils#getSessionID(Context)
      * @param context The calling context, If calling from an activity simply put: <code>this</code>
      * @return True - There is a user logged in, false otherwise.

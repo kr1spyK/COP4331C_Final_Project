@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cf.poosgroup5_u.bugipedia">
 
     <!--
@@ -21,12 +22,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!--required to be compatible with Oreo (9.0)-->
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-
-
 
         <!--
         The API key for Google Maps-based APIs is defined as a string resource.
@@ -51,41 +51,30 @@
             android:name=".AddSighting"
             android:label="@string/title_activity_add_sighting">
         </activity>
-    </application>
 
-        android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
-            android:name=".ItemListActivity"
-            android:label="@string/title_item_list"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible">
         </activity>
+
         <activity
-            android:name=".ItemDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".ItemListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity"
+            android:windowSoftInputMode="stateVisible">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="cf.poosgroup5_u.bugipedia.ItemListActivity" />
+                android:value="cf.poosgroup5_u.bugipedia.LoginActivity"/>
         </activity>
+
         <activity
             android:name=".BugListActivity"
             android:label="@string/title_bug_list"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
             android:name=".BugDetailActivity"
             android:label="@string/title_bug_detail"
@@ -93,8 +82,8 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="cf.poosgroup5_u.bugipedia.BugListActivity" />
+                android:value="cf.poosgroup5_u.bugipedia.BugListActivity"/>
         </activity>
-    </application>
 
+    </application>
 </manifest>

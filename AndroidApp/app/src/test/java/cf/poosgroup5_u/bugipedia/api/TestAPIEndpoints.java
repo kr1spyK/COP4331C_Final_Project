@@ -18,7 +18,6 @@ import retrofit2.Response;
 
 public class TestAPIEndpoints {
 
-
     public static final String TEST_USERNAME = "testUser";
     public static final String TEST_PASSWORD = "testPassword";
 
