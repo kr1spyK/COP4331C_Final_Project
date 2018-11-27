@@ -9,9 +9,9 @@ class BugRegisterEndpoint(Resource):
     def post(self):
         
         # Define required fields
-        required_fields = ["common_name", "scientific_name", "class_id",
-        "order_id", "family_id", "genus_id", "color_id_1", "color_id_2", "general_type_id", 
-        "mouth_parts_id", "wings", "antenna", "hind_legs_jump", "hairy_furry",
+        required_fields = ["common_name", "scientific_name", "class",
+        "order", "family", "genus", "color_1", "color_2", "general_type", 
+        "mouth_parts", "wings", "antenna", "hind_legs_jump", "hairy_furry",
         "thin_body", "description", "additional_advice"]
         
         # Get JSON data from request
@@ -33,16 +33,74 @@ class BugRegisterEndpoint(Resource):
         # If there isn't a bug entry, make a new bug from the JSON data
         # and attempt to make a request to the database to add it
         try:
+            _class = session.query(Class).filter_by(name=json_data["class"]).first()
+            if not _class:
+                new_class = Class(name=json_data["class"])
+                session.add(new_class)
+                session.commit()
+                _class = new_class
+
+            order = session.query(Order).filter_by(name=json_data["order"]).first()
+            if not order:
+                new_order = Order(name=json_data["order"])
+                session.add(new_order)
+                session.commit()
+                order = new_order
+
+            family = session.query(Family).filter_by(name=json_data["family"]).first()
+            if not family:
+                new_family = Family(name=json_data["family"])
+                session.add(new_family)
+                session.commit()
+                family = new_family
+
+            genus = session.query(Genus).filter_by(name=json_data["genus"]).first()
+            if not genus:
+                new_genus = Genus(name=json_data["genus"])
+                session.add(new_genus)
+                session.commit()
+                genus = new_genus
+
+            color1 = session.query(Color).filter_by(color=json_data["color_1"]).first()
+            if not color1:
+                new_color1 = Color(color=json_data["color_1"])
+                session.add(new_color1)
+                session.commit()
+                color1 = new_color1
+
+            color2 = session.query(Color).filter_by(color=json_data["color_2"]).first()
+            if not color2:
+                new_color2 = Color(color=json_data["color_2"])
+                session.add(new_color2)
+                session.commit()
+                color2 = new_color2
+
+            general_type = session.query(General_Type).filter_by(name=json_data["general_type"]).first()
+            if not general_type:
+                new_general_type = General_Type(name=json_data["general_type"])
+                session.add(new_general_type)
+                session.commit()
+                general_type = new_general_type
+
+            mouth_parts = session.query(Mouth_Parts).filter_by(name=json_data["mouth_parts"]).first()
+            if not mouth_parts:
+                new_mouth_parts = Mouth_Parts(name=json_data["mouth_parts"])
+                session.add(new_mouth_parts)
+                session.commit()
+                mouth_parts = new_mouth_parts
+
+
+
             new_bug = Bug(common_name=json_data["common_name"],
                           scientific_name=json_data["scientific_name"],
-                          class_id=json_data["class_id"],
-                          order_id=json_data["order_id"],
-                          family_id=json_data["family_id"],
-                          genus_id=json_data["genus_id"],
-                          color_id_1=json_data["color_id_1"],
-                          color_id_2=json_data["color_id_2"],
-                          general_type_id=json_data["general_type_id"],
-                          mouth_parts_id=json_data["mouth_parts_id"],
+                          class_id=_class.id,
+                          order_id=order.id,
+                          family_id=family.id,
+                          genus_id=genus.id,
+                          color_id_1=color1.id,
+                          color_id_2=color2.id,
+                          general_type_id=general_type.id,
+                          mouth_parts_id=mouth_parts.id,
                           wings=json_data["wings"],
                           antenna=json_data["antenna"],
                           hind_legs_jump=json_data["hind_legs_jump"],
