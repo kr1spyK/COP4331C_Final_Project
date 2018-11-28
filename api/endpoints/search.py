@@ -108,7 +108,7 @@ class SearchEndpoint(Resource):
         # create database session
         session = getSession(app.config["DB_USER"], app.config["DB_PASS"])
         try:
-            q = session.query(Bug)
+            q = session.query(Bug).filter_by(approved=True)
 
             # Filter on common name  
             if "Common Name" in json_data.keys():

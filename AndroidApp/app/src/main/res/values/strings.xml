@@ -12,7 +12,6 @@
     <string name="sightingAdded">Sighting added successfully!</string>
     <string name="uploadErrorMessage">An error occurred during upload. Please Try again.</string>
     <string name="fatalError">fatal error occurred, please try again.</string>
-
     <string name="title_activity_gallery">Gallery</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -23,4 +22,5 @@
     <string name="report">Report</string>
     <string name="cancel">Cancel</string>
     <string name="photoReportSuccess">Photo Reported!</string>
+    <string name="search_database">Search DB</string>
 </resources>
