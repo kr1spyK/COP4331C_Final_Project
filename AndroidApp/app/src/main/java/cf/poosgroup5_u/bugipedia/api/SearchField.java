@@ -24,7 +24,7 @@ public class SearchField {
     }
 
     /**
-     * Creates a Search Field thats interactable with the Search API. Uses a Simple (Label : Value) Pair <br/>
+     * Creates a Search Field that's interactable with the Search API. Uses a Simple (Label : Value) Pair <br/>
      * This is ideal for labels that only have 1 value for responses (i.e. Textbox fields, Dropbox fields) <br/>
      *  Usage:<br/><br/>
      *  <i><code>SearchField nameSearch = new SearchField("name", "FooBar");</code></i>

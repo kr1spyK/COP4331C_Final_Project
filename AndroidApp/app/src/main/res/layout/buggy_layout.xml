@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView
-    android:id="@android:id/list"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    tools:context=".BuggyMain"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-</ListView>
+
+    <com.github.aakira.expandablelayout.ExpandableWeightLayout
+        android:id="@+id/expandableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        app:ael_duration="1000"
+        app:ael_interpolator="anticipateOvershoot">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/filterScroll"/>
+
+    </com.github.aakira.expandablelayout.ExpandableWeightLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/my_recycler"/>
+
+</LinearLayout>
