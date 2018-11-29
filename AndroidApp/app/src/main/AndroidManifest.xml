@@ -17,11 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-      
-        <!--required to be compatible with Oreo (9.0)-->
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
-
+        <!-- required to be compatible with Oreo (9.0) -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <!--
         The API key for Google Maps-based APIs is defined as a string resource.
@@ -34,7 +34,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-      
+
         <activity android:name=".FirstTimeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -44,7 +44,12 @@
 
         <activity
             android:name=".AddSighting"
-            android:label="@string/title_activity_add_sighting">
+            android:label="@string/title_activity_add_sighting"></activity>
+        <activity
+            android:name=".gallery.Gallery"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         </activity>
     </application>
 
