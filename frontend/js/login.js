@@ -138,20 +138,31 @@ function editBug(bugID)
 
 function addBug()
 {
-    var commonName = document.getElementById("common_name").value;
-    var scientificName = document.getElementById("scientific_name").value;
-    var clss = document.getElementById("class").value;
-    var order = document.getElementById("order").value;
-    var family = document.getElementById("family").value;
-    var genus = document.getElementById("genus").value;
-    var color1 = document.getElementById("color_1").value;
-    var color2 = document.getElementById("color_2").value;
-    var type = document.getElementById("general_type").value;
-    var mouth = document.getElementById("mouth_parts").value;
-    var descrip = document.getElementById("description").value;
-    var additional = document.getElementById("additional_advice").value;
+    try {
+        var commonName = document.getElementById("common_name").value;
+        var scientificName = document.getElementById("scientific_name").value;
+        var clss = document.getElementById("class").value;
+        var order = document.getElementById("order").value;
+        var family = document.getElementById("family").value;
+        var genus = document.getElementById("genus").value;
+        var color1 = document.getElementById("color_1").value;
+        var color2 = document.getElementById("color_2").value;
+        var type = document.getElementById("general_type").value;
+        var mouth = document.getElementById("mouth_parts").value;
+        var descrip = document.getElementById("description").value;
+        var additional = document.getElementById("additional_advice").value;
+    } catch (e) {
+
+    }
+    
 
     // check if any fields are empty
+    if (commonName == "" || scientificName == "" || clss == "" || order == "" || family == "" || genus == "" || color1 == "" || color2 == "" || type == "" || mouth == "" || descrip == "" || additional == "")
+    {
+        $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible" id="badRegister">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Missing information!</strong> Make sure all of the fields are filled out to add a bug. </div>');
+
+    }
+
 }
 
 //function submitEdit()
