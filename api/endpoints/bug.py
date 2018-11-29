@@ -163,6 +163,9 @@ class getBugEndpoint(Resource):
 
             return jsonify({"success": 1,
                             "common_name": common_name,
+                            "description": description,
+                            "additional_advice": additional_advice,
+                            "characteristics":{
                             "scientific_name": scientific_name,
                             "class": _class,
                             "order": order,
@@ -175,11 +178,10 @@ class getBugEndpoint(Resource):
                             "wings": wings,
                             "antenna": antenna,
                             "hind_legs_jump": hind_legs_jump,
-                            "hairy_furry": hairy_furry,
-                            "description": description,
-                            "additional_advice": additional_advice,
+                            "hairy_furry": hairy_furry},
+                            "sightings": sightings,
                             "pictures": pictures,
-                            "sightings": sightings}) 
+                            }) 
                                        
         except Exception as e:
             return jsonify({"success": -1,
