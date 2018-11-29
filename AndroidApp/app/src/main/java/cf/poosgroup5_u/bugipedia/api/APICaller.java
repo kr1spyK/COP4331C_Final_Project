@@ -190,7 +190,6 @@ public class APICaller {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            //todo replace with actual value for interceptor
             Request request = chain.request().newBuilder().addHeader("X-Auth-Token", authToken).build();
             return chain.proceed(request);
         }

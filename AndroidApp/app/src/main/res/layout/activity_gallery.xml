@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/galleryFrameLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorDarkGrey"
+    tools:context=".gallery.Gallery">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/galleryViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        </android.support.v4.view.ViewPager>
+
+
+        <!--<com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<com.github.chrisbanes.photoview.PhotoView-->
+            <!--android:id="@+id/photoView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+        <!--We wrap the toolbar in framelayout so that fitsSystemWindows doesnt destroy the padding.-->
+        <!--https://stackoverflow.com/questions/27236533/toolbar-height-on-lollipop-is-too-big-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/galleryToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/screen_background_dark_transparent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:layout_gravity="center_horizontal"
+             />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/galleryPageIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:foregroundGravity="bottom"
+            android:layout_marginBottom="40dp"
+            android:layout_alignParentBottom="true"
+            app:piv_animationType="worm"
+            app:piv_dynamicCount="true"
+            app:piv_interactiveAnimation="true"
+            app:piv_viewPager="@id/galleryViewPager"
+            app:piv_selectedColor="@color/colorPrimary"
+            app:piv_unselectedColor="@color/grey"/>
+
+
+
+    </RelativeLayout>
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+</FrameLayout>

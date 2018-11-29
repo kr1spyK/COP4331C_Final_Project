@@ -109,7 +109,7 @@ class BugRegisterEndpoint(AdminAuthedResource):
                           thin_body=json_data["thin_body"],
                           description=json_data["description"],
                           additional_advice=json_data["additional_advice"],
-                          approved=False)
+                          approved=True)
             session.add(new_bug)
             session.commit()
 
@@ -118,3 +118,71 @@ class BugRegisterEndpoint(AdminAuthedResource):
         except Exception as e:
             return jsonify({"success": -1, 
                             "error": str(e)})
+
+class getBugEndpoint(Resource):
+    def post(self):
+        
+        required_fields = ["id"]
+
+        # Get JSON data from request
+        json_data = request.get_json(force=True)
+        for field in required_fields:
+            if field not in json_data.keys():
+                return jsonify({"success": -1,
+                                "error": "Missing {} field".format(field)})
+
+        # Create database session
+        session = getSession(app.config["DB_USER"], app.config["DB_PASS"])
+
+        # Check to see if bug entry exists via id, if so, go on, if not,
+        # post error
+        try:
+            bug = session.query(Bug).filter_by(id=json_data["id"]).first()
+            if not bug:
+                return jsonify({"success": -1,
+                                "error": "Bug does not exist."})
+
+            common_name = bug.common_name
+            scientific_name = bug.scientific_name
+            _class = bug._class.name
+            order = bug.order.name
+            family = bug.family.name
+            genus = bug.genus.name
+            color_1 = bug.color1.color
+            color_2 = bug.color2.color
+            general_type = bug.general_type.name
+            mouth_parts = bug.mouth_parts.name
+            wings = bug.wings
+            antenna = bug.antenna
+            hind_legs_jump = bug.hind_legs_jump
+            hairy_furry = bug.hairy_furry
+            description = bug.description
+            additional_advice = bug.additional_advice  
+            pictures = [{"url": s.picture_link} for s in bug.pictures if s.picture_link]
+            sightings = [{"latitude": s.latitude, "longitude": s.longitude} for s in bug.sightings]
+
+            return jsonify({"success": 1,
+                            "common_name": common_name,
+                            "description": description,
+                            "additional_advice": additional_advice,
+                            "characteristics":{
+                            "scientific_name": scientific_name,
+                            "class": _class,
+                            "order": order,
+                            "family": family,
+                            "genus": genus,
+                            "color1": color_1,
+                            "color2": color_2,
+                            "general_type": general_type,
+                            "mouth_parts": mouth_parts,
+                            "wings": wings,
+                            "antenna": antenna,
+                            "hind_legs_jump": hind_legs_jump,
+                            "hairy_furry": hairy_furry},
+                            "sightings": sightings,
+                            "pictures": pictures
+                            }) 
+                                       
+        except Exception as e:
+            return jsonify({"success": -1,
+                            "error": "Error getting bug: " + str(e)})

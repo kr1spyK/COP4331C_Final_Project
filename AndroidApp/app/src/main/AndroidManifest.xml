@@ -24,9 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <!--required to be compatible with Oreo (9.0)-->
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+      
+        <!-- required to be compatible with Oreo (9.0) -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <!--
         The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,7 +51,12 @@
 
         <activity
             android:name=".AddSighting"
-            android:label="@string/title_activity_add_sighting">
+            android:label="@string/title_activity_add_sighting"></activity>
+        <activity
+            android:name=".gallery.Gallery"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         </activity>
 
         <activity
