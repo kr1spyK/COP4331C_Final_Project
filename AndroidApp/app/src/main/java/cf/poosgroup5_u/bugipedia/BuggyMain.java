@@ -1,19 +1,15 @@
 package cf.poosgroup5_u.bugipedia;
 
-import android.content.Context;
+import android.app.DownloadManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cf.poosgroup5_u.bugipedia.api.APICaller;
-import cf.poosgroup5_u.bugipedia.api.FieldType;
 import cf.poosgroup5_u.bugipedia.api.SearchField;
 import cf.poosgroup5_u.bugipedia.api.SearchFieldResult;
 import retrofit2.Call;
@@ -44,6 +39,11 @@ public class BuggyMain extends AppCompatActivity {
     LinearLayout filterLiny;
     //holds the filterLiny so that it is scrollable
     ScrollView filterScroll;
+
+
+    ArrayList<SearchField> searchQuery;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +94,23 @@ public class BuggyMain extends AppCompatActivity {
         });
 
 
+        /*
+
+        ArrayList<SearchField> searchQuery = new ArrayList<>();
+
+        APICaller.call().search(searchQuery).enqueue(new Callback<SearchResult>() {
+            @Override
+            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<SearchResult> call, Throwable t) {
+
+            }
+        });*/
+
+
          //bugList = new ArrayList<>();
          //recyclerView.setHasFixedSize(true);
          //recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -113,6 +130,10 @@ public class BuggyMain extends AppCompatActivity {
     }
 
     public void makeSearchBox(List<SearchField> myFields){
+
+        ArrayList<QueryTuple> queries = new ArrayList<>();
+        MultiSelectionSpinner colorS = new MultiSelectionSpinner(this);
+
         filterLiny = new LinearLayout(this);
         filterLiny.setOrientation(LinearLayout.VERTICAL);
         for(SearchField field : myFields)
@@ -126,22 +147,36 @@ public class BuggyMain extends AppCompatActivity {
 
             switch(field.getType()){
                 case DROP:{
-                    Spinner dropDown = new Spinner(this);
                     List<String> dropOptions = field.getOptions();
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropOptions);
-                    dropDown.setAdapter(adapter);
-                    linyLayout.addView(dropDown);
+                    //if size is two it is actualy going to be a checkbox
+                    if(dropOptions.size() == 2)
+                    {
+                        CheckBox yesno = new CheckBox(this);
+                        myCheckies.add(yesno);
+                        linyLayout.addView(yesno);
+                    }
+                    else{
+                        Spinner dropDown = new Spinner(this);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropOptions);
+                        dropDown.setAdapter(adapter);
+                        myDropies.add(dropDown);
+                        linyLayout.addView(dropDown);
+                    }
                     break;
                 }
                 case TEXT:{
                     EditText textField = new EditText(this);
                     textField.setSingleLine(true);
+                    queries.add(new QueryTuple(field.getLabel(), textField));
                     linyLayout.addView(textField);
                     break;
                 }
                 case CHECK:{
-                    CheckBox checkField = new CheckBox(this);
-                    linyLayout.addView(checkField);
+                    //Colors is actually a multi spinner dropdown
+                    //for colors since it can have multiple colors
+                    List<String> availableColors = field.getOptions();
+                    colorS.setItems(availableColors);
+                    linyLayout.addView(colorS);
                     break;
                 }
 
@@ -153,7 +188,27 @@ public class BuggyMain extends AppCompatActivity {
         searchButton.setText("SEARCH");
         filterLiny.addView(searchButton);
         filterScroll.addView(filterLiny);
+        makeQuery(queries, colorS);
 
     }
+
+
+
+    public void makeQuery(ArrayList<QueryTuple> queryables, MultiSelectionSpinner colorS){
+        List<String> selectColors = colorS.getSelectedStrings();
+    }
+
+    private class QueryTuple{
+        public String viewLabel;
+        public View myView;
+
+
+        public QueryTuple(String viewLabel, View myView) {
+            this.viewLabel = viewLabel;
+            this.myView = myView;
+        }
+    }
+
+
 
 }
