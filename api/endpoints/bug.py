@@ -109,7 +109,7 @@ class BugRegisterEndpoint(AdminAuthedResource):
                           thin_body=json_data["thin_body"],
                           description=json_data["description"],
                           additional_advice=json_data["additional_advice"],
-                          approved=False)
+                          approved=True)
             session.add(new_bug)
             session.commit()
 
@@ -180,7 +180,7 @@ class getBugEndpoint(Resource):
                             "hind_legs_jump": hind_legs_jump,
                             "hairy_furry": hairy_furry},
                             "sightings": sightings,
-                            "pictures": pictures,
+                            "pictures": pictures
                             }) 
                                        
         except Exception as e:
