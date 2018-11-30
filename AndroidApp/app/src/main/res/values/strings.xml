@@ -8,7 +8,6 @@
     <string name="action_success">Success</string>
     <string name="error_conversion">Conversion error</string>
     <string name="error_internet">No internet</string>
-    <string name="fatalError">fatal error occurred, please try again</string>
 
     <!-- login/register -->
     <string name="title_activity_register">Register</string>
