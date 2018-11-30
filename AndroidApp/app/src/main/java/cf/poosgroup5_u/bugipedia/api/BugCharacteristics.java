@@ -1,7 +1,12 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import android.util.Pair;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BugCharacteristics {
 
@@ -95,6 +100,19 @@ public class BugCharacteristics {
 
     public Boolean hasWings() {
         return wings;
+    }
+
+    public List<Pair<String, String>> getAllCharacteristics() {
+        ArrayList<Pair<String, String>> returnList = new ArrayList<>();
+
+        //iterate over all characteristics
+        for (String characteristic : this.toString().split("\\n")){
+            //split the label and the value
+            String[] split = characteristic.split(":");
+            returnList.add(new Pair<String, String>(split[0] + ':', split[1]));
+        }
+
+        return returnList;
     }
 
     @Override
