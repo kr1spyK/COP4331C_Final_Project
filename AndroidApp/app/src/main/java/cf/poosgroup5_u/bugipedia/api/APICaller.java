@@ -33,19 +33,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class APICaller {
 
+    public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
     protected static Retrofit retrofit;
     private static boolean debugLoggingEnabled = false;
     private static APIEndpoints api;
     private static String authToken = AppUtils.DEFAULT_AUTH_TOKEN;
 
-    public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
-
     /**
      * creates
      * @param enableDebugLogging
      */
-    private static void setCaller(boolean enableDebugLogging) {
-
+    private static void setCaller(boolean enableDebugLogging){
         if (enableDebugLogging){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
@@ -81,11 +79,8 @@ public class APICaller {
                     .addConverterFactory(GsonConverterFactory.create(createGson()))
                     .client(client)
                     .build();
-
         }
-
     }
-
 
     /**
      * Creates an instance of {@link APIEndpoints} backed by {@link Retrofit} for contacting an API server
@@ -108,7 +103,7 @@ public class APICaller {
     /**
      * Method which will recreate the {@link APICaller} with debug-logging functionality enabled/disabled for the {@link Retrofit} and {@link OkHttpClient} abstracted underneath. <br/>
      *
-     * @param enable True to enable debug logging in the app for API related activites, False otherwise. <br/> Method will do no action if the APICaller is already in the specified state set by the arugment.
+     * @param enable True to enable debug logging in the app for API related activities, False otherwise. <br/> Method will do no action if the APICaller is already in the specified state set by the argument.
      */
     public static void enableDebugLogging(boolean enable) {
         if (debugLoggingEnabled != enable){
@@ -118,7 +113,7 @@ public class APICaller {
 
     }
 
-    //only accessable by test methods and subclasses
+    //only accessible by test methods and subclasses
     static void updateAuthToken(String newAuthToken){
         authToken = newAuthToken;
         api = null;
@@ -174,7 +169,6 @@ public class APICaller {
             }
         };
 
-
         //GSon for custom serialization and deserialzation for Java objects
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
@@ -182,9 +176,7 @@ public class APICaller {
                 .create();
 
         return gson;
-
     }
-
 
     /**
      * Private class meant to add the Auth token to all requests to the API
@@ -198,12 +190,8 @@ public class APICaller {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            //todo replace with actual value for interceptor
             Request request = chain.request().newBuilder().addHeader("X-Auth-Token", authToken).build();
             return chain.proceed(request);
         }
     }
-
-
-
 }

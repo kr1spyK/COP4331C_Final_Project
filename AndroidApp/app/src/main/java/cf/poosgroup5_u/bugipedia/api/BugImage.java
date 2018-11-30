@@ -26,11 +26,11 @@ public class BugImage {
 
     @SerializedName("url")
     @Expose(serialize = false)
-    public String url;
+    private String url;
 
     @SerializedName("imageId")
     @Expose
-    public Integer imageID;
+    private Integer imageID;
 
 
 
@@ -50,7 +50,6 @@ public class BugImage {
         this.image = base64Image;
     }
 
-
     public Integer getBugID() {
         return bugID;
     }
@@ -65,6 +64,8 @@ public class BugImage {
 
     //converts an image from Bitmap to BASE64 Jpeg
     private String convertImage(Bitmap image) {
+        if (image == null) return "";
+
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         if (image.compress(Bitmap.CompressFormat.JPEG, COMPRESSION_VALUE, byteStream)){
             return Base64.encodeToString(byteStream.toByteArray(), Base64.DEFAULT);

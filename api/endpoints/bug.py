@@ -109,7 +109,7 @@ class BugRegisterEndpoint(AdminAuthedResource):
                           thin_body=json_data["thin_body"],
                           description=json_data["description"],
                           additional_advice=json_data["additional_advice"],
-                          approved=False)
+                          approved=True)
             session.add(new_bug)
             session.commit()
 
@@ -163,6 +163,9 @@ class getBugEndpoint(Resource):
 
             return jsonify({"success": 1,
                             "common_name": common_name,
+                            "description": description,
+                            "additional_advice": additional_advice,
+                            "characteristics":{
                             "scientific_name": scientific_name,
                             "class": _class,
                             "order": order,
@@ -175,11 +178,10 @@ class getBugEndpoint(Resource):
                             "wings": wings,
                             "antenna": antenna,
                             "hind_legs_jump": hind_legs_jump,
-                            "hairy_furry": hairy_furry,
-                            "description": description,
-                            "additional_advice": additional_advice,
-                            "pictures": pictures,
-                            "sightings": sightings}) 
+                            "hairy_furry": hairy_furry},
+                            "sightings": sightings,
+                            "pictures": pictures
+                            }) 
                                        
         except Exception as e:
             return jsonify({"success": -1,
