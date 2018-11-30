@@ -39,8 +39,12 @@
     <string name="sightingNotChosen">Please select a location.</string>
     <string name="confirmBugSightingMessage">Is this the correct location that you saw the bug?</string>
     <string name="sightingAdded">Sighting added successfully!</string>
+    <string name="uploadErrorMessage">An error occurred during upload. Please Try again.</string>
+    <string name="UploadSuccess">Upload Successful!</string>
+    <string name="errorOpenImage">Unable to open image.</string>
+    <string name="fatalError">fatal error occurred, please try again.</string>
+    <string name="title_activity_add_picture_acivity">AddPictureAcivity</string>
 
-    <string name="uploadErrorMessage">An error occurred during upload. Please try again.</string>
     <string name="search_database">Search DB</string>
     <string name="login">Login</string>
     <string name="yes">Yes</string>
