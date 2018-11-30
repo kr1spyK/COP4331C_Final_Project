@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cf.poosgroup5_u.bugipedia">
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -52,6 +51,7 @@
             android:name=".AddPictureActivity"
             android:label="@string/title_activity_add_picture_acivity"
             android:theme="@style/AppTheme">
+
         </activity>
 
         <activity

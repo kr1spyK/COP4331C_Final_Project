@@ -1,8 +1,11 @@
 package cf.poosgroup5_u.bugipedia;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,6 +13,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +49,9 @@ public class AddPictureActivity extends AppCompatActivity {
     //Variable so DBEntry can call it
     public static final String BUG_ID = "BUG_ID";
 
+    ProgressDialog progress;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,27 +67,33 @@ public class AddPictureActivity extends AppCompatActivity {
         // get access to upload button
         uploadButton = findViewById(R.id.button_upload);
 
-
-   //     FloatingActionButton fab = findViewById(R.id.fab);
-   //       fab.setOnClickListener(new View.OnClickListener() {
-
-   //   Grab bugID from the ViewDBEntry
+        // Grab bugID from the ViewDBEntry
         bugID = getIntent().getExtras().getInt(BUG_ID);
-
+        
+//      // for testing:
+//      bugID = 1;
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show(); */
-                SelectImage();
+                //SelectImage();
+                if(checkPermissions()){
+                    SelectImage();
+                }else{
+                    Log.e(getLocalClassName(), "Permissions not Granted.");
+                }
             }
         });
+
+        //Call the progress spinner method
+        progress =  createProgressSpinner();
     }
 
     //Select from Menu.
     private void SelectImage() {
-        //final ActionBar.DisplayOptions[] items = {"Camera", "Gallery", "Cancel"};
+
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPictureActivity.this);
@@ -129,8 +143,10 @@ public class AddPictureActivity extends AppCompatActivity {
                 uploadButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-   //Call upload image to server method
-                        uploadImageApiButton(bmp);
+
+                            //Call upload image to server method
+                            uploadImageApiButton(bmp);
+                            //Inside uploadImageApiButton: start animation for uploading
                     }
                 });
 
@@ -153,8 +169,9 @@ public class AddPictureActivity extends AppCompatActivity {
                     uploadButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
- ////Call upload image to server method
+                            //Call upload image to server method
                             uploadImageApiButton(image);
+                            //Inside uploadImageApiButton: start animation for uploading
                         }
                     });
 
@@ -162,23 +179,60 @@ public class AddPictureActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     //show message to user that image in unavailable.
-                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.errorOpenImage, Toast.LENGTH_LONG).show();
                 }
 
             }//end of elseif
         }//end of outer if.
     }
 
+
+
+    //Progress spinner to let user know image is being uploaded
+    private ProgressDialog createProgressSpinner() {
+        //https://stackoverflow.com/questions/18579030/prevent-progressdialog-from-getting-dismissed-by-onclick
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading Image");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
+    }
+
+
+    //Check permissions
+    public boolean checkPermissions() {
+        Log.e(getLocalClassName(), "checkPermissions: asking user for permissions");
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA};
+
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED &&
+           ContextCompat.checkSelfPermission(getApplicationContext(), permissions[1]) == PackageManager.PERMISSION_GRANTED &&
+           ContextCompat.checkSelfPermission(getApplicationContext(), permissions[2]) == PackageManager.PERMISSION_GRANTED ){
+
+           return true;
+
+        }else{
+
+            return false;
+        }
+    }
+
+
+
+
     private void uploadImageApiButton(Bitmap bmp) {
         //Button is disabled at first.
         uploadButton.setEnabled(false);
 
         //let user know we're uploading
-
+        progress.show();
 
         //upload api call
         //TODO: "1 was bugID"
-        BugImage bugImage = new BugImage(bugID, bmp); //get the bugID from the ViewDB activity which will pass it to you in an Intent.
+        BugImage bugImage = new BugImage(bugID, bmp); //-->> get the bugID from the ViewDB activity which will pass it to you in an Intent.
 
         APICaller.call().addImage(bugImage).enqueue(new Callback<Result>() {
             @Override
@@ -191,22 +245,30 @@ public class AddPictureActivity extends AppCompatActivity {
                         Toast.makeText(AddPictureActivity.this, R.string.UploadSuccess, Toast.LENGTH_LONG).show();
                         //re-enable image button
                         uploadButton.setEnabled(true);
+                        //stop uploading animation
+                        progress.dismiss();
 
                         finish();
                     }else{
                         Log.e(AddPictureActivity.this.getLocalClassName(), response.message());
-                        Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddPictureActivity.this, R.string.uploadErrorMessage, Toast.LENGTH_LONG).show();
 
                         //re-enable image button
                         uploadButton.setEnabled(true);
+
+                        //stop uploading animation
+                        progress.dismiss();
                     }
                 }else{
                     //Check if it wasn't successfully uploaded
                     Log.e(AddPictureActivity.this.getLocalClassName(), response.message());
-                    Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddPictureActivity.this, R.string.uploadErrorMessage, Toast.LENGTH_LONG).show();
 
                     //re-enable image button
                     uploadButton.setEnabled(true);
+
+                    //stop uploading animation
+                    progress.dismiss();
                 }
 
             }
@@ -216,31 +278,16 @@ public class AddPictureActivity extends AppCompatActivity {
                 //Log the error and report it to the user that their upload failed
 
                 Log.e(AddPictureActivity.this.getLocalClassName(), t.getMessage() ,t);
-                Toast.makeText(AddPictureActivity.this, R.string.UploadError, Toast.LENGTH_LONG).show();
+                Toast.makeText(AddPictureActivity.this, R.string.uploadErrorMessage, Toast.LENGTH_LONG).show();
                 //re-enable image button
                 uploadButton.setEnabled(true);
+
+                //stop uploading animation
+                progress.dismiss();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
-    @Override
-     public boolean onOptionsItemSelected (MenuItem item){
-
-        int id = item.getItemId();
-
-        if(id == R.id.action_camera) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }//end of class.
 
