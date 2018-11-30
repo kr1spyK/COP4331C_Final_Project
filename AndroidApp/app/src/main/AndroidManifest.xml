@@ -51,7 +51,6 @@
             android:name=".AddPictureActivity"
             android:label="@string/title_activity_add_picture_acivity"
             android:theme="@style/AppTheme">
-
         </activity>
 
         <activity

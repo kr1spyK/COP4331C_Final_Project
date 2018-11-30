@@ -69,7 +69,7 @@ public class AddPictureActivity extends AppCompatActivity {
 
         // Grab bugID from the ViewDBEntry
         bugID = getIntent().getExtras().getInt(BUG_ID);
-        
+
 //      // for testing:
 //      bugID = 1;
 
@@ -215,9 +215,9 @@ public class AddPictureActivity extends AppCompatActivity {
            return true;
 
         }else{
-
-            return false;
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CAMERA);
         }
+        return false;
     }
 
 
