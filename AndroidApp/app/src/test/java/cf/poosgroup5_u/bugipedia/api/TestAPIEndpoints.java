@@ -284,5 +284,31 @@ public class TestAPIEndpoints {
 
     }
 
+    @Test
+    public void testGetBugEntry() throws Exception{
+        final CompletableFuture<BugEntry> future = new CompletableFuture<>();
+
+
+        BugInfo buginfo = new BugInfo(1);
+        APICaller.call().getBugEntry(buginfo).enqueue(new Callback<BugEntry>() {
+            @Override
+            public void onResponse(Call<BugEntry> call, Response<BugEntry> response) {
+
+                future.complete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BugEntry> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+
+        Assert.assertTrue(future.get().getErrorMessage(), future.get().wasSuccessful());
+
+
+            System.out.println(future.get() + "\n");
+
+    }
+
 
 }
