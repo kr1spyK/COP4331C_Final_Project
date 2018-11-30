@@ -58,8 +58,6 @@ public class AddPictureActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_picture_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         // get access to the image view.
         ivImage = (ImageView) findViewById(R.id.ivImage);
