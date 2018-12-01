@@ -1,8 +1,17 @@
 package cf.poosgroup5_u.bugipedia.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import cf.poosgroup5_u.bugipedia.R;
 
 /**
  * Contains global Utilities to be used by multiple classes in the App
@@ -14,6 +23,7 @@ public class AppUtils {
     public static final String sessionIDKey = "authToken";
     public static final String firstTimeUseKey = "firstTimeUse";
     public static final String globalAppPref = "BugipediaPreferences";
+    public static final String BUG_INFO_KEY = "BugIDWrapper";
 
 
     /**
@@ -34,6 +44,38 @@ public class AppUtils {
      */
     public static boolean isFirstTime(Context context){
         return  getGlobalPreferences(context).getBoolean(firstTimeUseKey, true);
+    }
+
+    /**
+     * Method which will Asynchronously load an image into a {@link ImageView} when given a URL to an image from the internet. <br/>
+     * Uses {@link Picasso} as a image caching backend to save time and memory for the app.<br/>
+     * Guaranteed to fill the ImageView with an image. If the image cannot be obtianed it will display
+     * an alterative error picture (as well as throw a toast message). <br/>
+     * Will also have a placeholder image while the main image loads. <br/>
+     * Can handle null strings passed to it. Will only display a placeholder image.
+     *
+     * @param imageURL - URL to a network image
+     * @param imageHolder an {@link ImageView} object or a derivative to send the picture once loaded
+     * @param context - calling Context/Activity
+     */
+    public static void loadImageIntoView(String imageURL, ImageView imageHolder, final Context context){
+        Picasso.get().load(imageURL)
+                .error(R.drawable.placeholder_bug_error)
+                .placeholder(R.drawable.placeholder_bug)
+                .into(imageHolder, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e(context instanceof Activity ? (((Activity) context).getLocalClassName()) : "AppUtils Image Loader", e.getMessage(), e);
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
     }
 
     /////////////////////////NETWORKING UTIL METHODS///////////////////////

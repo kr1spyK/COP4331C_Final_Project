@@ -129,7 +129,7 @@ public class APICaller {
     public static void updateAuthToken(String newAuthToken, Context context){
         //set the value in the global storage
         AppUtils.getGlobalPreferences(context).edit()
-                .putString(AppUtils.globalAppPref, newAuthToken).apply();
+                .putString(AppUtils.sessionIDKey, newAuthToken).apply();
 
         updateAuthToken(newAuthToken);
     }
