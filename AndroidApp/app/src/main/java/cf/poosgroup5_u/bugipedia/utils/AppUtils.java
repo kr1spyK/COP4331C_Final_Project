@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import cf.poosgroup5_u.bugipedia.BuildConfig;
 import cf.poosgroup5_u.bugipedia.R;
 
 /**
@@ -59,6 +60,14 @@ public class AppUtils {
      * @param context - calling Context/Activity
      */
     public static void loadImageIntoView(String imageURL, ImageView imageHolder, final Context context){
+
+        //fix for broken wikimedia links that the database team uploaded
+        if (imageURL.contains("wikimedia"))
+            imageURL = imageURL.trim().replace(" ", "%");
+
+        if (BuildConfig.DEBUG)
+            Picasso.get().setIndicatorsEnabled(true);
+
         Picasso.get().load(imageURL)
                 .error(R.drawable.placeholder_bug_error)
                 .placeholder(R.drawable.placeholder_bug)
