@@ -51,7 +51,7 @@ public class AppUtils {
 
     /**
      * Returns the value in the global storage for the Session ID value. <br/>
-     * Will return {@link #DEFAULT_AUTH_TOKEN} if the value cannot be found or hasnt been chaged.
+     * Will return {@link #DEFAULT_AUTH_TOKEN} if the value cannot be found or hasn't been changed.
      * @param context The calling context, If calling from an activity simply put: <code>this</code>
      * @return the Session ID if the user is logged in. or {@link #DEFAULT_AUTH_TOKEN}
      * @see AppUtils#isLoggedIn(Context)
