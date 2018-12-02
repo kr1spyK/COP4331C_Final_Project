@@ -113,7 +113,6 @@ function searchBugsAndPopulateTable()
 function addRowOnTable(table, item, index)
 {
     if (item != null) {
-        var contactType = item.contactType;
 
         $(table).find('tbody').append("<tr><td>" + item.common_name +
             "</td><td>" + item.scientific_name + "</td><td> <button type='button' id='button" +
@@ -128,13 +127,66 @@ function addRowOnTable(table, item, index)
 function editBug(bugID)
 {
     // go to edit bug page
-    window.location.replace(urlBase + "edit2.html");
-
-    // get the bug info
-    // the get bug api is in progress
-
-
+    localStorage.setItem("editbugID", bugID);
+    window.location.replace("http://localhost:3000/" + "edit2.html");
 }
+
+function setUpEditPage() {
+    // get the bug info
+    bugID = localStorage.getItem("editbugID");
+    var jsonPayload = '{"id":' + bugID + '}';
+    var url = urlBase + 'api/getBug';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.send(jsonPayload);
+
+        var bug = JSON.parse(xhr.responseText);
+
+        if (bug.success == 1) {
+            document.getElementById("titleBug").innerHTML = "Editing " + bug.common_name;
+            document.getElementById("common_name").value = bug.common_name;
+            document.getElementById("scientific_name").value = bug.characteristics.scientific_name;
+            document.getElementById("class").value = bug.characteristics.class;
+            document.getElementById("order").value = bug.characteristics.order;
+            document.getElementById("family").value = bug.characteristics.family;
+            document.getElementById("genus").value = bug.characteristics.genus;
+            document.getElementById("color_1").value = bug.characteristics.color1;
+            document.getElementById("color_2").value = bug.characteristics.color2;
+            document.getElementById("general_type").value = bug.characteristics.general_type;
+            document.getElementById("mouth_parts").value = bug.characteristics.mouth_parts;
+            document.getElementById("description").value = bug.description;
+            document.getElementById("additional_advice").value = bug.additional_advice;
+            if (bug.characteristics.wings)
+                document.getElementById("wings").options[1].selected = true;
+            if (! bug.characteristics.antenna)
+                document.getElementById("antenna").options[1].selected = true;
+            if (bug.characteristics.hind_legs_jump)
+                document.getElementById("hind_legs").options[1].selected = true;
+            if (bug.characteristics.hairy_furry)
+                document.getElementById("hairy_furry").options[1].selected = true;
+            //if (bug.characteristics.thin)
+            //    document.getElementById("thin_body").options[1].selected = true;
+
+        }
+        else {
+            window.location.replace(urlBase + "404.html");
+        }
+
+
+    }
+    catch (err) {
+        alert(err);
+    }
+}
+
+//function submitEdit()
+//{
+
+//}
 
 function addBug()
 {
@@ -193,15 +245,20 @@ function addBug()
 
     try {
         xhr.send(jsonPayload);
-        var result = JSON.parse(xhr.responseText).success;
+        var JSONresult = JSON.parse(xhr.responseText)
+        var result = JSONresult.success;
 
         if (result == 1) {
             // successfully added bug
             $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Added bug. </div>');
-
         }
         else {
-            $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Could not add bug!</strong> Is it already in the database? </div>');
+            if (JSONresult.message == "This resource is for admins only") {
+                $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Could not add bug!</strong> Only admins can add bugs! </div>');
+            }
+            else {
+                $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Could not add bug!</strong> Is it already in the database? </div>');
+            }
 
         }
 
@@ -211,17 +268,158 @@ function addBug()
     }
 }
 
-//function submitEdit()
+function PopulateTable()
+{
+    var jsonPayload = '{}';
+    var url = urlBase + 'api/';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.send(jsonPayload);
+
+        var JSONObjectsArr = JSON.parse(xhr.responseText);
+
+        if (JSONObjectsArr.success == 1) {
+            var table = document.getElementById("dataTable");
+            var arr = Array.from(JSONObjectsArr.results);
+            arr.forEach(function (item, index) {
+                addRowOnApproveTable(table, item, index)
+            });
+
+            $(document).ready(function () {
+                $('#dataTable').DataTable();
+            });
+        }
+
+    }
+    catch (err) {
+        alert(err);
+    }
+}
+
+function addRowOnApproveTable(table, item, index) {
+    if (item != null) {
+        var old = "";
+        var newedits = "";
+        var oldBug;
+        var newBug;
+
+        // get old bug
+        var jsonPayload = '{"id":"' + item.BugIDOld + '"}';
+        var url = urlBase + 'api/getBug';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try {
+            xhr.send(jsonPayload);
+            oldBug = JSON.parse(xhr.responseText);      
+        }
+        catch (err) {
+            alert(err);
+            return;
+        }
+
+        // get new bug
+        var jsonPayload = '{"id":"' + item.BugIDNew + '"}';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+        try {
+            xhr.send(jsonPayload);
+            newBug = JSON.parse(xhr.responseText);
+        }
+        catch (err) {
+            alert(err);
+            return;
+        }
+
+        // set up strings
+        old = oldBug.common_name + " / " + oldBug.characteristics.scientific_name + "\n";
+        newedits = newBug.common_name + " / " + newBug.characteristics.scientific_name + "\n";
+
+        // add any differences to the strings
+        if (oldBug.characteristics.class != newBug.characteristics.class) {
+            old = old + "class: " + oldBug.characteristics.class + "\n";
+            newedits = newedits + "class:" + newBug.characteristics.class + "\n";
+        }
+        if (oldBug.characteristics.order != newBug.characteristics.order) {
+            old = old + "order: " + oldBug.characteristics.order + "\n";
+            newedits = newedits + "order:" + newBug.characteristics.order + "\n";
+        }
+        if (oldBug.characteristics.family != newBug.characteristics.family) {
+            old = old + "family: " + oldBug.characteristics.family + "\n";
+            newedits = newedits + "family:" + newBug.characteristics.family + "\n";
+        }
+        if (oldBug.characteristics.genus != newBug.characteristics.genus) {
+            old = old + "genus: " + oldBug.characteristics.genus + "\n";
+            newedits = newedits + "genus:" + newBug.characteristics.genus + "\n";
+        }
+        if (oldBug.characteristics.color1 != newBug.characteristics.color1) {
+            old = old + "Primary color: " + oldBug.characteristics.color1 + "\n";
+            newedits = newedits + "Primary color:" + newBug.characteristics.color1 + "\n";
+        }
+        if (oldBug.characteristics.color2 != newBug.characteristics.color2) {
+            old = old + "Secondary color: " + oldBug.characteristics.color2 + "\n";
+            newedits = newedits + "Secondary color:" + newBug.characteristics.color2 + "\n";
+        }
+        if (oldBug.characteristics.antenna != newBug.characteristics.antenna) {
+            old = old + "Antenna: " + oldBug.characteristics.antenna + "\n";
+            newedits = newedits + "Antenna:" + newBug.characteristics.antenna + "\n";
+        }
+        if (oldBug.characteristics.general_type != newBug.characteristics.general_type) {
+            old = old + "General type: " + oldBug.characteristics.general_type + "\n";
+            newedits = newedits + "General type:" + newBug.characteristics.general_type + "\n";
+        }
+        if (oldBug.characteristics.hairy_furry != newBug.characteristics.hairy_furry) {
+            old = old + "Furry: " + oldBug.characteristics.hairy_furry + "\n";
+            newedits = newedits + "Furry:" + newBug.characteristics.hairy_furry + "\n";
+        }
+        if (oldBug.characteristics.hind_legs_jump != newBug.characteristics.hind_legs_jump) {
+            old = old + "Jumping legs: " + oldBug.characteristics.hind_legs_jump + "\n";
+            newedits = newedits + "Jumping legs:" + newBug.characteristics.hind_legs_jump + "\n";
+        }
+        if (oldBug.characteristics.mouth_parts != newBug.characteristics.mouth_parts) {
+            old = old + "Mouth parts: " + oldBug.characteristics.mouth_parts + "\n";
+            newedits = newedits + "Mouth parts:" + newBug.characteristics.mouth_parts + "\n";
+        }
+        if (oldBug.characteristics.wings != newBug.characteristics.wings) {
+            old = old + "Wings: " + oldBug.characteristics.wings + "\n";
+            newedits = newedits + "Wings:" + newBug.characteristics.wings + "\n";
+        }
+        if (oldBug.description != newBug.description) {
+            old = old + "Description: " + oldBug.description + "\n";
+            newedits = newedits + "Description:" + newBugs.description + "\n";
+        }
+        if (oldBug.additional_advice != newBug.additional_advice) {
+            old = old + "Additional advice: " + oldBug.additional_advice + "\n";
+            newedits = newedits + "Additional advice:" + newBugs.additional_advice + "\n";
+        }
+        
+
+        // add row to table
+        $(table).find('tbody').append("<tr><td>" + old +
+            "</td><td>" + newedits + "</td><td> <button type='button' id='approvebutton" +
+            item.id + "'>Approve!</button> </td><td> <button type='rejectbutton' id='button" +
+            item.id + "'>Reject!</button> </td></tr>");
+
+        var btn = document.getElementById("approvebutton" + item.id);
+        btn.onclick = function () { approveEdit(item.id) };
+        var btn = document.getElementById("rejectbutton" + item.id);
+        btn.onclick = function () { rejectEdit(item.id) };
+    }
+}
+
+
+//function approveEdit(rowID)
 //{
 
 //}
 
-//function approveEdit()
-//{
-
-//}
-
-//function rejectEdit()
+//function rejectEdit(rowID)
 //{
 
 //}

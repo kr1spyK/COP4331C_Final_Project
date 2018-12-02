@@ -25,7 +25,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="setUpEditPage()">
 
     <div id="addMessage">
     </div>
@@ -80,10 +80,29 @@
             <div class="container-fluid">
 
                 <!-- Page Content -->
-                <h1 style="text-align: center">Edit [foo-bar]</h1>
+                <h1 style="text-align: center" id="titleBug">Edit [foo-bar]</h1>
                 <br>
 
                 <form>
+                    <!-- name -->
+                    <div class="form-group">
+                        <div class="form-row">
+                            <!-- Common Name -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="common_name" class="form-control" placeholder="Common Name" required="required">
+                                    <label for="common_name">Common Name</label>
+                                </div>
+                            </div>
+                            <!-- Scientific Name -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="scientific_name" class="form-control" placeholder="Scientific Name" required="required">
+                                    <label for="scientific_name">Scientific Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- class -->
                     <div class="form-group">
                         <div class="form-label-group">
@@ -173,7 +192,7 @@
 
                     <!-- hind legs -->
                     <div class="form-group">
-                        <label for="hind_legs">Hind Legs</label>
+                        <label for="hind_legs">Hind Legs Modified for Jumping</label>
                         <select class="form-control" id="hind_legs">
                             <option>False</option>
                             <option>True</option>
@@ -198,13 +217,13 @@
                         </select>
                     </div>
 
-            <!-- description -->
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" id="description" class="form-control" placeholder="Description" required="required">
-                <label for="description">Description</label>
-              </div>
-            </div>
+                    <!-- description -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="description" class="form-control" placeholder="Description" required="required">
+                            <label for="description">Description</label>
+                        </div>
+                    </div>
 
                     <!-- additional advice -->
                     <div class="form-group">
