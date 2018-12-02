@@ -9,6 +9,8 @@ public class StartupApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Checking for FirstTime should be done in the main activity.
+        // Starting activity intents from here is kinda iffy.
 //        if (AppUtils.isFirstTime(this)) {
 //            ;
 //        }
