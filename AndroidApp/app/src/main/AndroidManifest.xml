@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name=".StartupApplication"
+        android:name="StartupApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+      
         <!-- required to be compatible with Oreo (9.0) -->
         <uses-library
             android:name="org.apache.http.legacy"
@@ -45,8 +45,8 @@
 
         <activity android:name=".FirstTimeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -76,7 +76,7 @@
             android:windowSoftInputMode="stateVisible">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="cf.poosgroup5_u.bugipedia.LoginActivity" />
+                android:value="cf.poosgroup5_u.bugipedia.LoginActivity"/>
         </activity>
 
     </application>
