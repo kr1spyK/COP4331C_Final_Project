@@ -156,6 +156,7 @@ class getBugEndpoint(Resource):
             antenna = bug.antenna
             hind_legs_jump = bug.hind_legs_jump
             hairy_furry = bug.hairy_furry
+            thin_body = bug.thin_body
             description = bug.description
             additional_advice = bug.additional_advice  
             pictures = [{"url": s.picture_link} for s in bug.pictures if s.picture_link]
@@ -178,7 +179,8 @@ class getBugEndpoint(Resource):
                             "wings": wings,
                             "antenna": antenna,
                             "hind_legs_jump": hind_legs_jump,
-                            "hairy_furry": hairy_furry},
+                            "hairy_furry": hairy_furry,
+                            "thin_body": thin_body},
                             "sightings": sightings,
                             "pictures": pictures
                             }) 
