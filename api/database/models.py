@@ -10,6 +10,13 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
+class Submission(Base):
+    __tablename__ = 'submissions'
+    id = Column(Integer, primary_key=True)
+    bug_id_old = Column(Integer, primary_key=False)
+    bug_id_new = Column(Integer, primary_key=False)
+
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)

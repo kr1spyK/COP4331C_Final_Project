@@ -27,6 +27,9 @@ api.add_resource(AddImageEndpoint, '/addImage')
 api.add_resource(GetImagesEndpoint, '/getImages')
 api.add_resource(FlagImagesEndpoint, '/flagImage')
 api.add_resource(getBugEndpoint, "/getBug")
+api.add_resource(EditBugEndpoint, "/editBug")
+api.add_resource(GetEditsEndpoint, "/getEdits")
+api.add_resource(ApproveEditEndpoint, "/approveEdit")
 
 if __name__ == '__main__':
     app.run(debug=False, port=8080)
