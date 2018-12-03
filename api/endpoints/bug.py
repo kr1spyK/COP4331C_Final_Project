@@ -190,7 +190,7 @@ class getBugEndpoint(Resource):
                             "error": "Error getting bug: " + str(e)})
 
 
-class EditBugEndpoint(AdminAuthedResource):
+class EditBugEndpoint(AuthedResource):
     def post(self):
         
         # Define required fields
