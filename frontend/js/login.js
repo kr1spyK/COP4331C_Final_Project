@@ -128,7 +128,7 @@ function editBug(bugID)
 {
     // go to edit bug page
     localStorage.setItem("editbugID", bugID);
-    window.location.replace("http://localhost:3000/" + "edit2.html");
+    window.location.replace(urlBase + "edit2.html");
 }
 
 function setUpEditPage() {
@@ -223,7 +223,7 @@ function addBug()
     } catch (e) {
         $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible" id="errorRegister">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Error!</strong> Could not add bug. </div>');
     }
-    
+
 
     // check if any fields are empty
     if (commonName == "" || scientificName == "" || clss == "" || order == "" || family == "" || genus == "" || color1 == "" || color2 == "" || type == "" || mouth == "" || descrip == "" || additional == "")
@@ -315,7 +315,7 @@ function addRowOnApproveTable(table, item, index) {
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         try {
             xhr.send(jsonPayload);
-            oldBug = JSON.parse(xhr.responseText);      
+            oldBug = JSON.parse(xhr.responseText);
         }
         catch (err) {
             alert(err);
@@ -398,7 +398,7 @@ function addRowOnApproveTable(table, item, index) {
             old = old + "Additional advice: " + oldBug.additional_advice + "\n";
             newedits = newedits + "Additional advice:" + newBugs.additional_advice + "\n";
         }
-        
+
 
         // add row to table
         $(table).find('tbody').append("<tr><td>" + old +
