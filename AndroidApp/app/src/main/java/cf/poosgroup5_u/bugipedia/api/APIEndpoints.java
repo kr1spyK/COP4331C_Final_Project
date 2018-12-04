@@ -45,4 +45,8 @@ public interface APIEndpoints {
 
     @POST("flagImage")
     Call<Result> flagImage(@Body BugImage bugImage);
+
+    @POST("getBug")
+    Call<BugEntry> getBugEntry(@Body BugInfo bugInfo);
+
 }
