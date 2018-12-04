@@ -24,6 +24,8 @@ function doLogin()
         var success = jsonObject.success;
         if (success < 1) {
             // error
+            $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Login failed!</strong> Make sure you typed everything correctly. </div>');
+
             return false;
         } else {
             //successful login
@@ -168,12 +170,75 @@ function setUpEditPage() {
                 document.getElementById("hind_legs").options[1].selected = true;
             if (bug.characteristics.hairy_furry)
                 document.getElementById("hairy_furry").options[1].selected = true;
-            //if (bug.characteristics.thin)
-            //    document.getElementById("thin_body").options[1].selected = true;
+            if (bug.characteristics.thin_body)
+                document.getElementById("thin_body").options[1].selected = true;
 
         }
         else {
             window.location.replace(urlBase + "404.html");
+        }
+
+    }
+    catch (err) {
+        alert(err);
+    }
+}
+
+function submitEdit()
+{
+    bugID = localStorage.getItem("editbugID");
+    var wings, antenna, legs, furry, thin;
+
+    if (document.getElementById("wings").options[1].selected == true)
+        wings = 1;
+    else
+        wings = 0;
+    if (document.getElementById("antenna").options[1].selected == true)
+        antenna = 0;
+    else
+        antenna = 1;
+    if (document.getElementById("hind_legs").options[1].selected == true)
+        legs = 1;
+    else
+        legs = 0;
+    if (document.getElementById("hairy_furry").options[1].selected == true)
+        furry = 1;
+    else
+        furry = 0;
+    if (document.getElementById("thin_body").options[1].selected == true)
+        thin = 1;
+    else
+        thin = 0;
+
+
+
+    var jsonPayload = '{"common_name":"' + document.getElementById("common_name").value +
+        '", "scientific_name":"' + document.getElementById("scientific_name").value +
+        '", "class":"' + document.getElementById("class").value + '", "order":"' + document.getElementById("order").value +
+        '", "family":"' + document.getElementById("family").value + '", "genus":"' + document.getElementById("genus").value +
+        '", "color_1":"' + document.getElementById("color_1").value + '", "color_2":"' + document.getElementById("color_2").value +
+        '", "general_type":"' + document.getElementById("general_type").value + '", "mouth_parts":"' + document.getElementById("mouth_parts").value +
+        '", "wings": ' + wings + ', "antenna": ' + antenna + ', "hind_legs_jump": ' + legs + ', "hairy_furry": ' + furry +
+        ', "thin_body": ' + thin + ', "description":"' + document.getElementById("description").value +
+        '", "additional_advice":"' + document.getElementById("additional_advice").value + '", “bugid”: ' + bugID + '}';
+    var url = urlBase + 'api/editBug';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.send(jsonPayload);
+
+        var results = JSON.parse(xhr.responseText);
+
+        if (results.success == 1) {
+            
+            $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit has been added to submission list. </div>');
+
+        }
+        else {
+            $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Error!</strong> Edit could not be submitted. Try again later. </div>');
         }
 
 
@@ -182,11 +247,6 @@ function setUpEditPage() {
         alert(err);
     }
 }
-
-//function submitEdit()
-//{
-
-//}
 
 function addBug()
 {
@@ -271,10 +331,10 @@ function addBug()
 function PopulateTable()
 {
     var jsonPayload = '{}';
-    var url = urlBase + 'api/';
+    var url = urlBase + 'api/getEdits';
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, false);
+    xhr.open("GET", url, false);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
     try {
@@ -284,7 +344,7 @@ function PopulateTable()
 
         if (JSONObjectsArr.success == 1) {
             var table = document.getElementById("dataTable");
-            var arr = Array.from(JSONObjectsArr.results);
+            var arr = Array.from(JSONObjectsArr.submissions);
             arr.forEach(function (item, index) {
                 addRowOnApproveTable(table, item, index)
             });
@@ -308,7 +368,7 @@ function addRowOnApproveTable(table, item, index) {
         var newBug;
 
         // get old bug
-        var jsonPayload = '{"id":"' + item.BugIDOld + '"}';
+        var jsonPayload = '{"id":"' + item.bug_id_old + '"}';
         var url = urlBase + 'api/getBug';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, false);
@@ -323,7 +383,7 @@ function addRowOnApproveTable(table, item, index) {
         }
 
         // get new bug
-        var jsonPayload = '{"id":"' + item.BugIDNew + '"}';
+        var jsonPayload = '{"id":"' + item.bug_id_new + '"}';
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, false);
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -403,23 +463,59 @@ function addRowOnApproveTable(table, item, index) {
         // add row to table
         $(table).find('tbody').append("<tr><td>" + old +
             "</td><td>" + newedits + "</td><td> <button type='button' id='approvebutton" +
-            item.id + "'>Approve!</button> </td><td> <button type='rejectbutton' id='button" +
-            item.id + "'>Reject!</button> </td></tr>");
+            item.submission_id + "'>Approve!</button> </td><td> <button type='rejectbutton' id='button" +
+            item.submission_id + "'>Reject!</button> </td></tr>");
 
         var btn = document.getElementById("approvebutton" + item.id);
-        btn.onclick = function () { approveEdit(item.id) };
+        btn.onclick = function () { approveEdit(item.submission_id) };
         var btn = document.getElementById("rejectbutton" + item.id);
-        btn.onclick = function () { rejectEdit(item.id) };
+        btn.onclick = function () { rejectEdit(item.submission_id) };
     }
 }
 
 
-//function approveEdit(rowID)
-//{
+function approveEdit(submissionID)
+{
+    var jsonPayload = ':{"id": ' + submissionID + ', "approve": true}';
+    var url = urlBase + 'api/approveEdit';
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.send(jsonPayload);
+        result = JSON.parse(xhr.responseText);
 
-//}
+        if (result.success == true)
+            $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit approved. </div>');
+        else
+            $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Approve failed!</strong> Only admins can approve or reject edits. </div>');
 
-//function rejectEdit(rowID)
-//{
+    }
+    catch (err) {
+        alert(err);
+        return;
+    }
+}
 
-//}
+function rejectEdit(submissionID)
+{
+    var jsonPayload = ':{"id": ' + submissionID + ', "approve": false}';
+    var url = urlBase + 'api/approveEdit';
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.send(jsonPayload);
+        result = JSON.parse(xhr.responseText);
+
+        if (result.success == true)
+            $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit successfully rejected. </div>');
+        else
+            $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Reject failed!</strong> Only admins can approve or reject edits. </div>');
+
+    }
+    catch (err) {
+        alert(err);
+        return;
+    }
+}
