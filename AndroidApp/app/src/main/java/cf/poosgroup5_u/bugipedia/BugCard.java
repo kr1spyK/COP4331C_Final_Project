@@ -3,22 +3,22 @@ package cf.poosgroup5_u.bugipedia;
 //serves as the model class for each cardview
 public class BugCard {
 
-    private int id, image;
-    private String name, sci_Name;
+    private Integer id, image;
+    private String name, sci_Name;//, image;
 
 
-    public BugCard(int id, String name, String sci_Name, int image) {
+    public BugCard(Integer id, String name, String sci_Name, Integer image) {
         this.id = id;
         this.image = image;
         this.name = name;
         this.sci_Name = sci_Name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getImage() {
+    public Integer getImage() {
         return image;
     }
 

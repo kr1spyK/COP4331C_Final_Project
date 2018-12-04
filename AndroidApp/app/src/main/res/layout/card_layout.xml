@@ -18,28 +18,54 @@
                 android:id="@+id/imageView"
                 android:layout_width="120dp"
                 android:layout_height="90dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:contentDescription="@+string/Picture of bug"
                 android:padding="4dp" />
-
-            <TextView
-                android:id="@+id/textViewName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/imageView"
-                android:text="General Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/textViewSciName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewSciName"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="74dp"
+                android:layout_toEndOf="@id/imageView"
                 android:layout_toRightOf="@id/imageView"
-                android:text="Scientific Name"
+                android:text="@+String/Scientific Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="14dp"
+                android:layout_toEndOf="@id/imageView"
+                android:layout_toRightOf="@id/imageView"
+                android:text="@+String/General Name"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/bugID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="41dp"
+                android:layout_toEndOf="@id/imageView"
+                android:layout_toRightOf="@id/imageView"
+                android:text="@+String/Bug ID"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+
 
 
         </RelativeLayout>

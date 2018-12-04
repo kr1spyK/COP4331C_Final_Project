@@ -41,6 +41,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.BugViewHolder> {
 
         holder.textViewName.setText(bug.getName());
         holder.textViewSciName.setText(bug.getsci_Name());
+        holder.bugID.setText(bug.getId());
         holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(bug.getImage()));
 
     }
@@ -56,12 +57,13 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.BugViewHolder> {
         ImageView imageView;
 
         //name and scientific name of bug to be displayed on card
-        TextView textViewName, textViewSciName;
+        TextView textViewName, textViewSciName, bugID;
 
         public BugViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             textViewName = itemView.findViewById(R.id.textViewName);
+            bugID = itemView.findViewById(R.id.bugID);
             textViewSciName = itemView.findViewById(R.id.textViewSciName);
 
         }
