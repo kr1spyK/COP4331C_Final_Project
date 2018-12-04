@@ -159,7 +159,7 @@ class getBugEndpoint(Resource):
             thin_body = bug.thin_body
             description = bug.description
             additional_advice = bug.additional_advice  
-            pictures = [{"url": s.picture_link} for s in bug.pictures if s.picture_link]
+            pictures = [{"url": s.picture_link, "imageId": s.id} for s in bug.pictures if s.picture_link]
             sightings = [{"latitude": s.latitude, "longitude": s.longitude} for s in bug.sightings]
 
             return jsonify({"success": 1,
