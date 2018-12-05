@@ -399,59 +399,59 @@ function addRowOnApproveTable(table, item, index) {
         // add any differences to the strings
         if (oldBug.characteristics.class != newBug.characteristics.class) {
             old = old + "class: " + oldBug.characteristics.class + "\n\n";
-            newedits = newedits + "class:" + newBug.characteristics.class + "\n\n";
+            newedits = newedits + "class: " + newBug.characteristics.class + "\n\n";
         }
         if (oldBug.characteristics.order != newBug.characteristics.order) {
             old = old + "order: " + oldBug.characteristics.order + "\n\n";
-            newedits = newedits + "order:" + newBug.characteristics.order + "\n\n";
+            newedits = newedits + "order: " + newBug.characteristics.order + "\n\n";
         }
         if (oldBug.characteristics.family != newBug.characteristics.family) {
             old = old + "family: " + oldBug.characteristics.family + "\n\n";
-            newedits = newedits + "family:" + newBug.characteristics.family + "\n\n";
+            newedits = newedits + "family: " + newBug.characteristics.family + "\n\n";
         }
         if (oldBug.characteristics.genus != newBug.characteristics.genus) {
             old = old + "genus: " + oldBug.characteristics.genus + "\n\n";
-            newedits = newedits + "genus:" + newBug.characteristics.genus + "\n\n";
+            newedits = newedits + "genus: " + newBug.characteristics.genus + "\n\n";
         }
         if (oldBug.characteristics.color1 != newBug.characteristics.color1) {
             old = old + "Primary color: " + oldBug.characteristics.color1 + "\n\n";
-            newedits = newedits + "Primary color:" + newBug.characteristics.color1 + "\n\n";
+            newedits = newedits + "Primary color: " + newBug.characteristics.color1 + "\n\n";
         }
         if (oldBug.characteristics.color2 != newBug.characteristics.color2) {
             old = old + "Secondary color: " + oldBug.characteristics.color2 + "\n\n";
-            newedits = newedits + "Secondary color:" + newBug.characteristics.color2 + "\n\n";
+            newedits = newedits + "Secondary color: " + newBug.characteristics.color2 + "\n\n";
         }
         if (oldBug.characteristics.antenna != newBug.characteristics.antenna) {
             old = old + "Antenna: " + oldBug.characteristics.antenna + "\n\n";
-            newedits = newedits + "Antenna:" + newBug.characteristics.antenna + "\n\n";
+            newedits = newedits + "Antenna: " + newBug.characteristics.antenna + "\n\n";
         }
         if (oldBug.characteristics.general_type != newBug.characteristics.general_type) {
             old = old + "General type: " + oldBug.characteristics.general_type + "\n\n";
-            newedits = newedits + "General type:" + newBug.characteristics.general_type + "\n\n";
+            newedits = newedits + "General type: " + newBug.characteristics.general_type + "\n\n";
         }
         if (oldBug.characteristics.hairy_furry != newBug.characteristics.hairy_furry) {
             old = old + "Furry: " + oldBug.characteristics.hairy_furry + "\n\n";
-            newedits = newedits + "Furry:" + newBug.characteristics.hairy_furry + "\n\n";
+            newedits = newedits + "Furry: " + newBug.characteristics.hairy_furry + "\n\n";
         }
         if (oldBug.characteristics.hind_legs_jump != newBug.characteristics.hind_legs_jump) {
             old = old + "Jumping legs: " + oldBug.characteristics.hind_legs_jump + "\n\n";
-            newedits = newedits + "Jumping legs:" + newBug.characteristics.hind_legs_jump + "\n\n";
+            newedits = newedits + "Jumping legs: " + newBug.characteristics.hind_legs_jump + "\n\n";
         }
         if (oldBug.characteristics.mouth_parts != newBug.characteristics.mouth_parts) {
             old = old + "Mouth parts: " + oldBug.characteristics.mouth_parts + "\n\n";
-            newedits = newedits + "Mouth parts:" + newBug.characteristics.mouth_parts + "\n\n";
+            newedits = newedits + "Mouth parts: " + newBug.characteristics.mouth_parts + "\n\n";
         }
         if (oldBug.characteristics.wings != newBug.characteristics.wings) {
             old = old + "Wings: " + oldBug.characteristics.wings + "\n\n";
-            newedits = newedits + "Wings:" + newBug.characteristics.wings + "\n\n";
+            newedits = newedits + "Wings: " + newBug.characteristics.wings + "\n\n";
         }
         if (oldBug.description != newBug.description) {
             old = old + "Description: " + oldBug.description + "\n\n";
-            newedits = newedits + "Description:" + newBug.description + "\n\n";
+            newedits = newedits + "Description: " + newBug.description + "\n\n";
         }
         if (oldBug.additional_advice != newBug.additional_advice) {
             old = old + "Additional advice: " + oldBug.additional_advice + "\n\n";
-            newedits = newedits + "Additional advice:" + newBug.additional_advice + "\n\n";
+            newedits = newedits + "Additional advice: " + newBug.additional_advice + "\n\n";
         }
 
 
@@ -480,8 +480,16 @@ function approveEdit(submissionID)
         xhr.send(jsonPayload);
         result = JSON.parse(xhr.responseText);
 
-        if (result.success == true)
+        if (result.success == true) {
             $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit approved. </div>');
+
+            var table = document.getElementById("approveTable");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            PopulateTable();
+
+        }
         else
             $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Approve failed!</strong> Only admins can approve or reject edits. </div>');
 
@@ -503,8 +511,15 @@ function rejectEdit(submissionID)
         xhr.send(jsonPayload);
         result = JSON.parse(xhr.responseText);
 
-        if (result.success == true)
+        if (result.success == true) {
             $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit successfully rejected. </div>');
+
+            var table = document.getElementById("approveTable");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            PopulateTable();
+        }
         else
             $(document.getElementById("addMessage")).append('<div class="alert alert-danger alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Reject failed!</strong> Only admins can approve or reject edits. </div>');
 
