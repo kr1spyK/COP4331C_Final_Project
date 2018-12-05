@@ -457,9 +457,9 @@ function addRowOnApproveTable(table, item, index) {
 
         // add row to table
         $(table).find('tbody').append("<tr><td>" + old +
-            "</td><td>" + newedits + "</td><td><button type='button' id='approvebutton" +
-            item.submission_id + "'>Approve!</button> </td><td> <button type='button' id='rejectbutton" +
-            item.submission_id + "'>Reject!</button> </td></tr>");
+            "</td><td>" + newedits + "</td><td><a class='btn btn-sm btn-primary' style='color:white' id='approvebutton" +
+            item.submission_id + "'>Approve!</a </td><td> <a class='btn btn-sm btn-primary' style='color:white' id='rejectbutton" +
+            item.submission_id + "'>Reject!</a> </td></tr>");
 
         var btn = document.getElementById("approvebutton" + item.submission_id);
         btn.onclick = function () { approveEdit(item.submission_id) };
