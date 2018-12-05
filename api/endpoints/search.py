@@ -27,43 +27,43 @@ class SearchEndpoint(Resource):
             # Add Class
             c = {"label": "Class",
                  "type": "DROP"}
-            c['options'] = [cl.name for cl in session.query(Class).all()]
+            c['options'] = sorted([cl.name for cl in session.query(Class).all()])
             fields.append(c)
 
             # Add Order
             o = {"label": "Order",
                  "type": "DROP"}
-            o['options'] = [order.name for order in session.query(Order).all()]
+            o['options'] = sorted([order.name for order in session.query(Order).all()])
             fields.append(o)
 
             # Add Familt
             f = {"label": "Family",
                  "type": "DROP"}
-            f['options'] = [fa.name for fa in session.query(Family).all()]
+            f['options'] = sorted([fa.name for fa in session.query(Family).all()])
             fields.append(f)
 
             # Add Genus
             g = {"label": "Genus",
                  "type": "DROP"}
-            g['options'] = [ge.name for ge in session.query(Genus).all()]
+            g['options'] = sorted([ge.name for ge in session.query(Genus).all()])
             fields.append(g)
 
             # Add general type
             gt = {"label": "General Type",
                  "type": "DROP"}
-            gt['options'] = [gty.name for gty in session.query(General_Type).all()]
+            gt['options'] = sorted([gty.name for gty in session.query(General_Type).all()])
             fields.append(gt)
 
             # Add mouth parts
             m = {"label": "Mouth Parts",
                  "type": "DROP"}
-            m['options'] = [mp.name for mp in session.query(Mouth_Parts).all()]
+            m['options'] = sorted([mp.name for mp in session.query(Mouth_Parts).all()])
             fields.append(m)
 
             # Add color
             colors = {"label": "Colors",
                       "type": "CHECK"}
-            colors['options'] = [co.color for co in session.query(Color).all()]
+            colors['options'] = sorted([co.color for co in session.query(Color).all()])
             fields.append(colors)
 
             # Add wings
