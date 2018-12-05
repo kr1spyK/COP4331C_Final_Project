@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
+
 /*
     RecyclerView.Adapter
     RecyclerView.ViewHolder
@@ -31,7 +33,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.BugViewHolder> {
     @Override
     public BugViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.card_layout, null);
+        View view = inflater.inflate(R.layout.card_layout, viewGroup, false);
         return new BugViewHolder(view);
     }
 
@@ -43,7 +45,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.BugViewHolder> {
         holder.textViewSciName.setText(bug.getsci_Name());
         holder.bugID.setText(bug.getId());
         holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(bug.getImage()));
-
+        AppUtils.loadImageIntoView(firstImageURL, imageView, this)
     }
 
     @Override

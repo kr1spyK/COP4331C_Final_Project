@@ -43,6 +43,7 @@ public class BuggyMain extends AppCompatActivity {
     //holds each filter
     LinearLayout filterLiny;
     //holds the filterLiny so that it is scrollable
+
     ScrollView filterScroll;
 
     //Holds on the filter options selected by the users and is used for the actual query
@@ -55,6 +56,8 @@ public class BuggyMain extends AppCompatActivity {
 
     //Activates the Search query
     Button searchButton;
+    Button filterButton;
+
 
     Context bugContext;
 
@@ -71,10 +74,12 @@ public class BuggyMain extends AppCompatActivity {
         filterScroll = findViewById(R.id.filterScroll);
         recyclerView = findViewById(R.id.my_recycler);
 
+        final LinearLayoutManager llm = new LinearLayoutManager(this);
 
-        final Button filterButton = new Button(this);
+
+        searchButton = findViewById(R.id.searchButton);
+        filterButton = findViewById(R.id.filterButton);
         filterButton.setText("Search and Filters");
-        mainLayout.addView(filterButton);
 
 
         bugContext = this;
@@ -129,7 +134,8 @@ public class BuggyMain extends AppCompatActivity {
                         bugList = new ArrayList<>();
 
                         recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(bugContext));
+                        llm.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(llm);
 
 
                         for(SearchResultEntry thisCard : results.getSearchResults()){
@@ -148,7 +154,6 @@ public class BuggyMain extends AppCompatActivity {
 
             }
         });
-
 
 
     }
@@ -210,9 +215,6 @@ public class BuggyMain extends AppCompatActivity {
 
             filterLiny.addView(linyLayout);
         }
-        searchButton = new Button(this);
-        searchButton.setText("SEARCH");
-        filterLiny.addView(searchButton);
         filterScroll.addView(filterLiny);
 
     }
