@@ -29,8 +29,7 @@ function doLogin()
             return false;
         } else {
             //successful login
-            var sessionID = jsonObject.sessionID;
-
+            localStorage.setItem("sessionID", jsonObject.sessionID);
             // go to next page
             window.location.replace(urlBase + "main.html");
 
@@ -225,7 +224,7 @@ function submitEdit()
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("X-Auth-Token", localStorage.getItem("sessionID"));
 
     try {
         xhr.send(jsonPayload);
@@ -301,7 +300,7 @@ function addBug()
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("X-Auth-Token", localStorage.getItem("sessionID"));
 
     try {
         xhr.send(jsonPayload);
@@ -480,7 +479,7 @@ function approveEdit(submissionID)
     var url = urlBase + 'api/approveEdit';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("X-Auth-Token", localStorage.getItem("sessionID"));
     try {
         xhr.send(jsonPayload);
         result = JSON.parse(xhr.responseText);
@@ -503,7 +502,7 @@ function rejectEdit(submissionID)
     var url = urlBase + 'api/approveEdit';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("X-Auth-Token", localStorage.getItem("sessionID"));
     try {
         xhr.send(jsonPayload);
         result = JSON.parse(xhr.responseText);
