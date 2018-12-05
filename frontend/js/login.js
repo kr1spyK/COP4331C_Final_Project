@@ -116,8 +116,8 @@ function addRowOnTable(table, item, index)
     if (item != null) {
 
         $(table).find('tbody').append("<tr><td>" + item.common_name +
-            "</td><td>" + item.scientific_name + "</td><td> <button type='button' id='button" +
-            item.id + "'>Edit!</button> </td></tr>");
+            "</td><td>" + item.scientific_name + "</td><td> <a class='btn btn-sm btn-primary' style='color:white' id='button" +
+            item.id + "'>Edit</a> </td></tr>");
 
         var btn = document.getElementById("button" + item.id);
         btn.onclick = function () { editBug(item.id) };
@@ -232,7 +232,7 @@ function submitEdit()
         var results = JSON.parse(xhr.responseText);
 
         if (results.success == 1) {
-            
+
             $(document.getElementById("addMessage")).append('<div class="alert alert-success alert-dismissible">  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>  <strong>Success!</strong> Edit has been added to submission list. </div>');
 
         }
