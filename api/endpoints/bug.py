@@ -160,6 +160,8 @@ class getBugEndpoint(Resource):
             description = bug.description
             additional_advice = bug.additional_advice  
             pictures = [{"url": s.picture_link, "imageId": s.id} for s in bug.pictures if s.picture_link]
+            if not pictures:
+                pictures = [{"url": "https://i.imgur.com/DhEi3hk.png", "imageaId": 0}]
             sightings = [{"latitude": s.latitude, "longitude": s.longitude} for s in bug.sightings]
 
             return jsonify({"success": 1,
