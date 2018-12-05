@@ -8,7 +8,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,6 +40,8 @@ import retrofit2.Response;
 
 public class BuggyMain extends AppCompatActivity {
 
+    private Toolbar toolbar;
+
     RecyclerView recyclerView;
     BugAdapter adapter;
 
@@ -61,10 +66,7 @@ public class BuggyMain extends AppCompatActivity {
     Button searchButton;
     Button filterButton;
 
-
     Context bugContext;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +85,16 @@ public class BuggyMain extends AppCompatActivity {
         mainLayout = findViewById(R.id.main_layout);
         filterScroll = findViewById(R.id.filterScroll);
         recyclerView = findViewById(R.id.my_recycler);
+        toolbar = findViewById(R.id.buggyToolbar);
 
         final LinearLayoutManager llm = new LinearLayoutManager(this);
-
 
         searchButton = findViewById(R.id.searchButton);
         filterButton = findViewById(R.id.filterButton);
 
-
         bugContext = this;
 
+        setSupportActionBar(toolbar);
 
         //Fetches available filters
         APICaller.call().getSearchFields().enqueue(new Callback<SearchFieldResult>() {
@@ -113,7 +115,6 @@ public class BuggyMain extends AppCompatActivity {
                             expandableLayout.toggle();
                         }
                     });
-
                 }
             }
 
@@ -126,8 +127,6 @@ public class BuggyMain extends AppCompatActivity {
                 Log.e("MainActivity", "Failed to Fetch Filters");
             }
         });
-
-
 
         //Activates Search Button
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +166,25 @@ public class BuggyMain extends AppCompatActivity {
                         Log.e("MainActivity", "Failure to Search");
                     }
                 });
-
             }
         });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_buggy, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.tool_login) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public void makeSearchBox(List<SearchField> myFields){

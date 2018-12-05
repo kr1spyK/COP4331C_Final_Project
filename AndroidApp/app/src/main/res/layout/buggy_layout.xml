@@ -7,12 +7,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/buggyToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/filterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Filters"
+        android:text="@string/button_filters"
         android:background="@drawable/button_border"/>
 
     <com.github.aakira.expandablelayout.ExpandableWeightLayout
@@ -31,16 +39,12 @@
 
     </com.github.aakira.expandablelayout.ExpandableWeightLayout>
 
-
-
     <Button
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/button_search"
         android:background="@drawable/button_border"/>
-
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler"
@@ -48,6 +52,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         tools:listitem="@layout/card_layout" />
-
 
 </LinearLayout>
