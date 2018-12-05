@@ -79,7 +79,7 @@ public class AppUtils {
 
                     @Override
                     public void onError(Exception e) {
-                        Log.e(context instanceof Activity ? (((Activity) context).getLocalClassName()) : "AppUtils Image Loader", e.getMessage(), e);
+                        Log.e(context instanceof Activity ? (((Activity) context).getLocalClassName()) : "AppUtils Image Loader", context.getString(R.string.imageLoadFailed) + e.getMessage(), e);
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }

@@ -32,7 +32,7 @@ public interface APIEndpoints {
     Call<SearchResult> search(@Body List<SearchField> searchQuery);
 
     @POST("getSightings")
-    Call<SightingResult> getSightings(@Body BugInfo bug);
+    Call<SightingResult> getSightings(@Body BugIDWrapper bug);
 
     @POST("addSighting")
     Call<Result> addSighting(@Body Sighting sighting);
@@ -41,12 +41,12 @@ public interface APIEndpoints {
     Call<Result> addImage(@Body BugImage bugImage);
 
     @POST("getImages")
-    Call<BugImagesResult> getImages(@Body BugInfo bug);
+    Call<BugImagesResult> getImages(@Body BugIDWrapper bug);
 
     @POST("flagImage")
     Call<Result> flagImage(@Body BugImage bugImage);
 
     @POST("getBug")
-    Call<BugEntry> getBugEntry(@Body BugInfo bugInfo);
+    Call<BugEntry> getBugEntry(@Body BugIDWrapper bugIDWrapper);
 
 }

@@ -9,22 +9,22 @@ public class BugEntry extends Result {
 
     @SerializedName("additional_advice")
     @Expose
-    public String additionalAdvice;
+    private String additionalAdvice;
     @SerializedName("characteristics")
     @Expose
-    public BugCharacteristics characteristics;
+    private BugCharacteristics characteristics;
     @SerializedName("common_name")
     @Expose
-    public String commonName;
+    private String commonName;
     @SerializedName("description")
     @Expose
     public String description;
     @SerializedName("pictures")
     @Expose
-    public List<BugImage> pictures = null;
+    private List<BugImage> pictures = null;
     @SerializedName("sightings")
     @Expose
-    public List<Sighting> sightings = null;
+    private List<Sighting> sightings = null;
 
     public String getAdditionalAdvice() {
         return additionalAdvice;

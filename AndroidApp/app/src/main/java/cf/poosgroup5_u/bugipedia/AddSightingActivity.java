@@ -35,14 +35,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cf.poosgroup5_u.bugipedia.api.APICaller;
-import cf.poosgroup5_u.bugipedia.api.BugInfo;
 import cf.poosgroup5_u.bugipedia.api.Result;
 import cf.poosgroup5_u.bugipedia.api.Sighting;
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddSighting extends FragmentActivity implements OnMapReadyCallback {
+public class AddSightingActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int FINE_LOCATION_REQUEST = 1;
     private static String TAG;
@@ -50,7 +50,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
     private Marker chosenLocation;
     private List<List<LatLng>> floridaGeoFence;
     private Snackbar outOfBoundsWarning;
-    private final LatLng centerFloridaCoords = new LatLng(29.282079,-83.281953);
+    public static final LatLng centerFloridaCoords = new LatLng(29.282079,-83.281953);
     private LatLngBounds floridaBounds = new LatLngBounds(new LatLng(24.527164,-79.267069),new LatLng(30.995235,-87.698731));
 
     ObjectAnimator progressBarAnimation;
@@ -165,10 +165,10 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                         //start animation for uploading
                         progressDialog.show();
 
-                        BugInfo bug;
+                        int bugID;
                         //get the info of the bug from the ViewDB Activity that called us.
                         try {
-                            bug = (BugInfo) getIntent().getExtras().get("BugInfo");
+                            bugID = (int) getIntent().getExtras().get(AppUtils.BUG_INFO_KEY);
                         } catch (NullPointerException ex) {
                             //we werent passed a valid Bug, this should only happen in testing
                                 Log.wtf(TAG, "Add Sighting wasn't passed a Bug when the activity was created", ex);
@@ -179,7 +179,7 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
                                 return;
                         }
 
-                        Sighting sighting = new Sighting(bug.getId(),
+                        Sighting sighting = new Sighting(bugID,
                                 chosenLocation.getPosition().latitude,
                                 chosenLocation.getPosition().longitude);
 
@@ -239,19 +239,19 @@ public class AddSighting extends FragmentActivity implements OnMapReadyCallback 
             public void onResponse(Call<Result> call, Response<Result> response) {
                 if (response.isSuccessful()) {
                     //close the view and report success
-                    Toast.makeText(AddSighting.this, getString(R.string.sightingAdded), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddSightingActivity.this, getString(R.string.sightingAdded), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                     finish();
                 } else {
                     errorUploadingSnackBar.show();
-                    Log.e(AddSighting.class.getName(), response.message());
+                    Log.e(AddSightingActivity.class.getName(), response.message());
                     progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                Log.e(AddSighting.class.getName(), t.getMessage(), t);
+                Log.e(AddSightingActivity.class.getName(), t.getMessage(), t);
                 errorUploadingSnackBar.show();
                 progressDialog.dismiss();
             }

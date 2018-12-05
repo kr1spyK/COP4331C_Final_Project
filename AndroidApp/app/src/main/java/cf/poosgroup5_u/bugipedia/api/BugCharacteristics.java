@@ -12,43 +12,47 @@ public class BugCharacteristics {
 
     @SerializedName("antenna")
     @Expose
-    public Boolean antenna;
+    private Boolean antenna;
     @SerializedName("class")
     @Expose
-    public String _class;
+    private String _class;
     @SerializedName("color1")
     @Expose
-    public String color1;
+    private String color1;
     @SerializedName("color2")
     @Expose
-    public String color2;
+    private String color2;
     @SerializedName("family")
     @Expose
-    public String family;
+    private String family;
     @SerializedName("general_type")
     @Expose
-    public String generalType;
+    private String generalType;
     @SerializedName("genus")
     @Expose
-    public String genus;
+    private String genus;
     @SerializedName("hairy_furry")
     @Expose
-    public Boolean hairyFurry;
+    private Boolean hairyFurry;
     @SerializedName("hind_legs_jump")
     @Expose
-    public Boolean hindLegsJump;
+    private Boolean hindLegsJump;
     @SerializedName("mouth_parts")
     @Expose
-    public String mouthParts;
+    private String mouthParts;
     @SerializedName("order")
     @Expose
-    public String order;
+    private String order;
     @SerializedName("scientific_name")
     @Expose
-    public String scientificName;
+    private String scientificName;
+    @SerializedName("thin_body")
+    @Expose
+    private Boolean thinBody;
+
     @SerializedName("wings")
     @Expose
-    public Boolean wings;
+    private Boolean wings;
 
     public Boolean hasAntenna() {
         return antenna;
@@ -98,6 +102,8 @@ public class BugCharacteristics {
         return scientificName;
     }
 
+    public Boolean hasThinBody() { return thinBody;}
+
     public Boolean hasWings() {
         return wings;
     }
@@ -109,7 +115,7 @@ public class BugCharacteristics {
         for (String characteristic : this.toString().split("\\n")){
             //split the label and the value
             String[] split = characteristic.split(":");
-            returnList.add(new Pair<String, String>(split[0] + ':', split[1]));
+            returnList.add(new Pair<String, String>(split[0] + ':', split[1].trim()));
         }
 
         return returnList;
@@ -119,9 +125,9 @@ public class BugCharacteristics {
     public String toString() {
         String returnObject;
         String newline = "\n";
-        returnObject =  "has Antenna: " + hasAntenna() + newline +
+        returnObject =  "Has Antenna(s): " + hasAntenna() + newline +
                 "Color 1: " + getColor1() + newline +
-                "color 2: " + getColor2() + newline +
+                "Color 2: " + getColor2() + newline +
                 "Class: " + get_class() + newline +
                 "Order: " + getOrder() + newline +
                 "Family: " + getFamily() + newline +
@@ -129,8 +135,10 @@ public class BugCharacteristics {
                 "Scientific name: " + getScientificName() + newline +
                 "General Type: " + getGeneralType() + newline +
                 "Has hair or fur: " + isHairyOrFurry() + newline +
+                "Has hind jump legs: " + hasHindLegJumping() + newline +
                 "Mouth parts: " + getMouthParts() + newline +
-                "has wings: " + hasWings() + newline;
+                "Thin Body: " + hasThinBody() + newline +
+                "Has wings: " + hasWings() + newline;
 
         return returnObject;
     }
