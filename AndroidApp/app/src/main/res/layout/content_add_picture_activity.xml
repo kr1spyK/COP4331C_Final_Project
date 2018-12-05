@@ -30,6 +30,7 @@
         android:layout_marginBottom="71dp"
         android:text="Upload"
         android:background="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:enabled="false"/>
 
 </RelativeLayout>
