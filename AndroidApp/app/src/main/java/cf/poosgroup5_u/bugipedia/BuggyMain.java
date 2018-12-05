@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -92,6 +93,12 @@ public class BuggyMain extends AppCompatActivity {
         searchButton = findViewById(R.id.searchButton);
         filterButton = findViewById(R.id.filterButton);
 
+        //Fills the white space in the main activity before anything is searched for
+        final ImageView spaceFill = findViewById(R.id.placeholder_bug);
+
+
+
+
         bugContext = this;
 
         setSupportActionBar(toolbar);
@@ -112,7 +119,11 @@ public class BuggyMain extends AppCompatActivity {
                     //toggles the expandable search box
                     filterButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
+                            if(!expandableLayout.isExpanded()) spaceFill.setVisibility(View.GONE);
                             expandableLayout.toggle();
+                            if(expandableLayout.isExpanded()) spaceFill.setVisibility(View.VISIBLE);
+
+
                         }
                     });
                 }
@@ -132,6 +143,7 @@ public class BuggyMain extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(expandableLayout.isExpanded())  expandableLayout.collapse();
 
                 //populates searchQuery from selected filters
