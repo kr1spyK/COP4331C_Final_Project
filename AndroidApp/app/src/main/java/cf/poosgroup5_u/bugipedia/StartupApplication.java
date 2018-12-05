@@ -2,6 +2,7 @@ package cf.poosgroup5_u.bugipedia;
 
 import android.app.Application;
 import android.util.Log;
+
 import cf.poosgroup5_u.bugipedia.api.APICaller;
 import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 

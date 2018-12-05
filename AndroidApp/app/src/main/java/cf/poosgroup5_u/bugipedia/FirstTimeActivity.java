@@ -47,7 +47,6 @@ public class FirstTimeActivity extends AppCompatActivity {
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
-    //COMMENTED THIS SECTION SO THAT MY BUTTONS DONT DO ANYTHING(DON'T GO BACK AND NEXT.)
         //OnClick Listeners
 
         // This shall be a 'Skip' or a 'Close' button
@@ -55,6 +54,9 @@ public class FirstTimeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                mSlideViewPager.setCurrentItem(mCurrentPage + 1);
+
+                Intent intent = new Intent(getApplicationContext(), BuggyMain.class);
+                startActivity(intent);
 
                 //tell everyone that the user has passed the slideshow
                 AppUtils.setFirstTimeUse(false, context);
