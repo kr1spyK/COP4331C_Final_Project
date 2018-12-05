@@ -1,5 +1,7 @@
 package cf.poosgroup5_u.bugipedia.api;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -14,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,22 +33,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class APICaller {
 
+    public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
     protected static Retrofit retrofit;
     private static boolean debugLoggingEnabled = false;
     private static APIEndpoints api;
-    private static String authToken = "INVALID_AUTH_TOKEN";
-
-    public static final String API_BASE_URL = "https://poosgroup5-u.cf/api/";
+    private static String authToken = AppUtils.DEFAULT_AUTH_TOKEN;
 
     /**
      * creates
      * @param enableDebugLogging
      */
     private static void setCaller(boolean enableDebugLogging){
-
-        //todo get authToken from sharedPreferences
-        // https://stackoverflow.com/questions/40043166/shared-prefrences-to-save-a-authentication-token-in-android
-
         if (enableDebugLogging){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
@@ -81,11 +79,8 @@ public class APICaller {
                     .addConverterFactory(GsonConverterFactory.create(createGson()))
                     .client(client)
                     .build();
-
         }
-
     }
-
 
     /**
      * Creates an instance of {@link APIEndpoints} backed by {@link Retrofit} for contacting an API server
@@ -108,7 +103,7 @@ public class APICaller {
     /**
      * Method which will recreate the {@link APICaller} with debug-logging functionality enabled/disabled for the {@link Retrofit} and {@link OkHttpClient} abstracted underneath. <br/>
      *
-     * @param enable True to enable debug logging in the app for API related activites, False otherwise. <br/> Method will do no action if the APICaller is already in the specified state set by the arugment.
+     * @param enable True to enable debug logging in the app for API related activities, False otherwise. <br/> Method will do no action if the APICaller is already in the specified state set by the argument.
      */
     public static void enableDebugLogging(boolean enable) {
         if (debugLoggingEnabled != enable){
@@ -118,10 +113,25 @@ public class APICaller {
 
     }
 
-    public static void updateAuthToken(String newAuthToken){
+    //only accessible by test methods and subclasses
+    static void updateAuthToken(String newAuthToken){
         authToken = newAuthToken;
         api = null;
         setCaller(debugLoggingEnabled);
+    }
+
+    /**
+     * Updates the API caller with the SessionID which can be found in the
+     * {@link AppUtils#globalAppPref} Global shared Preferences
+     *
+     * @param context The calling context, If calling from an activity simply put: <code>this</code>
+     */
+    public static void updateAuthToken(String newAuthToken, Context context){
+        //set the value in the global storage
+        AppUtils.getGlobalPreferences(context).edit()
+                .putString(AppUtils.sessionIDKey, newAuthToken).apply();
+
+        updateAuthToken(newAuthToken);
     }
 
     /**
@@ -159,7 +169,6 @@ public class APICaller {
             }
         };
 
-
         //GSon for custom serialization and deserialzation for Java objects
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
@@ -167,9 +176,7 @@ public class APICaller {
                 .create();
 
         return gson;
-
     }
-
 
     /**
      * Private class meant to add the Auth token to all requests to the API
@@ -183,12 +190,8 @@ public class APICaller {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            //todo replace with actual value for interceptor
             Request request = chain.request().newBuilder().addHeader("X-Auth-Token", authToken).build();
             return chain.proceed(request);
         }
     }
-
-
-
 }

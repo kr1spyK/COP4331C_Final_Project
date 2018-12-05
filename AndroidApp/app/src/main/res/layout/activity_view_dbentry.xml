@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewDBEntryActivity">
+
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/viewDBEntryFab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/fabOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone"/>
+
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/viewDBEntryFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:sdMainFabClosedSrc="@android:drawable/ic_input_add"
+        app:sdOverlayLayout="@id/fabOverlay" />
+
+
+
+        <ScrollView
+            android:id="@+id/viewDB_ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/headerCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        app:cardBackgroundColor="@color/colorPrimary">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/viewDbPhotoThumbnail"
+                                android:layout_width="110dp"
+                                android:layout_height="110dp"
+                                android:layout_margin="5dp"
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:scaleType="fitXY"
+                                tools:src="@tools:sample/avatars" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/headerCommonName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40sp"
+                                    android:lineSpacingExtra="8sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:autoSizeMinTextSize="8sp"
+                                    android:autoSizeMaxTextSize="30sp"
+                                    android:text="@string/common_name"
+                                    tools:text="@tools:sample/full_names" />
+
+                                <TextView
+                                    android:id="@+id/headerSciName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30sp"
+                                    android:autoSizeMaxTextSize="24sp"
+                                    android:autoSizeMinTextSize="8sp"
+                                    android:autoSizeTextType="uniform"
+                                    android:text="@string/scientific_name"
+                                    android:textSize="24sp"
+                                    android:textStyle="italic"
+                                    tools:text="@tools:sample/full_names" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/infoCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        app:cardBackgroundColor="@color/colorPrimary">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/descriptionBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/viewDb_innerCardViewMargin"
+                                android:background="@color/colorAmber"
+
+                                >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <com.andexert.library.RippleView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:rv_color="@color/colorPrimary"
+                                        app:rv_rippleDuration="200">
+
+                                        <LinearLayout
+                                            android:id="@+id/DescriptionBar"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:background="@drawable/layout_bottom_line"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/textView"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/text_margin"
+                                                android:layout_weight="1"
+                                                android:text="@string/Description"
+                                                android:textSize="24sp" />
+
+                                            <ImageView
+                                                android:id="@+id/button_expandDescription"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:foregroundGravity="right"
+                                                android:scaleType="fitEnd"
+                                                app:srcCompat="@drawable/arrow_down_24dp" />
+                                        </LinearLayout>
+                                    </com.andexert.library.RippleView>
+
+                                    <net.cachapa.expandablelayout.ExpandableLayout
+                                        android:id="@+id/expandDescription"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        tools:el_expanded="true">
+
+                                        <TextView
+                                            android:id="@+id/textDescription"
+                                            style="@style/DatabaseInfoTextStyle"
+                                            tools:text="@tools:sample/lorem" />
+
+
+                                    </net.cachapa.expandablelayout.ExpandableLayout>
+                                </LinearLayout>
+
+                            </android.support.v7.widget.CardView>
+
+                            <View
+                                android:id="@+id/divider"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dbentry_divider_height"
+                                android:background="@color/colorPrimary" />
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/charactersticsBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/viewDb_innerCardViewMargin"
+                                android:background="@color/colorAmber">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <com.andexert.library.RippleView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:rv_color="@color/colorPrimary"
+                                        app:rv_rippleDuration="200">
+
+                                        <LinearLayout
+                                            android:id="@+id/CharactersticsBar"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:background="@drawable/layout_bottom_line"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/text_margin"
+                                                android:layout_weight="1"
+                                                android:text="@string/characteristics"
+                                                android:textSize="24sp" />
+
+                                            <ImageView
+                                                android:id="@+id/button_expandCharacteristics"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:foregroundGravity="right"
+                                                android:scaleType="fitEnd"
+
+                                                app:srcCompat="@drawable/arrow_down_24dp" />
+                                        </LinearLayout>
+                                    </com.andexert.library.RippleView>
+
+                                    <net.cachapa.expandablelayout.ExpandableLayout
+                                        android:id="@+id/expandCharacteristics"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        tools:el_expanded="true">
+
+
+                                        <LinearLayout
+                                            android:id="@+id/characteristicLinearLayout"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_margin="@dimen/viewDb_innerCardViewMargin"
+                                            android:orientation="vertical">
+
+
+                                            <!--Example, since this content is generated dynmically-->
+                                            <!--<LinearLayout-->
+                                                <!--android:layout_width="match_parent"-->
+                                                <!--android:layout_height="match_parent"-->
+                                                <!--android:background="@drawable/layout_black_border"-->
+                                                <!--android:orientation="horizontal"-->
+                                                <!--android:padding="5dp">-->
+
+                                                <!--<TextView-->
+                                                    <!--android:id="@+id/textView2"-->
+                                                    <!--android:layout_width="wrap_content"-->
+                                                    <!--android:layout_height="wrap_content"-->
+                                                    <!--android:layout_weight="1"-->
+                                                    <!--android:text="A NAME TO FILL IT UP" />-->
+
+                                                <!--<TextView-->
+                                                    <!--android:id="@+id/textView3"-->
+                                                    <!--android:layout_width="wrap_content"-->
+                                                    <!--android:layout_height="wrap_content"-->
+                                                    <!--android:layout_weight="1"-->
+                                                    <!--android:gravity="end"-->
+                                                    <!--android:text="VALUE" />-->
+                                            <!--</LinearLayout>-->
+                                        </LinearLayout>
+                                    </net.cachapa.expandablelayout.ExpandableLayout>
+                                </LinearLayout>
+
+                            </android.support.v7.widget.CardView>
+
+                            <View
+                                android:id="@+id/divider2"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dbentry_divider_height"
+                                android:background="@color/colorPrimary" />
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/additionalInfoBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/viewDb_innerCardViewMargin"
+                                android:background="@color/colorAmber">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <com.andexert.library.RippleView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:rv_color="@color/colorPrimary"
+                                        app:rv_rippleDuration="200">
+
+                                        <LinearLayout
+                                            android:id="@+id/AdditionalInfoBar"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:background="@drawable/layout_bottom_line"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/text_margin"
+                                                android:layout_weight="1"
+                                                android:text="@string/additional_info"
+                                                android:textSize="24sp" />
+
+                                            <ImageView
+                                                android:id="@+id/button_expandAdditional"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:foregroundGravity="right"
+                                                android:scaleType="fitEnd"
+                                                app:srcCompat="@drawable/arrow_down_24dp" />
+                                        </LinearLayout>
+                                    </com.andexert.library.RippleView>
+
+                                    <net.cachapa.expandablelayout.ExpandableLayout
+                                        android:id="@+id/expandAddtlInfo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        tools:el_expanded="true">
+
+                                        <TextView
+                                            android:id="@+id/textAdditionalInfo"
+                                            style="@style/DatabaseInfoTextStyle"
+                                            android:text="The Database team never filled me out :("
+                                            />
+
+
+                                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                                </LinearLayout>
+
+
+                            </android.support.v7.widget.CardView>
+
+                            <View
+                                android:id="@+id/divider3"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dbentry_divider_height"
+                                android:background="@color/colorPrimary" />
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/MapBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/viewDb_innerCardViewMargin">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="4dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/known_sightings" />
+
+                                    <fragment
+                                        android:id="@+id/viewDb_map"
+                                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@android:dimen/thumbnail_height"
+                                        android:layout_margin="@dimen/viewDb_innerCardViewMargin">
+
+                                        <ImageView
+                                            android:id="@+id/transparentMapImageView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:src="@color/transparent" />
+
+                                    </fragment>
+
+
+
+                                </LinearLayout>
+
+                            </android.support.v7.widget.CardView>
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+        </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
