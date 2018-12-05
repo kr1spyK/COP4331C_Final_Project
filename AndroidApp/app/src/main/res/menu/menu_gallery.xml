@@ -5,5 +5,4 @@
         android:title="@string/report_photo"
         app:showAsAction="never"/>
 
-
 </menu>
