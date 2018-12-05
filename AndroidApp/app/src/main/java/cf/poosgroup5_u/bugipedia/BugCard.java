@@ -3,11 +3,11 @@ package cf.poosgroup5_u.bugipedia;
 //serves as the model class for each cardview
 public class BugCard {
 
-    private Integer id, image;
-    private String name, sci_Name;//, image;
+    private Integer id;
+    private String name, sci_Name, image;//, image;
 
 
-    public BugCard(Integer id, String name, String sci_Name, Integer image) {
+    public BugCard(Integer id, String name, String sci_Name, String image) {
         this.id = id;
         this.image = image;
         this.name = name;
@@ -18,7 +18,7 @@ public class BugCard {
         return id;
     }
 
-    public Integer getImage() {
+    public String getImage() {
         return image;
     }
 

@@ -84,8 +84,8 @@ public class BuggyMain extends AppCompatActivity {
 
         bugContext = this;
 
-
-
+        //todo remove me
+        APICaller.enableDebugLogging(true);
 
 
         //Fetches available filters
@@ -139,7 +139,7 @@ public class BuggyMain extends AppCompatActivity {
 
 
                         for(SearchResultEntry thisCard : results.getSearchResults()){
-                            bugList.add(new BugCard(thisCard.getId(), thisCard.getCommonName(), thisCard.getScientificName(), R.drawable.test));
+                            bugList.add(new BugCard(thisCard.getId(), thisCard.getCommonName(), thisCard.getScientificName(), thisCard.getThumbnailURL()));
                         }
 
                         adapter = new BugAdapter(bugContext, bugList);
@@ -179,6 +179,7 @@ public class BuggyMain extends AppCompatActivity {
             switch(field.getType()){
                 case DROP:{
                     List<String> dropOptions = field.getOptions();
+                    dropOptions.add(0, "Any");
                     //if size is two it is actually going to be a checkbox since it is a yes/no dropdown
                     if(dropOptions.size() == 2)
                     {
@@ -206,6 +207,7 @@ public class BuggyMain extends AppCompatActivity {
                     //Colors is actually a multi spinner dropdown
                     //since it can have multiple colors selected at once
                     List<String> availableColors = field.getOptions();
+                    availableColors.add(0, "Any");
                     colorS.setItems(availableColors);
                     linyLayout.addView(colorS);
                     break;
@@ -228,7 +230,12 @@ public class BuggyMain extends AppCompatActivity {
             searchQuery.add(new SearchField(thisField.viewLabel, thisField.myView.getSelectedItem().toString()));
         }
         for(TextTuple thisField : textQueries){
-            searchQuery.add(new SearchField(thisField.viewLabel, thisField.myView.getText().toString()));
+            String currentString = thisField.myView.getText().toString();
+            if(!currentString.equals("Any"))
+            {
+                searchQuery.add(new SearchField(thisField.viewLabel, currentString));
+            }
+
         }
         for(CheckTuple thisField : checkQueries){
             if(thisField.myView.isChecked())
@@ -237,7 +244,9 @@ public class BuggyMain extends AppCompatActivity {
                 searchQuery.add(new SearchField(thisField.viewLabel, "No"));
 
         }
-        searchQuery.add(new SearchField("Colors", colorS.getSelectedStrings()));
+        if(!colorS.getSelectedStrings().contains("Any")){
+            searchQuery.add(new SearchField("Colors", colorS.getSelectedStrings()));
+        }
     }
 
     private class SpinnerTuple{

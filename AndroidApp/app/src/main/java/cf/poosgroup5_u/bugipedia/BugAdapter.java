@@ -44,8 +44,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.BugViewHolder> {
         holder.textViewName.setText(bug.getName());
         holder.textViewSciName.setText(bug.getsci_Name());
         holder.bugID.setText(bug.getId());
-        holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(bug.getImage()));
-        AppUtils.loadImageIntoView(firstImageURL, imageView, this)
+        AppUtils.loadImageIntoView(bug.getImage(), holder.imageView, mCtx);
     }
 
     @Override
