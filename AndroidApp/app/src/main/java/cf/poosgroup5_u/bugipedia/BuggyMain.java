@@ -139,7 +139,8 @@ public class BuggyMain extends AppCompatActivity {
 
 
                         for(SearchResultEntry thisCard : results.getSearchResults()){
-                            bugList.add(new BugCard(thisCard.getId(), thisCard.getCommonName(), thisCard.getScientificName(), thisCard.getThumbnailURL()));
+                            BugCard bugger = new BugCard(thisCard.getId(), thisCard.getCommonName(), thisCard.getScientificName(), thisCard.getThumbnailURL());
+                            bugList.add(bugger);
                         }
 
                         adapter = new BugAdapter(bugContext, bugList);
@@ -209,6 +210,7 @@ public class BuggyMain extends AppCompatActivity {
                     List<String> availableColors = field.getOptions();
                     availableColors.add(0, "Any");
                     colorS.setItems(availableColors);
+                    colorS.mSelection[0] = true;
                     linyLayout.addView(colorS);
                     break;
                 }
@@ -227,11 +229,14 @@ public class BuggyMain extends AppCompatActivity {
         searchQuery = new ArrayList<>();
 
         for(SpinnerTuple thisField : spinnerQueries){
-            searchQuery.add(new SearchField(thisField.viewLabel, thisField.myView.getSelectedItem().toString()));
+            if(!thisField.myView.getSelectedItem().toString().equals("Any"))
+            {
+                searchQuery.add(new SearchField(thisField.viewLabel, thisField.myView.getSelectedItem().toString()));
+            }
         }
         for(TextTuple thisField : textQueries){
             String currentString = thisField.myView.getText().toString();
-            if(!currentString.equals("Any"))
+            if(!currentString.equals(""))
             {
                 searchQuery.add(new SearchField(thisField.viewLabel, currentString));
             }

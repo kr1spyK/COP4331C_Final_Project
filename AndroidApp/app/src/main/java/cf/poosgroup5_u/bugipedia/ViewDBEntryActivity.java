@@ -87,7 +87,7 @@ public class ViewDBEntryActivity extends AppCompatActivity implements OnMapReady
         //get bugID to do everything else
 
         try {
-            bugIDWrapper = (BugIDWrapper) getIntent().getExtras().get(AppUtils.BUG_INFO_KEY);
+            bugIDWrapper = new BugIDWrapper((Integer)getIntent().getExtras().get(AppUtils.BUG_INFO_KEY));
         } catch (NullPointerException | ClassCastException ex ){
             Log.e(TAG, "Main Activity didnt Pass a Bug Info ", ex);
             Toast.makeText(this, getString(R.string.bugInfo_obtain_error), Toast.LENGTH_LONG).show();
