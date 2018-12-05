@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bugipedia - Add</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top" onload="setUpEditPage()">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+        <a class="navbar-brand mr-1" href="main.html">
+            <i class="fas fa-fw fa-bug"></i>
+            Bugipedia
+        </a>
+
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"></form>
+
+        <!-- Navbar -->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <a class="btn btn-primary btn-block" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="edit.html">
+                    <i class="fas fa-fw fa-edit"></i>
+                    <span>Edit</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="add.html">
+                    <i class="fas fa-fw fa-file-medical"></i>
+                    <span>Add</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="approve.html">
+                    <i class="fas fa-fw fa-check-square"></i>
+                    <span>Approve</span>
+                </a>
+            </li>
+        </ul>
+
+        <div id="content-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Content -->
+                <div id="addMessage">
+                </div>
+                <h1 style="text-align: center" id="titleBug">Edit [foo-bar]</h1>
+                <br>
+
+                <form>
+                    <!-- name -->
+                    <div class="form-group">
+                        <div class="form-row">
+                            <!-- Common Name -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="common_name" class="form-control" placeholder="Common Name" required="required">
+                                    <label for="common_name">Common Name</label>
+                                </div>
+                            </div>
+                            <!-- Scientific Name -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="scientific_name" class="form-control" placeholder="Scientific Name" required="required">
+                                    <label for="scientific_name">Scientific Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- class -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="class" class="form-control" placeholder="Class" required="required">
+                            <label for="class">Class</label>
+                        </div>
+                    </div>
+
+                    <!-- order -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="order" class="form-control" placeholder="Order" required="required">
+                            <label for="order">Order</label>
+                        </div>
+                    </div>
+
+                    <!-- family -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="family" class="form-control" placeholder="Family" required="required">
+                            <label for="family">Family</label>
+                        </div>
+                    </div>
+
+                    <!-- genus -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="genus" class="form-control" placeholder="Genus" required="required">
+                            <label for="genus">Genus</label>
+                        </div>
+                    </div>
+
+                    <!-- color -->
+                    <div class="form-group">
+                        <div class="form-row">
+                            <!-- Color 1 -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="color_1" class="form-control" placeholder="Primary Color" required="required">
+                                    <label for="color_1">Primary Color</label>
+                                </div>
+                            </div>
+                            <!-- Color 2 -->
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="color_2" class="form-control" placeholder="Secondary Color" required="required">
+                                    <label for="color_2">Secondary Color</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- general type -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="general_type" class="form-control" placeholder="General Type" required="required">
+                            <label for="general_type">General Type</label>
+                        </div>
+                    </div>
+
+                    <!-- mouth parts -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="mouth_parts" class="form-control" placeholder="Mouth Parts" required="required">
+                            <label for="mouth_parts">Mouth Parts</label>
+                        </div>
+                    </div>
+
+
+                    <!-- wings -->
+                    <div class="form-group">
+                        <label for="wings">Wings</label>
+                        <select class="form-control" id="wings">
+                            <option>False</option>
+                            <option>True</option>
+                        </select>
+                    </div>
+
+                    <!-- antenna -->
+                    <div class="form-group">
+                        <label for="antenna">Antenna</label>
+                        <select class="form-control" id="antenna">
+                            <option>True</option>
+                            <option>False</option>
+                        </select>
+                    </div>
+
+                    <!-- hind legs -->
+                    <div class="form-group">
+                        <label for="hind_legs">Hind Legs Modified for Jumping</label>
+                        <select class="form-control" id="hind_legs">
+                            <option>False</option>
+                            <option>True</option>
+                        </select>
+                    </div>
+
+                    <!-- hairy / furry -->
+                    <div class="form-group">
+                        <label for="hairy_furry">Hairy / Furry</label>
+                        <select class="form-control" id="hairy_furry">
+                            <option>False</option>
+                            <option>True</option>
+                        </select>
+                    </div>
+
+                    <!-- thin body -->
+                    <div class="form-group">
+                        <label for="thin_body">Thin Body</label>
+                        <select class="form-control" id="thin_body">
+                            <option>False</option>
+                            <option>True</option>
+                        </select>
+                    </div>
+
+                    <!-- description -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="description" class="form-control" placeholder="Description" required="required">
+                            <label for="description">Description</label>
+                        </div>
+                    </div>
+
+                    <!-- additional advice -->
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="text" id="additional_advice" class="form-control" placeholder="Additional Advice" required="required">
+                            <label for="additional_advice">Additional Advice</label>
+                        </div>
+                    </div>
+
+                    <!-- submit -->
+                    <a class="btn btn-primary btn-block" href="#" onclick="submitEdit()">Submit</a>
+                </form>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>
