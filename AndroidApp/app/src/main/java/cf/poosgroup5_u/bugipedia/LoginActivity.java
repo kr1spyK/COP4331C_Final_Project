@@ -1,10 +1,10 @@
 package cf.poosgroup5_u.bugipedia;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+
 import cf.poosgroup5_u.bugipedia.api.APICaller;
 import cf.poosgroup5_u.bugipedia.api.Login;
 import cf.poosgroup5_u.bugipedia.api.LoginResult;
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -140,6 +142,14 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(context, sessionID, Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "login server response");
                     }
+
+                    //tell everyone that the user has passed the slideshow
+                    AppUtils.setFirstTimeUse(false, context);
+
+                    //take the user to the main activity
+                    Intent i = new Intent(context, BuggyMain.class);
+                    finish();
+                    startActivity(i);
 
                 } else {
                     String error = response.body().getErrorMessage();

@@ -1,7 +1,7 @@
 package cf.poosgroup5_u.bugipedia;
 
-import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,6 +29,7 @@ import cf.poosgroup5_u.bugipedia.api.SearchField;
 import cf.poosgroup5_u.bugipedia.api.SearchFieldResult;
 import cf.poosgroup5_u.bugipedia.api.SearchResult;
 import cf.poosgroup5_u.bugipedia.api.SearchResultEntry;
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,6 +68,13 @@ public class BuggyMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (AppUtils.isFirstTime(this)){
+            Intent i = new Intent(BuggyMain.this, FirstTimeActivity.class);
+            BuggyMain.this.finish();
+            startActivity(i);
+        }
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.buggy_layout);
