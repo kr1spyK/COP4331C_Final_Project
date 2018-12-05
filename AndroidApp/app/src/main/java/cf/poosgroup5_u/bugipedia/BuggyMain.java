@@ -3,9 +3,12 @@ package cf.poosgroup5_u.bugipedia;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,9 +86,6 @@ public class BuggyMain extends AppCompatActivity {
 
         bugContext = this;
 
-        //todo remove me
-        APICaller.enableDebugLogging(true);
-
 
         //Fetches available filters
         APICaller.call().getSearchFields().enqueue(new Callback<SearchFieldResult>() {
@@ -113,6 +113,10 @@ public class BuggyMain extends AppCompatActivity {
             @Override
             public void onFailure(Call<SearchFieldResult> call, Throwable t) {
                 //What happens if the query fails
+                //log error and create snack bar
+                Snackbar mySnackbar = Snackbar.make(mainLayout, "Failed to Fetch Filters", BaseTransientBottomBar.LENGTH_SHORT);
+                mySnackbar.show();
+                Log.e("MainActivity", "Failed to Fetch Filters");
             }
         });
 
@@ -122,7 +126,8 @@ public class BuggyMain extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableLayout.toggle();
+                if(expandableLayout.isExpanded())  expandableLayout.collapse();
+
                 //populates searchQuery from selected filters
                 makeQuery(spinnerQueries, textQueries, checkQueries, colorS);
 
@@ -149,7 +154,10 @@ public class BuggyMain extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<SearchResult> call, Throwable t) {
-
+                        //log error and create snack bar
+                        Snackbar mySnackbar = Snackbar.make(mainLayout, "Failed to Search Database", BaseTransientBottomBar.LENGTH_SHORT);
+                        mySnackbar.show();
+                        Log.e("MainActivity", "Failure to Search");
                     }
                 });
 
