@@ -219,7 +219,7 @@ function submitEdit()
         '", "general_type":"' + document.getElementById("general_type").value + '", "mouth_parts":"' + document.getElementById("mouth_parts").value +
         '", "wings": ' + wings + ', "antenna": ' + antenna + ', "hind_legs_jump": ' + legs + ', "hairy_furry": ' + furry +
         ', "thin_body": ' + thin + ', "description":"' + document.getElementById("description").value +
-        '", "additional_advice":"' + document.getElementById("additional_advice").value + '", “bugid”: ' + bugID + '}';
+        '", "additional_advice":"' + document.getElementById("additional_advice").value + '", "bugid": ' + bugID + '}';
     var url = urlBase + 'api/editBug';
 
     var xhr = new XMLHttpRequest();
