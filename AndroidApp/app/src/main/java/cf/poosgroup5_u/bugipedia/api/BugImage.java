@@ -15,7 +15,7 @@ public class BugImage implements Parcelable {
     /**
      * A value from 0-100 on how much to compress the JPEG images we send to the server
      */
-    private static final int COMPRESSION_VALUE = 0;
+    private static final int COMPRESSION_VALUE = 100;
 
 
     @SerializedName("id")
