@@ -342,14 +342,14 @@ function PopulateTable()
         var JSONObjectsArr = JSON.parse(xhr.responseText);
 
         if (JSONObjectsArr.success == 1) {
-            var table = document.getElementById("dataTable");
+            var table = document.getElementById("approveTable");
             var arr = Array.from(JSONObjectsArr.submissions);
             arr.forEach(function (item, index) {
                 addRowOnApproveTable(table, item, index)
             });
 
             $(document).ready(function () {
-                $('#dataTable').DataTable();
+                $('#approveTable').DataTable();
             });
         }
 
@@ -462,12 +462,12 @@ function addRowOnApproveTable(table, item, index) {
         // add row to table
         $(table).find('tbody').append("<tr><td>" + old +
             "</td><td>" + newedits + "</td><td> <button type='button' id='approvebutton" +
-            item.submission_id + "'>Approve!</button> </td><td> <button type='rejectbutton' id='button" +
+            item.submission_id + "'>Approve!</button> </td><td> <button type='button' id='rejectbutton" +
             item.submission_id + "'>Reject!</button> </td></tr>");
 
-        var btn = document.getElementById("approvebutton" + item.id);
+        var btn = document.getElementById("approvebutton" + item.submission_id);
         btn.onclick = function () { approveEdit(item.submission_id) };
-        var btn2 = document.getElementById("rejectbutton" + item.id);
+        var btn2 = document.getElementById("rejectbutton" + item.submission_id);
         btn2.onclick = function () { rejectEdit(item.submission_id) };
     }
 }
@@ -475,7 +475,7 @@ function addRowOnApproveTable(table, item, index) {
 
 function approveEdit(submissionID)
 {
-    var jsonPayload = ':{"id": ' + submissionID + ', "approve": true}';
+    var jsonPayload = '{"id":' + submissionID + ', "approve":true}';
     var url = urlBase + 'api/approveEdit';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
@@ -498,7 +498,7 @@ function approveEdit(submissionID)
 
 function rejectEdit(submissionID)
 {
-    var jsonPayload = ':{"id": ' + submissionID + ', "approve": false}';
+    var jsonPayload = '{"id":' + submissionID + ', "approve":false}';
     var url = urlBase + 'api/approveEdit';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
