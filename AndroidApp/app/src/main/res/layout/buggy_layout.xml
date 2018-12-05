@@ -8,6 +8,12 @@
     android:orientation="vertical">
 
 
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filters"
+        android:background="@drawable/button_border"/>
 
     <com.github.aakira.expandablelayout.ExpandableWeightLayout
         android:id="@+id/expandableLayout"
@@ -25,17 +31,14 @@
 
     </com.github.aakira.expandablelayout.ExpandableWeightLayout>
 
-    <Button
-        android:id="@+id/filterButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@+String/filters" />
+
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@+String/Search" />
+        android:text="Search"
+        android:background="@drawable/button_border"/>
 
 
 

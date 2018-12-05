@@ -79,7 +79,6 @@ public class BuggyMain extends AppCompatActivity {
 
         searchButton = findViewById(R.id.searchButton);
         filterButton = findViewById(R.id.filterButton);
-        filterButton.setText("Search and Filters");
 
 
         bugContext = this;
