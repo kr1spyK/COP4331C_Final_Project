@@ -23,7 +23,7 @@
         android:layout_height="117dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="139dp"
+        android:layout_marginBottom="129dp"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="20sp" />
