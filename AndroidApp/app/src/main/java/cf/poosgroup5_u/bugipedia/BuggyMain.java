@@ -173,17 +173,30 @@ public class BuggyMain extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_buggy, menu);
+        if(AppUtils.isLoggedIn(this)) {
+            menu.removeItem(R.id.tool_login);
+        } else {
+            menu.removeItem(R.id.tool_signout);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.tool_login) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.tool_login:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.tool_signout:
+                APICaller.updateAuthToken(AppUtils.DEFAULT_AUTH_TOKEN, this);
+                invalidateOptionsMenu();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
