@@ -1,23 +1,19 @@
 package cf.poosgroup5_u.bugipedia.gallery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import cf.poosgroup5_u.bugipedia.R;
 import cf.poosgroup5_u.bugipedia.api.BugImage;
+import cf.poosgroup5_u.bugipedia.utils.AppUtils;
 
 public class galleryPageAdapter extends PagerAdapter {
     private final Context context;
@@ -44,25 +40,10 @@ public class galleryPageAdapter extends PagerAdapter {
         photoView.setOnClickListener(photoViewOnClickListener);
 
         //load the image
-        Picasso.get().load(images.get(position).getUrl())
-                .error(R.drawable.placeholder_bug_error)
-                .placeholder(R.drawable.placeholder_bug)
-                .into(photoView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e(context instanceof Activity ? (((Activity) context).getLocalClassName()) : "Gallery Page Adapater", e.getMessage(), e);
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+        AppUtils.loadImageIntoView(images.get(position).getUrl(), photoView, context);
 
 
-        container.addView(slideLayout, position);
+        container.addView(slideLayout, Math.min(position, 2));
 
         return slideLayout;
     }

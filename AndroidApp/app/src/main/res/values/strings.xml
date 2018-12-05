@@ -42,7 +42,7 @@
     <string name="UploadSuccess">Upload Successful!</string>
     <string name="errorOpenImage">Unable to open image.</string>
     <string name="fatalError">fatal error occurred, please try again.</string>
-    <string name="title_activity_add_picture_acivity">AddPictureAcivity</string>
+    <string name="title_activity_add_picture_activity">AddPictureActivity</string>
 
     <string name="search_database">Search DB</string>
     <string name="login">Login</string>
@@ -57,5 +57,17 @@
     <string name="report">Report</string>
     <string name="cancel">Cancel</string>
     <string name="photoReportSuccess">Photo Reported!</string>
+    <string name="title_activity_view_dbentry">ViewDBEntry</string>
+    <string name="Description">Description</string>
+    <string name="characteristics">Characteristics</string>
+    <string name="additional_info">Additional Info</string>
+    <string name="known_sightings">Known Sightings / Locations</string>
+    <string name="bugInfo_obtain_error">Error obtaining bug information. Please try again later.</string>
+    <string name="imageLoadFailed">Couldn\'t load image:</string>
+    <string name="add_picture">Add Picture</string>
+    <string name="add_sighting">Add Sighting</string>
+    <string name="error_getting_bug_info">Error retrieving Bug Info. Please try again later.</string>
+    <string name="common_name">Common Name</string>
+    <string name="scientific_name">Scientific Name</string>
 
 </resources>

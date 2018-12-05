@@ -162,7 +162,7 @@ public class TestAPIEndpoints {
     @Test
     public void testGetSightings() throws Exception {
         final CompletableFuture<SightingResult> future = new CompletableFuture<>();
-        APICaller.call().getSightings(new BugInfo(1)).enqueue(new Callback<SightingResult>() {
+        APICaller.call().getSightings(new BugIDWrapper(1)).enqueue(new Callback<SightingResult>() {
             @Override
             public void onResponse(Call<SightingResult> call, Response<SightingResult> response) {
                 future.complete(response.body());
@@ -215,7 +215,7 @@ public class TestAPIEndpoints {
         final CompletableFuture<BugImagesResult> future = new CompletableFuture<>();
 
 
-        BugInfo buginfo = new BugInfo(1);
+        BugIDWrapper buginfo = new BugIDWrapper(1);
         APICaller.call().getImages(buginfo).enqueue(new Callback<BugImagesResult>() {
             @Override
             public void onResponse(Call<BugImagesResult> call, Response<BugImagesResult> response) {
@@ -246,7 +246,7 @@ public class TestAPIEndpoints {
 
 
         //get the latest image (essentially testGetImages as well)
-        BugInfo buginfo = new BugInfo(1);
+        BugIDWrapper buginfo = new BugIDWrapper(1);
         APICaller.call().getImages(buginfo).enqueue(new Callback<BugImagesResult>() {
             @Override
             public void onResponse(Call<BugImagesResult> call, Response<BugImagesResult> response) {
@@ -289,7 +289,7 @@ public class TestAPIEndpoints {
         final CompletableFuture<BugEntry> future = new CompletableFuture<>();
 
 
-        BugInfo buginfo = new BugInfo(1);
+        BugIDWrapper buginfo = new BugIDWrapper(1);
         APICaller.call().getBugEntry(buginfo).enqueue(new Callback<BugEntry>() {
             @Override
             public void onResponse(Call<BugEntry> call, Response<BugEntry> response) {

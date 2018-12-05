@@ -1,6 +1,8 @@
 package cf.poosgroup5_u.bugipedia.api;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Base64;
 
 import com.google.gson.annotations.Expose;
@@ -8,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.ByteArrayOutputStream;
 
-public class BugImage {
+public class BugImage implements Parcelable {
 
     /**
      * A value from 0-100 on how much to compress the JPEG images we send to the server
@@ -86,4 +88,49 @@ public class BugImage {
 
 
     }
+
+    //Parcel stuff (Android's "serializable")
+
+    protected BugImage(Parcel in) {
+        bugID = in.readByte() == 0x00 ? null : in.readInt();
+        image = in.readString();
+        url = in.readString();
+        imageID = in.readByte() == 0x00 ? null : in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (bugID == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(bugID);
+        }
+        dest.writeString(image);
+        dest.writeString(url);
+        if (imageID == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(imageID);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<BugImage> CREATOR = new Parcelable.Creator<BugImage>() {
+        @Override
+        public BugImage createFromParcel(Parcel in) {
+            return new BugImage(in);
+        }
+
+        @Override
+        public BugImage[] newArray(int size) {
+            return new BugImage[size];
+        }
+    };
 }

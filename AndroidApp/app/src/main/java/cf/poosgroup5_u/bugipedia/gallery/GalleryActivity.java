@@ -35,7 +35,7 @@ import retrofit2.Response;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class Gallery extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity {
 
     /**
      * String used for for the key, when passing the arrayList of strings of links to images of bugs
@@ -97,7 +97,7 @@ public class Gallery extends AppCompatActivity {
         //get the images from the bundle
         List<BugImage> images;
         try {
-            images = new ArrayList<>((List)getIntent().getExtras().get(IMAGES_KEY));
+            images = getIntent().getExtras().getParcelableArrayList(IMAGES_KEY);
         } catch (NullPointerException | ClassCastException npe ){
 
             Log.e(TAG, "Didn't get any images from previous activity", npe);
@@ -140,35 +140,31 @@ public class Gallery extends AppCompatActivity {
             String nameOfBug = getIntent().getExtras().getString(COMMON_NAME_KEY);
             getSupportActionBar().setTitle(nameOfBug);
         }catch (NullPointerException npe ){
-            Log.e(TAG, "Gallery was not passed the bug name ", npe);
+            Log.e(TAG, "GalleryActivity was not passed the bug name ", npe);
         };
 
     }
 
+
     @Override
-    public boolean onSupportNavigateUp() { //actionbar back button
-        finish();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (AppUtils.isLoggedIn(this))
+        getMenuInflater().inflate(R.menu.menu_gallery, menu);
+
+        //only display report button if we are logged in
         return true;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_gallery, menu);
-
-        //only display report button if we are logged in
-        return AppUtils.isLoggedIn(this);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final Toast errorToast = Toast.makeText(Gallery.this, R.string.uploadErrorMessage, Toast.LENGTH_SHORT);
-        final Toast successToast = Toast.makeText(Gallery.this, R.string.photoReportSuccess, Toast.LENGTH_SHORT);
+        final Toast errorToast = Toast.makeText(GalleryActivity.this, R.string.uploadErrorMessage, Toast.LENGTH_SHORT);
+        final Toast successToast = Toast.makeText(GalleryActivity.this, R.string.photoReportSuccess, Toast.LENGTH_SHORT);
 
         final int id = item.getItemId();
         if (id == R.id.report_photo){
             final BugImage currentImage;
             try {
-                currentImage = ((List<BugImage>) getIntent().getExtras().get(IMAGES_KEY)).get(id);
+                currentImage = ((List<BugImage>) getIntent().getExtras().get(IMAGES_KEY)).get(photoPager.getCurrentItem());
             } catch (NullPointerException | ClassCastException ex){
                 Log.e(TAG, "Error occurred getting image to report from original Intent.", ex);
                 errorToast.show();
@@ -215,9 +211,11 @@ public class Gallery extends AppCompatActivity {
                     })
                     .setNegativeButton(getString(R.string.cancel), null)
                     .show();
+        } else if (id == android.R.id.home){
+            finish();
         } else {
             //this...should be impossible
-            Log.wtf(TAG, "Gallery option menu clicked on something other than the 1 report option.");
+            Log.wtf(TAG, "GalleryActivity option menu clicked on something other than the 1 report option.");
         }
         return true;
     }
