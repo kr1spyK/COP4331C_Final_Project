@@ -467,8 +467,8 @@ function addRowOnApproveTable(table, item, index) {
 
         var btn = document.getElementById("approvebutton" + item.id);
         btn.onclick = function () { approveEdit(item.submission_id) };
-        var btn = document.getElementById("rejectbutton" + item.id);
-        btn.onclick = function () { rejectEdit(item.submission_id) };
+        var btn2 = document.getElementById("rejectbutton" + item.id);
+        btn2.onclick = function () { rejectEdit(item.submission_id) };
     }
 }
 
