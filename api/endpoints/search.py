@@ -129,6 +129,8 @@ class SearchEndpoint(Resource):
                 q = q.filter(Bug.mouth_parts.has(name=json_data["Mouth Parts"]))
             if "Colors" in json_data.keys():
                 # don't ask
+                if isinstance(json_data["Colors"], str):
+                    json_data["Colors"] = [json_data["Colors"]]
                 q = q.filter(or_(x.has(color=c) for c in json_data["Colors"] for x in [Bug.color1, Bug.color2]))
             if "Has wings" in json_data.keys():
                 if json_data["Has wings"] == "Yes":
