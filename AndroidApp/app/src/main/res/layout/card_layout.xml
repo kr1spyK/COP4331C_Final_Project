@@ -27,29 +27,29 @@
                 android:padding="4dp" />
 
             <TextView
-                android:id="@+id/textViewSciName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="74dp"
-                android:layout_toEndOf="@id/imageView"
-                android:layout_toRightOf="@id/imageView"
-                android:text="@+String/Scientific Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <TextView
                 android:id="@+id/textViewName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="185dp"
+                android:layout_height="35dp"
                 android:layout_alignTop="@+id/imageView"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/imageView"
                 android:layout_toRightOf="@id/imageView"
                 android:text="@+String/General Name"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/textViewSciName"
+                android:layout_width="185dp"
+                android:layout_height="35dp"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="50dp"
+                android:layout_toEndOf="@id/imageView"
+                android:layout_toRightOf="@id/imageView"
+                android:text="@+String/Scientific Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <TextView
@@ -59,14 +59,12 @@
                 android:layout_alignTop="@+id/imageView"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="41dp"
+                android:layout_marginTop="40dp"
                 android:layout_toEndOf="@id/imageView"
                 android:layout_toRightOf="@id/imageView"
                 android:text="@+String/Bug ID"
-                android:visibility="gone"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:visibility="gone" />
 
 
         </RelativeLayout>
