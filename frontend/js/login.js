@@ -451,11 +451,11 @@ function addRowOnApproveTable(table, item, index) {
         }
         if (oldBug.description != newBug.description) {
             old = old + "Description: " + oldBug.description + "\n";
-            newedits = newedits + "Description:" + newBugs.description + "\n";
+            newedits = newedits + "Description:" + newBug.description + "\n";
         }
         if (oldBug.additional_advice != newBug.additional_advice) {
             old = old + "Additional advice: " + oldBug.additional_advice + "\n";
-            newedits = newedits + "Additional advice:" + newBugs.additional_advice + "\n";
+            newedits = newedits + "Additional advice:" + newBug.additional_advice + "\n";
         }
 
 
