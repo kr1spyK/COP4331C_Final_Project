@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:sdMainFabClosedSrc="@android:drawable/ic_input_add"
+        app:sdMainFabClosedSrc="@drawable/ic_plus_button_24dp"
         app:sdOverlayLayout="@id/fabOverlay" />
 
 
@@ -40,6 +40,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/color_background"
                     android:orientation="vertical">
 
 
