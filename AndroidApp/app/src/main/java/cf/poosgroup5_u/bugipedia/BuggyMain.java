@@ -123,6 +123,7 @@ public class BuggyMain extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                expandableLayout.toggle();
                 //populates searchQuery from selected filters
                 makeQuery(spinnerQueries, textQueries, checkQueries, colorS);
 
