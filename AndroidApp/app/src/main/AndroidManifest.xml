@@ -52,7 +52,9 @@
             android:value="@string/google_maps_key" />
 
 
-        <activity android:name=".BuggyMain">
+        <activity android:name=".BuggyMain"
+            android:configChanges="orientation"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN" />
