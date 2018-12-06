@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -33,10 +32,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     // UI references.
     private Switch adminSwitch;
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserView;
     private EditText mPasswordView;
 //    private EditText mPasswordCheck;
-    private Button mEmailSignInButton;
+    private Button mUserSignInButton;
     private TextView mLoginLink;
 
     private boolean setAdmin = false;
@@ -47,22 +46,22 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Intent intent = getIntent();
-        String loggieEmail = intent.getStringExtra(Intent.EXTRA_EMAIL);
+        String loggieName = intent.getStringExtra(Intent.EXTRA_USER);
 
         // Set up the login form.
         adminSwitch = findViewById(R.id.adminSwitch);
-        mEmailView = findViewById(R.id.email);
+        mUserView = findViewById(R.id.user);
         mPasswordView = findViewById(R.id.password);
-        mEmailSignInButton = findViewById(R.id.signup_button);
+        mUserSignInButton = findViewById(R.id.signup_button);
         mLoginLink = findViewById(R.id.link_login);
 
         if (BuildConfig.DEBUG) {
             adminSwitch.setVisibility(View.VISIBLE);
         }
 
-        if (loggieEmail != null) mEmailView.setText(loggieEmail);
+        if (loggieName != null) mUserView.setText(loggieName);
 
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mUserSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
@@ -73,9 +72,9 @@ public class RegisterActivity extends AppCompatActivity {
         mLoginLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmailView.getText().toString();
+                String user = mUserView.getText().toString();
                 Intent loginIntent = new Intent();
-                loginIntent.putExtra("REGGIE_EMAIL", email);
+                loginIntent.putExtra("REGGIE_USER", user);
 
                 setResult(RESULT_CANCELED, loginIntent);
                 finish();
@@ -115,10 +114,6 @@ public class RegisterActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
         }
 
         if (cancel) {
@@ -133,8 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-   private void doRegister(String email, String password) {
-        RegisterUser user = new RegisterUser(email, password);
+   private void doRegister(String name, String password, final APICallback cb) {
+        RegisterUser user = new RegisterUser(name, password);
         user.setIsAdmin(setAdmin);
 
         APICaller.call().register(user).enqueue(new Callback<Result>() {
