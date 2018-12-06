@@ -89,11 +89,11 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void attemptRegister() {
         // Reset errors.
-        mEmailView.setError(null);
+        mUserView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        final String username = mUserView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         if (adminSwitch.isChecked()) setAdmin = true;
@@ -109,10 +109,10 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a username.
+        if (TextUtils.isEmpty(username)) {
+            mUserView.setError(getString(R.string.error_field_required));
+            focusView = mUserView;
             cancel = true;
         }
 
@@ -120,7 +120,18 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
-                doRegister(email, password);
+                doRegister(username, password, new APICallback() {
+                    @Override
+                    public void onResponse(boolean success) {
+                        if (success) {
+                            //TODO: pass username back to login
+                            Intent intent = new Intent();
+                            intent.putExtra(Intent.EXTRA_USER, username);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -135,13 +146,17 @@ public class RegisterActivity extends AppCompatActivity {
         APICaller.call().register(user).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
+                boolean success;
                 if (response.isSuccessful() && response.body().wasSuccessful()) {
                     Snackbar.make(findViewById(R.id.register_form), getString(R.string.action_success), Snackbar.LENGTH_SHORT).show();
+                    success = response.body().wasSuccessful();
                 } else {
                     String error = response.body().getErrorMessage();
                     Log.i(TAG, error);
+                    success = response.body().wasSuccessful();
                     Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
+                cb.onResponse(success);
             }
 
             @Override
@@ -154,6 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String error = "Conversion error";
                     Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
+                cb.onResponse(false);
             }
         });
     }

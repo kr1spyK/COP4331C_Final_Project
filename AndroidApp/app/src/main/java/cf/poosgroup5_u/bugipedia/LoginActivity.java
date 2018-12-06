@@ -79,13 +79,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Bundle extras = data.getExtras();
-//        if (requestCode == REGISTER_REQUEST_CODE) {
-//            if (extras != null) {
-//                String returnEmail = extras.getString("REGGIE_USER");
-//                mUserView.setText(returnEmail);
-//            }
-//        }
+        Bundle extras = data.getExtras();
+        if (requestCode == REGISTER_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                String returnName = extras.getString(Intent.EXTRA_USER);
+                mUserView.setText(returnName);
+            }
+        }
     }
 
     // Checking for empty fields before sending a login request.
