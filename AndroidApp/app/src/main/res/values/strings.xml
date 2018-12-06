@@ -16,6 +16,8 @@
     </string>
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="button_filters">Filters</string>
+    <string name="button_search">Search</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
