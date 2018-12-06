@@ -22,18 +22,15 @@
 
     <LinearLayout
         android:id="@+id/dotsLayout"
-        android:layout_width="107dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="154dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginRight="123dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="25dp"
         android:orientation="horizontal"
-        android:padding="20dp"></LinearLayout>
+        android:padding="20dp" />
 
     <Button
         android:id="@+id/prevBtn"

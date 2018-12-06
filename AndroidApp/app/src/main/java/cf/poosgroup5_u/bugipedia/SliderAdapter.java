@@ -53,13 +53,13 @@ public class SliderAdapter extends PagerAdapter {
 
     };
 
-    public String[] slide_descs = {
-
-            "",
-            "",
-            "",
-            ""
-    };
+//    public String[] slide_descs = {
+//
+//            "",
+//            "",
+//            "",
+//            ""
+//    };
 
 
     @Override
@@ -80,11 +80,11 @@ public class SliderAdapter extends PagerAdapter {
 
         ImageView slideImageView = (ImageView) view.findViewById(R.id.slide_image);
         TextView slideHeading = (TextView) view.findViewById(R.id.slide_heading);
-        TextView slideDescription = (TextView) view.findViewById(R.id.slide_desc);
+//        TextView slideDescription = (TextView) view.findViewById(R.id.slide_desc);
 
         slideImageView.setImageResource(slide_images[position]);
         slideHeading.setText(slide_headings[position]);
-        slideDescription.setText(slide_descs[position]);
+//        slideDescription.setText(slide_descs[position]);
 
         container.addView(view);
 
@@ -93,6 +93,6 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((RelativeLayout)object);
+        container.removeView((LinearLayout)object);
     }
 }

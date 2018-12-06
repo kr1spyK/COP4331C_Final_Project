@@ -84,5 +84,6 @@
     <string name="error_getting_bug_info">Error retrieving Bug Info. Please try again later.</string>
     <string name="common_name">Common Name</string>
     <string name="scientific_name">Scientific Name</string>
+    <string name="upload">Upload</string>
 
 </resources>
