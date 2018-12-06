@@ -1,31 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
-    <string name="search_hint">search suggestion</string>
-    <string name="title_activity_login">Sign in</string>
+
+    <string name="app_name" translatable="false">Bugipedia</string>
+
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_user">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="search_item">item containing the searchview within the menu</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="title_item_list">Items</string>
-    <string name="title_item_detail">Item Detail</string>
-    <string name="button_filters">Filters</string>
-    <string name="button_search">Search</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="app_name" translatable="false">Bugipedia</string>
-
-    <string name="title_bug_list">Bugs</string>
-    <string name="title_bug_detail">Bug Detail</string>
 
     <!-- networking -->
     <string name="action_success">Success</string>
@@ -35,14 +17,16 @@
     <!-- login/register -->
     <string name="title_activity_register">Register</string>
     <string name="prompt_check">Check password</string>
+    <string name="mismatch_password">Passwords do not match</string>
     <string name="action_signup">Sign up</string>
     <string name="action_login">Log in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="set_admin">Set Admin</string>
     <string name="solicit_registration">No account? Sign up here.</string>
     <string name="solicit_login">Have an account? Log in here.</string>
     <string name="error_login">Invalid login.</string>
 
     <!-- pw validation -->
-
     <string name="error_short_password">\n Be greater than 8 characters</string>
     <string name="error_case_password">\n Have at least one uppercase</string>
     <string name="error_symbol_password">\n Contain a number and a symbol</string>
@@ -62,13 +46,12 @@
     <string name="title_activity_add_picture_activity">AddPictureActivity</string>
 
     <string name="search_database">Search DB</string>
-    <string name="login">Login</string>
+    <string name="button_filters">Filters</string>
+    <string name="button_search">Search</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
     <string name="title_activity_gallery">Gallery</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="report_photo">Report Photo</string>
     <string name="confirmReportPhoto">Report this image for being wrong/misleading?</string>
     <string name="report">Report</string>

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -33,10 +32,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     // UI references.
     private Switch adminSwitch;
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserView;
     private EditText mPasswordView;
-//    private EditText mPasswordCheck;
-    private Button mEmailSignInButton;
+    private EditText mPasswordCheck;
+    private Button mUserSignInButton;
     private TextView mLoginLink;
 
     private boolean setAdmin = false;
@@ -47,36 +46,36 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Intent intent = getIntent();
-        String loggieEmail = intent.getStringExtra(Intent.EXTRA_EMAIL);
+        String loggieName = intent.getStringExtra(Intent.EXTRA_USER);
 
         // Set up the login form.
         adminSwitch = findViewById(R.id.adminSwitch);
-        mEmailView = findViewById(R.id.email);
+        mUserView = findViewById(R.id.user);
         mPasswordView = findViewById(R.id.password);
-        mEmailSignInButton = findViewById(R.id.signup_button);
+        mPasswordCheck = findViewById(R.id.check_password);
+        mUserSignInButton = findViewById(R.id.signup_button);
         mLoginLink = findViewById(R.id.link_login);
 
         if (BuildConfig.DEBUG) {
             adminSwitch.setVisibility(View.VISIBLE);
         }
 
-        if (loggieEmail != null) mEmailView.setText(loggieEmail);
+        if (loggieName != null) mUserView.setText(loggieName);
 
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mUserSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
             }
         });
 
-        // Going back to login page from link, carry over email in case
-        // user entered email in wrong page.
+        // Going back to login page from link, carry over email
         mLoginLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmailView.getText().toString();
+                String user = mUserView.getText().toString();
                 Intent loginIntent = new Intent();
-                loginIntent.putExtra("REGGIE_EMAIL", email);
+                loginIntent.putExtra("REGGIE_USER", user);
 
                 setResult(RESULT_CANCELED, loginIntent);
                 finish();
@@ -91,12 +90,13 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void attemptRegister() {
         // Reset errors.
-        mEmailView.setError(null);
+        mUserView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        final String username = mUserView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String checkPass = mPasswordCheck.getText().toString();
 
         if (adminSwitch.isChecked()) setAdmin = true;
         else setAdmin = false;
@@ -111,14 +111,20 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a username.
+        if (TextUtils.isEmpty(username)) {
+            mUserView.setError(getString(R.string.error_field_required));
+            focusView = mUserView;
             cancel = true;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        }
+        if (TextUtils.isEmpty(checkPass)) {
+            mPasswordCheck.setError(getString(R.string.error_field_required));
+            focusView = mPasswordCheck;
+            cancel = true;
+        }
+        if(!TextUtils.equals(password, checkPass)) {
+            mPasswordCheck.setError(getString(R.string.mismatch_password));
+            focusView = mPasswordCheck;
             cancel = true;
         }
 
@@ -126,7 +132,17 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
-                doRegister(email, password, setAdmin);
+                doRegister(username, password, new APICallback() {
+                    @Override
+                    public void onResponse(boolean success) {
+                        if (success) {
+                            Intent intent = new Intent();
+                            intent.putExtra(Intent.EXTRA_USER, username);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -134,32 +150,37 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-   private void doRegister(String email, String password, Boolean admin) {
-        RegisterUser user = new RegisterUser(email, password);
-        user.setIsAdmin(admin);
+   private void doRegister(String name, String password, final APICallback cb) {
+        RegisterUser user = new RegisterUser(name, password);
+        user.setIsAdmin(setAdmin);
 
         APICaller.call().register(user).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
+                boolean success;
                 if (response.isSuccessful() && response.body().wasSuccessful()) {
-                    Snackbar.make(findViewById(R.id.email_signup_form), getString(R.string.action_success), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), getString(R.string.action_success), Snackbar.LENGTH_SHORT).show();
+                    success = response.body().wasSuccessful();
                 } else {
                     String error = response.body().getErrorMessage();
                     Log.i(TAG, error);
-                    Snackbar.make(findViewById(R.id.email_signup_form), error, Snackbar.LENGTH_SHORT).show();
+                    success = response.body().wasSuccessful();
+                    Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
+                cb.onResponse(success);
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
                 if (t instanceof IOException) {
-                    Snackbar.make(findViewById(R.id.email_signup_form), getString(R.string.error_internet), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), getString(R.string.error_internet), Snackbar.LENGTH_SHORT).show();
                 } else {
                     // logging probably necessary
                     Log.wtf(TAG, t.getMessage(), t);
                     String error = "Conversion error";
-                    Snackbar.make(findViewById(R.id.email_signup_form), error, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
+                cb.onResponse(false);
             }
         });
     }

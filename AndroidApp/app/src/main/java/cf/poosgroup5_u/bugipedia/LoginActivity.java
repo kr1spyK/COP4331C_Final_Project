@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REGISTER_REQUEST_CODE = 0;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserView;
     private EditText mPasswordView;
 
     @Override
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mEmailView = findViewById(R.id.email);
+        mUserView = findViewById(R.id.user);
 
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                intent.putExtra(Intent.EXTRA_EMAIL, mEmailView.getText().toString());
+                intent.putExtra(Intent.EXTRA_USER, mUserView.getText().toString());
                 startActivityForResult(intent, REGISTER_REQUEST_CODE);
             }
         });
@@ -79,24 +79,23 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-// NOTE: This is for extra fancy stuff with persistent text fields between login & register activity
-//        Bundle extras = data.getExtras();
-//        if (requestCode == REGISTER_REQUEST_CODE) {
-//            if (extras != null) {
-//                String returnEmail = extras.getString("REGGIE_EMAIL");
-//                mEmailView.setText(returnEmail);
-//            }
-//        }
+        Bundle extras = data.getExtras();
+        if (requestCode == REGISTER_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                String returnName = extras.getString(Intent.EXTRA_USER);
+                mUserView.setText(returnName);
+            }
+        }
     }
 
     // Checking for empty fields before sending a login request.
     private void attemptLogin() {
         // Reset errors.
-        mEmailView.setError(null);
+        mUserView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String user = mUserView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -110,9 +109,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Check for a username.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(user)) {
+            mUserView.setError(getString(R.string.error_field_required));
+            focusView = mUserView;
             cancel = true;
         }
 
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
-                doLogin(email, password);
+                doLogin(user, password);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -130,8 +129,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void doLogin(String email, String password) {
-        APICaller.call().login(new Login(email, password)).enqueue(new Callback<LoginResult>() {
+    private void doLogin(String user, String password) {
+        APICaller.call().login(new Login(user, password)).enqueue(new Callback<LoginResult>() {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.isSuccessful() && response.body().wasSuccessful()) {
