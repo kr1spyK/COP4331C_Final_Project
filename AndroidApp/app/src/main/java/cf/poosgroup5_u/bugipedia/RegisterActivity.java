@@ -136,7 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(boolean success) {
                         if (success) {
-                            //TODO: pass username back to login
                             Intent intent = new Intent();
                             intent.putExtra(Intent.EXTRA_USER, username);
                             setResult(RESULT_OK, intent);
