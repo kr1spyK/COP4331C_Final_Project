@@ -36,7 +36,15 @@
             android:id="@+id/filterScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/linyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </ScrollView>
 
     </com.github.aakira.expandablelayout.ExpandableWeightLayout>
 

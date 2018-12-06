@@ -71,4 +71,6 @@
     <string name="scientific_name">Scientific Name</string>
     <string name="upload">Upload</string>
 
+    <string name="filter_reset">Reset Filters</string>
+
 </resources>

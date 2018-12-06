@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -88,10 +89,12 @@ public class BuggyMain extends AppCompatActivity {
         recyclerView = findViewById(R.id.my_recycler);
         toolbar = findViewById(R.id.buggyToolbar);
 
+        filterLiny = findViewById(R.id.linyLayout);
         final LinearLayoutManager llm = new LinearLayoutManager(this);
 
         searchButton = findViewById(R.id.searchButton);
         filterButton = findViewById(R.id.filterButton);
+
 
         //Fills the white space in the main activity before anything is searched for
         final ImageView spaceFill = findViewById(R.id.placeholder_bug);
@@ -116,12 +119,12 @@ public class BuggyMain extends AppCompatActivity {
                     //Creates filter labels and views and adds them to the expandable layout
                     makeSearchBox(myFields);
 
+
                     //toggles the expandable search box
                     filterButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             if(!expandableLayout.isExpanded()) spaceFill.setVisibility(View.GONE);
                             expandableLayout.toggle();
-                            if(expandableLayout.isExpanded()) spaceFill.setVisibility(View.VISIBLE);
 
 
                         }
@@ -138,6 +141,10 @@ public class BuggyMain extends AppCompatActivity {
                 Log.e("MainActivity", "Failed to Fetch Filters");
             }
         });
+
+
+
+
 
         //Activates Search Button
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +240,6 @@ public class BuggyMain extends AppCompatActivity {
             switch(field.getType()){
                 case DROP:{
                     List<String> dropOptions = field.getOptions();
-                    dropOptions.add(0, "Any");
                     //if size is two it is actually going to be a checkbox since it is a yes/no dropdown
                     if(dropOptions.size() == 2)
                     {
@@ -242,6 +248,7 @@ public class BuggyMain extends AppCompatActivity {
                         linyLayout.addView(yesno);
                     }
                     else{
+                        dropOptions.add(0, "Any");
                         Spinner dropDown = new Spinner(this);
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropOptions);
                         dropDown.setAdapter(adapter);
@@ -253,6 +260,8 @@ public class BuggyMain extends AppCompatActivity {
                 case TEXT:{
                     EditText textField = new EditText(this);
                     textField.setSingleLine(true);
+                    LinearLayout.LayoutParams linparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    textField.setLayoutParams(linparams);
                     textQueries.add(new TextTuple(field.getLabel(), textField));
                     linyLayout.addView(textField);
                     break;
@@ -272,7 +281,7 @@ public class BuggyMain extends AppCompatActivity {
 
             filterLiny.addView(linyLayout);
         }
-        filterScroll.addView(filterLiny);
+
     }
 
 
@@ -301,7 +310,8 @@ public class BuggyMain extends AppCompatActivity {
                 searchQuery.add(new SearchField(thisField.viewLabel, "No"));
 
         }
-        if(!colorS.getSelectedStrings().contains("Any")){
+        //if any is unselected send all selected strings
+        if(!colorS.getSelectedStrings().contains("Any") && colorS.getSelectedStrings().size() >= 1){
             searchQuery.add(new SearchField("Colors", colorS.getSelectedStrings()));
         }
     }

@@ -37,6 +37,9 @@
                 android:layout_toEndOf="@id/imageView"
                 android:layout_toRightOf="@id/imageView"
                 android:text="@+String/General Name"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeMaxTextSize="30sp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <TextView
@@ -50,6 +53,9 @@
                 android:layout_toEndOf="@id/imageView"
                 android:layout_toRightOf="@id/imageView"
                 android:text="@+String/Scientific Name"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeMaxTextSize="30sp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <TextView
