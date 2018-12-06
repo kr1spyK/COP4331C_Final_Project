@@ -59,11 +59,11 @@ public class AddPictureActivity extends AppCompatActivity {
         // get access to upload button
         uploadButton = findViewById(R.id.button_upload);
 
-//        // Grab bugID from the ViewDBEntry
-//        bugID = getIntent().getExtras().getInt(BUG_ID);
+        // Grab bugID from the ViewDBEntry
+        bugID = getIntent().getExtras().getInt(BUG_ID);
 
-      // for testing:
-      bugID = 1;
+//      // for testing:
+//      bugID = 1;
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
