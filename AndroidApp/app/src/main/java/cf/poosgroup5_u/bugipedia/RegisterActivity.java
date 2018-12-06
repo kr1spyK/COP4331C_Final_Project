@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Switch adminSwitch;
     private AutoCompleteTextView mUserView;
     private EditText mPasswordView;
-//    private EditText mPasswordCheck;
+    private EditText mPasswordCheck;
     private Button mUserSignInButton;
     private TextView mLoginLink;
 
@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         adminSwitch = findViewById(R.id.adminSwitch);
         mUserView = findViewById(R.id.user);
         mPasswordView = findViewById(R.id.password);
+        mPasswordCheck = findViewById(R.id.check_password);
         mUserSignInButton = findViewById(R.id.signup_button);
         mLoginLink = findViewById(R.id.link_login);
 
@@ -95,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Store values at the time of the login attempt.
         final String username = mUserView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String checkPass = mPasswordCheck.getText().toString();
 
         if (adminSwitch.isChecked()) setAdmin = true;
         else setAdmin = false;
@@ -113,6 +115,16 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(username)) {
             mUserView.setError(getString(R.string.error_field_required));
             focusView = mUserView;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(checkPass)) {
+            mPasswordCheck.setError(getString(R.string.error_field_required));
+            focusView = mPasswordCheck;
+            cancel = true;
+        }
+        if(!TextUtils.equals(password, checkPass)) {
+            mPasswordCheck.setError(getString(R.string.mismatch_password));
+            focusView = mPasswordCheck;
             cancel = true;
         }
 
