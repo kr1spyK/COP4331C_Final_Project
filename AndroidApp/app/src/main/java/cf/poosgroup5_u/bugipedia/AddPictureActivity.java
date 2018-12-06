@@ -239,7 +239,7 @@ public class AddPictureActivity extends AppCompatActivity {
                         uploadButton.setEnabled(true);
                         //stop uploading animation
                         progress.dismiss();
-
+                        setResult(Activity.RESULT_OK);
                         finish();
                     }else{
                         Log.e(AddPictureActivity.this.getLocalClassName(), response.message());

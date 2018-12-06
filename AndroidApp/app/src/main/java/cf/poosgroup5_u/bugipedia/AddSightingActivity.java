@@ -2,6 +2,7 @@ package cf.poosgroup5_u.bugipedia;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -241,6 +242,7 @@ public class AddSightingActivity extends FragmentActivity implements OnMapReadyC
                     //close the view and report success
                     Toast.makeText(AddSightingActivity.this, getString(R.string.sightingAdded), Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
+                    setResult(Activity.RESULT_OK);
                     finish();
                 } else {
                     errorUploadingSnackBar.show();
