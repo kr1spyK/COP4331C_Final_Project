@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:background="@color/color_background"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".AddPictureActivity"
     tools:ignore="MissingDefaultResource"
@@ -12,26 +15,26 @@
 
     <ImageView
         android:id="@+id/ivImage"
-        android:layout_width="165dp"
-        android:layout_height="187dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="102dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:background="@drawable/select_image"
+        android:layout_gravity="center_horizontal"
         android:padding="5dp" />
 
     <Button
         android:id="@+id/button_upload"
         style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="118dp"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
         android:layout_marginBottom="71dp"
-        android:text="Upload"
+        android:layout_marginTop="80dp"
         android:background="@color/colorAccent"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:enabled="false"/>
+        android:enabled="false"
+        android:text="@string/upload"
+        android:padding="5dp"
+        android:textColor="@color/colorWhite"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
-</RelativeLayout>
+</LinearLayout>
