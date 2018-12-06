@@ -261,7 +261,6 @@ public class BuggyMain extends AppCompatActivity {
             filterLiny.addView(linyLayout);
         }
         filterScroll.addView(filterLiny);
-
     }
 
 

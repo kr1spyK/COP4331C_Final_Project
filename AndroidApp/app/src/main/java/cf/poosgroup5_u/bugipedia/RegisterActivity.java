@@ -142,23 +142,23 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 if (response.isSuccessful() && response.body().wasSuccessful()) {
-                    Snackbar.make(findViewById(R.id.email_signup_form), getString(R.string.action_success), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), getString(R.string.action_success), Snackbar.LENGTH_SHORT).show();
                 } else {
                     String error = response.body().getErrorMessage();
                     Log.i(TAG, error);
-                    Snackbar.make(findViewById(R.id.email_signup_form), error, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
                 if (t instanceof IOException) {
-                    Snackbar.make(findViewById(R.id.email_signup_form), getString(R.string.error_internet), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), getString(R.string.error_internet), Snackbar.LENGTH_SHORT).show();
                 } else {
                     // logging probably necessary
                     Log.wtf(TAG, t.getMessage(), t);
                     String error = "Conversion error";
-                    Snackbar.make(findViewById(R.id.email_signup_form), error, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.register_form), error, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
