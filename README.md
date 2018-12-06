@@ -1,4 +1,6 @@
 # COP4331C_Final_Project
+Team Members: David Maria, Klayton Killough, Alexander Franco, Sara Frackiewicz, Soukaina Assou, Emil Dolorfino, Baylor Maloney, Kristoff Kounlavong
+
 Mobile application with website for admin duties
 Bugipedia: Bug database for use by experts
 Android only for now
@@ -19,3 +21,7 @@ Submit images / spot locations
 a form where users can submit new species to be added to the DB (need mod approval)
 Edit entries about bugs (need mod approval)
 Mods can approve edits/new species
+
+Download the App:
+![QR Code](https://media.discordapp.net/attachments/481507918114455556/519963522097217581/qr-code.png)
+
