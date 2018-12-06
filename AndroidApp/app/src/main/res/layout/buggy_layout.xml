@@ -15,7 +15,7 @@
         android:background="@android:drawable/screen_background_dark_transparent"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal" tools:targetApi="lollipop"/>
 
     <Button
         android:id="@+id/filterButton"
@@ -31,13 +31,11 @@
         android:layout_weight="3"
         app:ael_duration="1000"
         app:ael_interpolator="anticipateOvershoot">
-
         <ScrollView
             android:id="@+id/filterScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
-
     </com.github.aakira.expandablelayout.ExpandableWeightLayout>
 
     <Button

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"
-        android:text="Set Admin"
+        android:text="@string/set_admin"
         android:visibility="gone"
         tools:checked="false" />
 
@@ -48,7 +48,8 @@
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:importantForAutofill="no" tools:targetApi="o"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -64,7 +65,8 @@
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:importantForAutofill="no" tools:targetApi="o"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -83,6 +85,6 @@
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:text="@string/solicit_login"
-        android:textSize="16dip" />
+        android:textSize="16sp" />
 
 </LinearLayout>

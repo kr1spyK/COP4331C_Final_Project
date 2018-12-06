@@ -9,7 +9,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    
+
     <!-- networking -->
     <string name="action_success">Success</string>
     <string name="error_conversion">Conversion error</string>
@@ -67,5 +67,6 @@
     <string name="error_getting_bug_info">Error retrieving Bug Info. Please try again later.</string>
     <string name="common_name">Common Name</string>
     <string name="scientific_name">Scientific Name</string>
+    <string name="set_admin">Set Admin</string>
 
 </resources>
