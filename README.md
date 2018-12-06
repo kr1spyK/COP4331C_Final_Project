@@ -21,7 +21,3 @@ Submit images / spot locations
 a form where users can submit new species to be added to the DB (need mod approval)
 Edit entries about bugs (need mod approval)
 Mods can approve edits/new species
-
-Download the App:
-![QR Code](https://media.discordapp.net/attachments/481507918114455556/519963522097217581/qr-code.png)
-
