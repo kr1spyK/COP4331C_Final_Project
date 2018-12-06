@@ -69,8 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Going back to login page from link, carry over email in case
-        // user entered email in wrong page.
+        // Going back to login page from link, carry over email
         mLoginLink.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
-                doRegister(email, password, setAdmin);
+                doRegister(email, password);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -134,9 +133,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-   private void doRegister(String email, String password, Boolean admin) {
+   private void doRegister(String email, String password) {
         RegisterUser user = new RegisterUser(email, password);
-        user.setIsAdmin(admin);
+        user.setIsAdmin(setAdmin);
 
         APICaller.call().register(user).enqueue(new Callback<Result>() {
             @Override

@@ -49,4 +49,6 @@ public interface APIEndpoints {
     @POST("getBug")
     Call<BugEntry> getBugEntry(@Body BugIDWrapper bugIDWrapper);
 
+    void onResponse(boolean success);
+
 }
