@@ -20,6 +20,8 @@
     <string name="prompt_check">Check password</string>
     <string name="action_signup">Sign up</string>
     <string name="action_login">Log in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="set_admin">Set Admin</string>
     <string name="solicit_registration">No account? Sign up here.</string>
     <string name="solicit_login">Have an account? Log in here.</string>
     <string name="error_login">Invalid login.</string>
@@ -67,6 +69,5 @@
     <string name="error_getting_bug_info">Error retrieving Bug Info. Please try again later.</string>
     <string name="common_name">Common Name</string>
     <string name="scientific_name">Scientific Name</string>
-    <string name="set_admin">Set Admin</string>
 
 </resources>
