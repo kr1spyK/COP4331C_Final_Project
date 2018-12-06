@@ -1,9 +1,11 @@
 package cf.poosgroup5_u.bugipedia;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -108,7 +110,7 @@ public class ViewDBEntryActivity extends AppCompatActivity implements OnMapReady
                 Intent intent = new Intent(context, GalleryActivity.class);
                 intent.putExtra(GalleryActivity.COMMON_NAME_KEY, bugEntry.getCommonName());
                 intent.putParcelableArrayListExtra(GalleryActivity.IMAGES_KEY,  new ArrayList<>(bugEntry.getPictures()));
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -133,6 +135,14 @@ public class ViewDBEntryActivity extends AppCompatActivity implements OnMapReady
         characteristicHeaderBar.setOnClickListener(toggleExpander(expandCharacteristics, btnExpandCharacteristics));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //The user updated the information of the bug, retrieve again.
+        if (resultCode == Activity.RESULT_OK){
+            bugEntry = null;
+            obtainBugEntry();
+        }
+    }
 
     private void initFab(SpeedDialView fab) {
         //id's for the buttons
@@ -181,7 +191,7 @@ public class ViewDBEntryActivity extends AppCompatActivity implements OnMapReady
                 Intent intent = new Intent(context, callingClass );
                 //all of the side activites need the bugID
                 intent.putExtra(AppUtils.BUG_INFO_KEY,  bugIDWrapper.getId());
-                startActivity(intent);
+                startActivityForResult(intent, 1);
 
 
                 //return false to close the popup menu
