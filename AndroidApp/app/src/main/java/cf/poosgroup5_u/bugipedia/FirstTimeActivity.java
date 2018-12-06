@@ -139,7 +139,7 @@ public class FirstTimeActivity extends AppCompatActivity {
 //                mBackBtn.setText("Back");
 
                 mNextBtn.setText(getString(R.string.search_database));
-                mBackBtn.setText(getString(R.string.login)); //I NEED TO SPECIFY THIS IN THE ENTER TEXT HERE.. THAT YOU CAN SEARCH DATABASE(CLARIFY ACRONYM)... OR LOGIN
+                mBackBtn.setText(getString(R.string.action_login)); //I NEED TO SPECIFY THIS IN THE ENTER TEXT HERE.. THAT YOU CAN SEARCH DATABASE(CLARIFY ACRONYM)... OR LOGIN
                                                      //lOOK AT ALL THE 4 FEATURES YOU CAN DO :)
             }
         }
